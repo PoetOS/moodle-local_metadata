@@ -303,7 +303,7 @@ class fieldtype_base {
         global $DB;
 
         // Load the field object.
-        if (($this->fieldid == 0) or (!($field = $DB->get_record('local_metadata_field', array('id' => $this->fieldid))))) {
+        if (($this->fieldid == 0) || (!($field = $DB->get_record('local_metadata_field', array('id' => $this->fieldid))))) {
             $this->field = null;
             $this->inputname = '';
         } else {
@@ -355,7 +355,7 @@ class fieldtype_base {
      * @return boolean
      */
     public function is_empty() {
-        return ( ($this->data != '0') and empty($this->data));
+        return (($this->data != '0') && empty($this->data));
     }
 
     /**
@@ -402,7 +402,7 @@ class fieldtype_base {
      * @since Moodle 3.2
      */
     public function get_field_config_for_external() {
-        return (array) $this->field;
+        return (array)$this->field;
     }
 
     /**

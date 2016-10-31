@@ -63,7 +63,7 @@ class define extends \local_metadata\fieldtype\define_base {
             $err['param1'] = get_string('profilemenunooptions', 'admin');
         } else if (count($options) < 2) {
             $err['param1'] = get_string('profilemenutoofewoptions', 'admin');
-        } else if (!empty($data->defaultdata) and !in_array($data->defaultdata, $options)) {
+        } else if (!empty($data->defaultdata) && !in_array($data->defaultdata, $options)) {
             // Check the default data exists in the options.
             $err['defaultdata'] = get_string('profilemenudefaultnotinoptions', 'admin');
         }

@@ -46,7 +46,8 @@ class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
         parent::__construct($fieldid, $instanceid);
 
         if (!empty($this->field)) {
-            $datafield = $DB->get_field('local_metadata', 'data', array('instanceid' => $this->instanceid, 'fieldid' => $this->fieldid));
+            $datafield = $DB->get_field('local_metadata', 'data',
+                array('instanceid' => $this->instanceid, 'fieldid' => $this->fieldid));
             if ($datafield !== false) {
                 $this->data = $datafield;
             } else {
@@ -79,7 +80,7 @@ class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
             $checkbox->setChecked(true);
         }
         $mform->setType($this->inputname, PARAM_BOOL);
-        if ($this->is_required() and !has_capability('moodle/user:update', \context_system::instance())) {
+        if ($this->is_required() && !has_capability('moodle/user:update', \context_system::instance())) {
             $mform->addRule($this->inputname, get_string('required'), 'nonzero', null, 'client');
         }
     }

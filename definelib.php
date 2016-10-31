@@ -163,9 +163,9 @@ function local_metadata_move_field($id, $move) {
     $fieldcount = $DB->count_records('local_metadata_field', array('categoryid' => $field->categoryid));
 
     // Calculate the new sortorder.
-    if ( ($move == 'up') and ($field->sortorder > 1)) {
+    if (($move == 'up') && ($field->sortorder > 1)) {
         $neworder = $field->sortorder - 1;
-    } else if (($move == 'down') and ($field->sortorder < $fieldcount)) {
+    } else if (($move == 'down') && ($field->sortorder < $fieldcount)) {
         $neworder = $field->sortorder + 1;
     } else {
         return false;
@@ -206,9 +206,9 @@ function local_metadata_move_category($id, $move) {
     $categorycount = $DB->count_records('local_metadata_category', ['contextlevel' => $category->contextlevel]);
 
     // Calculate the new sortorder.
-    if (($move == 'up') and ($category->sortorder > 1)) {
+    if (($move == 'up') && ($category->sortorder > 1)) {
         $neworder = $category->sortorder - 1;
-    } else if (($move == 'down') and ($category->sortorder < $categorycount)) {
+    } else if (($move == 'down') && ($category->sortorder < $categorycount)) {
         $neworder = $category->sortorder + 1;
     } else {
         return false;
@@ -223,7 +223,7 @@ function local_metadata_move_category($id, $move) {
         $category->sortorder     = $neworder;
 
         // Update the category records.
-        $DB->update_record('local_metadata_category', $category) and $DB->update_record('local_metadata_category', $swapcategory);
+        $DB->update_record('local_metadata_category', $category) && $DB->update_record('local_metadata_category', $swapcategory);
         return true;
     }
 

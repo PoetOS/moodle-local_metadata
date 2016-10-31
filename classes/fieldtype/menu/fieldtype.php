@@ -103,7 +103,7 @@ class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
      */
     public function edit_field_set_default($mform) {
         $key = $this->field->defaultdata;
-        if (isset($this->options[$key]) || ($key = array_search($key, $this->options)) !== false){
+        if (isset($this->options[$key]) || ($key = array_search($key, $this->options)) !== false) {
             $defaultkey = $key;
         } else {
             $defaultkey = '';
@@ -145,7 +145,7 @@ class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
         if (!$mform->elementExists($this->inputname)) {
             return;
         }
-        if ($this->is_locked() and !has_capability('moodle/user:update', context_system::instance())) {
+        if ($this->is_locked() && !has_capability('moodle/user:update', context_system::instance())) {
             $mform->hardFreeze($this->inputname);
             $mform->setConstant($this->inputname, format_string($this->datakey));
         }

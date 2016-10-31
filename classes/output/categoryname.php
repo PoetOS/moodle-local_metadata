@@ -65,7 +65,6 @@ class categoryname extends \core\output\inplace_editable {
         $category = $DB->get_record('local_metadata_category', array('id' => $itemid), '*', MUST_EXIST);
         $category->name = $newvalue;
         $DB->update_record('local_metadata_category', $category);
-//        \core_tag_collection::update($tagcoll, array('name' => $newvalue));
         return new self($category);
     }
 }

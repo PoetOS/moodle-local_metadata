@@ -61,7 +61,7 @@ function local_metadata_definition($mform, $instanceid = 0, $contextlevel) {
                 }
 
                 // Display the header and the fields.
-                if ($display or $update) {
+                if ($display || $update) {
                     $mform->addElement('header', 'category_'.$category->id, format_string($category->name));
                     foreach ($fields as $field) {
                         $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
@@ -146,7 +146,7 @@ function local_metadata_display_fields($instanceid, $contextlevel) {
                 foreach ($fields as $field) {
                     $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
                     $formfield = new $newfield($field->id, $instanceid);
-                    if ($formfield->is_visible() and !$formfield->is_empty()) {
+                    if ($formfield->is_visible() && !$formfield->is_empty()) {
                         echo html_writer::tag('dt', format_string($formfield->field->name));
                         echo html_writer::tag('dd', $formfield->display_data());
                     }
@@ -181,7 +181,7 @@ function local_metadata_get_signup_fields() {
             $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
             $fieldobject = new $newfield($field->fieldid);
 
-            $profilefields[] = (object) array(
+            $profilefields[] = (object)array(
                 'categoryid' => $field->categoryid,
                 'categoryname' => $field->categoryname,
                 'fieldid' => $field->fieldid,

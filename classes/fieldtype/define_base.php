@@ -148,7 +148,7 @@ class define_base {
             // Fetch field-record from DB.
             $field = $DB->get_record('local_metadata_field', array('shortname' => $data->shortname));
             // Check the shortname is unique.
-            if ($field and $field->id <> $data->id) {
+            if ($field && ($field->id <> $data->id)) {
                 $err['shortname'] = get_string('profileshortnamenotunique', 'admin');
             }
             // NOTE: since 2.0 the shortname may collide with existing fields in $USER because we load these fields into
@@ -194,7 +194,7 @@ class define_base {
         }
 
         // Check to see if the category has changed.
-        if (!$old or $old->categoryid != $data->categoryid) {
+        if (!$old || ($old->categoryid != $data->categoryid)) {
             $data->sortorder = $DB->count_records('local_metadata_field', array('categoryid' => $data->categoryid)) + 1;
         }
 

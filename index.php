@@ -73,7 +73,7 @@ switch ($action) {
 
         // If no userdata for profile than don't show confirmation.
         $datacount = $DB->count_records('local_metadata', ['fieldid' => $id]);
-        if (((data_submitted() and $confirm) or ($datacount === 0)) and confirm_sesskey()) {
+        if (((data_submitted() && $confirm) || ($datacount === 0)) && confirm_sesskey()) {
             local_metadata_delete_field($id);
             redirect($redirect, get_string('deleted'));
         }
@@ -141,7 +141,6 @@ foreach ($categories as $category) {
 
     $displayname = new \local_metadata\output\categoryname($category);
     echo $OUTPUT->heading($displayname->render($OUTPUT) .' '.local_metadata_category_icons($category, $contextlevel), 4);
-//    echo $OUTPUT->heading(format_string($category->name) .' '.local_metadata_category_icons($category, $contextlevel));
     if (count($table->data)) {
         echo html_writer::table($table);
     } else {
@@ -193,7 +192,7 @@ function local_metadata_category_icons($category, $contextlevel) {
 
     // Delete.
     // Can only delete the last category if there are no fields in it.
-    if (($categorycount > 1) or ($fieldcount == 0)) {
+    if (($categorycount > 1) || ($fieldcount == 0)) {
         $url->param('action', 'deletecategory');
         $editstr .= $OUTPUT->action_icon($url, new pix_icon('t/delete', get_string('delete')), null,
             array('class' => 'action-icon action_delete'));
@@ -236,7 +235,8 @@ function local_metadata_field_icons($field, $contextlevel) {
 
     $argstr = 'id='.$field->id.'&amp;contextlevel='.$contextlevel;
     // Edit.
-    $editstr = '<a title="'.$stredit.'" href="index.php?'.$argstr.'&amp;action=editfield"><img src="'.$OUTPUT->pix_url('t/edit') . '" alt="'.$stredit.'" class="iconsmall" /></a> ';
+    $editstr = '<a title="'.$stredit.'" href="index.php?'.$argstr.'&amp;action=editfield"><img src="'.$OUTPUT->pix_url('t/edit') .
+        '" alt="'.$stredit.'" class="iconsmall" /></a> ';
 
     // Delete.
     $editstr .= '<a title="'.$strdelete.'" href="index.php?'.$argstr.'&amp;action=deletefield&amp;sesskey='.sesskey();
@@ -244,14 +244,16 @@ function local_metadata_field_icons($field, $contextlevel) {
 
     // Move up.
     if ($field->sortorder > 1) {
-        $editstr .= '<a title="'.$strmoveup.'" href="index.php?'.$argstr.'&amp;action=movefield&amp;dir=up&amp;sesskey='.sesskey().'"><img src="'.$OUTPUT->pix_url('t/up') . '" alt="'.$strmoveup.'" class="iconsmall" /></a> ';
+        $editstr .= '<a title="'.$strmoveup.'" href="index.php?'.$argstr.'&amp;action=movefield&amp;dir=up&amp;sesskey='.sesskey().
+        '"><img src="'.$OUTPUT->pix_url('t/up') . '" alt="'.$strmoveup.'" class="iconsmall" /></a> ';
     } else {
         $editstr .= '<img src="'.$OUTPUT->pix_url('spacer') . '" alt="" class="iconsmall" /> ';
     }
 
     // Move down.
     if ($field->sortorder < $fieldcount) {
-        $editstr .= '<a title="'.$strmovedown.'" href="index.php?'.$argstr.'&amp;action=movefield&amp;dir=down&amp;sesskey='.sesskey().'"><img src="'.$OUTPUT->pix_url('t/down') . '" alt="'.$strmovedown.'" class="iconsmall" /></a> ';
+        $editstr .= '<a title="'.$strmovedown.'" href="index.php?'.$argstr.'&amp;action=movefield&amp;dir=down&amp;sesskey='.
+        sesskey().'"><img src="'.$OUTPUT->pix_url('t/down') . '" alt="'.$strmovedown.'" class="iconsmall" /></a> ';
     } else {
         $editstr .= '<img src="'.$OUTPUT->pix_url('spacer') . '" alt="" class="iconsmall" /> ';
     }
