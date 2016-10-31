@@ -1,0 +1,19 @@
+TO-DO:
+* Look for all uses of "profile_field_base" class outside of profile code. - DONE
+* Look for all uses of "profile_define_base" class outside of profile code. - DONE
+* Look for all API uses in /user/profile/lib.php to see what needs to change. - DONE
+** profile_load_data - /user/edit.php, /user/editadvanced.php
+** profile_definition - /admin/tool/uploaduser/user_form.php, /user/edit.php, /user/editadvanced.php
+** profile_definition_after_data - /user/edit.php, /user/editadvanced.php
+** profile_validation - /lib/authlib.php, /user/edit.php, /user/editadvanced.php
+** profile_save_data - /admin/tool/uploaduser/index.php, /auth/email/auth.php, /auth/ldap/auth.php, /lib/moodlelib.php, /user/edit.php, /user/editadvanced.php, /user/externallib.php
+** profile_display_fields - not used
+** profile_get_signup_fields - /auth/email/classes/external.php
+** profile_signup_fields - /login/signup_form.php
+** profile_user_record - /user/edit_form.php
+** profile_get_custom_fields - /availability/condition/profile/classes/condition.php
+** profile_load_custom_fields - /availability/condition/profile/classes/condition.php, /blocks/course_overview/block_course_overview.php, /user/edit.php, /user/editadvanced.php
+** profile_view - /user/externallib.php, /user/profile.php, /user/view.php
+** profile_has_required_custom_fields_set - /lib/moodlelib.php
+* Modify the API functions above to use the new local plugin API.
+* Find all direct access to "user_info_" tables in Moodle and correct them to use the profile data / metadata API.
