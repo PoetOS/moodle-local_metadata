@@ -299,3 +299,18 @@ function local_metadata_has_required_custom_fields_set($instanceid, $contextleve
 
     return true;
 }
+
+/**
+ * Implements callback inplace_editable() allowing to edit values in-place
+ *
+ * @param string $itemtype
+ * @param int $itemid
+ * @param mixed $newvalue
+ * @return local_metadata\output\inplace_editable
+ */
+function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
+    \external_api::validate_context(\context_system::instance());
+    if ($itemtype === 'categoryname') {
+        return local_metadata\output\categoryname::update($itemid, $newvalue);
+    }
+}

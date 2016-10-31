@@ -139,7 +139,9 @@ foreach ($categories as $category) {
         }
     }
 
-    echo $OUTPUT->heading(format_string($category->name) .' '.local_metadata_category_icons($category, $contextlevel));
+    $displayname = new \local_metadata\output\categoryname($category);
+    echo $OUTPUT->heading($displayname->render($OUTPUT) .' '.local_metadata_category_icons($category, $contextlevel), 4);
+//    echo $OUTPUT->heading(format_string($category->name) .' '.local_metadata_category_icons($category, $contextlevel));
     if (count($table->data)) {
         echo html_writer::table($table);
     } else {
@@ -182,40 +184,35 @@ die;
 function local_metadata_category_icons($category, $contextlevel) {
     global $CFG, $USER, $DB, $OUTPUT;
 
-    $strdelete   = get_string('delete');
-    $strmoveup   = get_string('moveup');
-    $strmovedown = get_string('movedown');
-    $stredit     = get_string('edit');
-
     $categorycount = $DB->count_records('local_metadata_category', ['contextlevel' => $contextlevel]);
     $fieldcount    = $DB->count_records('local_metadata_field', ['categoryid' => $category->id]);
 
-    $argstr = 'id='.$category->id.'&amp;contextlevel='.$contextlevel;
-
-    // Edit.
-    $editstr = '<a title="'.$stredit.'" href="index.php?'.$argstr.'&amp;action=editcategory"><img src="'.$OUTPUT->pix_url('t/edit') . '" alt="'.$stredit.'" class="iconsmall" /></a> ';
+    $url = new moodle_url('/local/metadata/index.php',
+        ['id' => $category->id, 'contextlevel' => $contextlevel, 'sesskey' => sesskey()]);
+    $editstr = '';
 
     // Delete.
     // Can only delete the last category if there are no fields in it.
     if (($categorycount > 1) or ($fieldcount == 0)) {
-        $editstr .= '<a title="'.$strdelete.'" href="index.php?'.$argstr.'&amp;action=deletecategory&amp;sesskey='.sesskey();
-        $editstr .= '"><img src="'.$OUTPUT->pix_url('t/delete') . '" alt="'.$strdelete.'" class="iconsmall" /></a> ';
-    } else {
-        $editstr .= '<img src="'.$OUTPUT->pix_url('spacer') . '" alt="" class="iconsmall" /> ';
+        $url->param('action', 'deletecategory');
+        $editstr .= $OUTPUT->action_icon($url, new pix_icon('t/delete', get_string('delete')), null,
+            array('class' => 'action-icon action_delete'));
     }
 
     // Move up.
     if ($category->sortorder > 1) {
-        $editstr .= '<a title="'.$strmoveup.'" href="index.php?'.$argstr.'&amp;action=movecategory&amp;dir=up&amp;sesskey='.sesskey().'"><img src="'.$OUTPUT->pix_url('t/up') . '" alt="'.$strmoveup.'" class="iconsmall" /></a> ';
-    } else {
-        $editstr .= '<img src="'.$OUTPUT->pix_url('spacer') . '" alt="" class="iconsmall" /> ';
+        $url->param('action', 'movecategory');
+        $url->param('dir', 'up');
+        $editstr .= $OUTPUT->action_icon($url, new pix_icon('t/up', get_string('moveup')), null,
+            array('class' => 'action-icon action_moveup'));
     }
 
     // Move down.
     if ($category->sortorder < $categorycount) {
-        $editstr .= '<a title="'.$strmovedown.'" href="index.php?'.$argstr.'&amp;action=movecategory&amp;dir=down&amp;sesskey='.sesskey().'"><img src="'.$OUTPUT->pix_url('t/down') . '" alt="'.$strmovedown.'" class="iconsmall" /></a> ';
-    } else {
-        $editstr .= '<img src="'.$OUTPUT->pix_url('spacer') . '" alt="" class="iconsmall" /> ';
+        $url->param('action', 'movecategory');
+        $url->param('dir', 'down');
+        $editstr .= $OUTPUT->action_icon($url, new pix_icon('t/down', get_string('movedown')), null,
+            array('class' => 'action-icon action_movedown'));
     }
 
     return $editstr;
