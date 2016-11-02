@@ -21,9 +21,23 @@
  * @copyright 2016 The POET Group
  */
 
+/**
+ * Renderer base class.
+ *
+ * @package local_metadata
+ * @copyright  2016 The POET Group
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace local_metadata\output;
+
 defined('MOODLE_INTERNAL') || die;
-$plugin->version   = 2016102402;
-$plugin->release   = '3.2.0';
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->requires  = 2016102000; // Moodle 3.2 release and upwards.
-$plugin->component = 'local_metadata';
+
+class category_table implements \renderable {
+
+    public $categories;
+
+    public function __construct(array $categories) {
+        $this->categories = $categories;
+    }
+}

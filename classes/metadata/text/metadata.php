@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\fieldtype\text;
+namespace local_metadata\metadata\text;
 
 /**
  * Class local_metadata_field_text
@@ -30,7 +30,7 @@ namespace local_metadata\fieldtype\text;
  * @copyright  2007 onwards Shane Elliot {@link http://pukunui.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
+class metadata extends \local_metadata\metadata\metadata {
 
     /**
      * Constructor method.
@@ -78,10 +78,10 @@ class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
     public function edit_field_add($mform) {
         $size = $this->field->param1;
         $maxlength = $this->field->param2;
-        $fieldtype = ($this->field->param3 == 1 ? 'password' : 'text');
+        $metadata = ($this->field->param3 == 1 ? 'password' : 'text');
 
         // Create the form field.
-        $mform->addElement($fieldtype, $this->inputname, format_string($this->field->name), 'maxlength="'.
+        $mform->addElement($metadata, $this->inputname, format_string($this->field->name), 'maxlength="'.
             $maxlength.'" size="'.$size.'" ');
         $mform->setType($this->inputname, PARAM_TEXT);
     }

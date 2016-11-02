@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\fieldtype\textarea;
+namespace local_metadata\metadata\textarea;
 
 /**
  * Class local_metadata_field_textarea.
@@ -30,7 +30,7 @@ namespace local_metadata\fieldtype\textarea;
  * @copyright  2007 onwards Shane Elliot {@link http://pukunui.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
+class metadata extends \local_metadata\metadata\metadata {
 
     /**
      * Constructor method.

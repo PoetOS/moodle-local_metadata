@@ -49,7 +49,7 @@ class field_form extends moodleform {
 
         // Everything else is dependant on the data type.
         $datatype = $this->_customdata['datatype'];
-        $newfield = "\\local_metadata\\fieldtype\\{$datatype}\\define";
+        $newfield = "\\local_metadata\\metadata\\{$datatype}\\define";
         $this->field = new $newfield($this->_customdata['contextlevel']);
 
         $strrequired = get_string('required');

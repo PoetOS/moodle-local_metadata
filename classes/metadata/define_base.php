@@ -29,7 +29,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\fieldtype;
+namespace local_metadata\metadata;
 
 class define_base {
 

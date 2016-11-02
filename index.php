@@ -121,33 +121,13 @@ if (empty($categories)) {
     redirect($redirect);
 }
 
+$PAGE->set_url($CFG->wwwroot.'/local/metadata/index.php', ['contextlevel' => $contextlevel]);
+$output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
 // Print the header.
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string($pages[$contextlevel].'metadata', 'local_metadata'));
+echo $output->header();
+echo $output->heading(get_string($pages[$contextlevel].'metadata', 'local_metadata'));
 
-foreach ($categories as $category) {
-    $table = new html_table();
-    $table->head  = [get_string('profilefield', 'admin'), get_string('edit')];
-    $table->align = ['left', 'right'];
-    $table->width = '95%';
-    $table->attributes['class'] = 'generaltable profilefield';
-    $table->data = [];
-
-    if ($fields = $DB->get_records('local_metadata_field', ['categoryid' => $category->id], 'sortorder ASC')) {
-        foreach ($fields as $field) {
-            $table->data[] = [format_string($field->name), local_metadata_field_icons($field, $contextlevel)];
-        }
-    }
-
-    $displayname = new \local_metadata\output\categoryname($category);
-    echo $OUTPUT->heading($displayname->render($OUTPUT) .' '.local_metadata_category_icons($category, $contextlevel), 4);
-    if (count($table->data)) {
-        echo html_writer::table($table);
-    } else {
-        echo $OUTPUT->notification($strnofields);
-    }
-
-} // End of $categories foreach.
+echo $output->render(new \local_metadata\output\category_table($categories));
 
 echo '<hr />';
 echo '<div class="profileeditor">';
@@ -155,7 +135,7 @@ echo '<div class="profileeditor">';
 // Create a new field link.
 $options = local_metadata_list_datatypes();
 $popupurl = new moodle_url('/local/metadata/index.php', ['id' => 0, 'action' => 'editfield', 'contextlevel' => $contextlevel]);
-echo $OUTPUT->single_select($popupurl, 'datatype', $options, '',
+echo $output->single_select($popupurl, 'datatype', $options, '',
     ['' => get_string('choosedots')], 'newfieldform', ['label' => $strcreatefield]);
 
 // Add a div with a class so themers can hide, style or reposition the text.
@@ -165,98 +145,9 @@ html_writer::end_tag('div');
 
 // Create a new category link.
 $options = ['action' => 'editcategory', 'contextlevel' => $contextlevel];
-echo $OUTPUT->single_button(new moodle_url('index.php', $options), get_string('profilecreatecategory', 'admin'));
+echo $output->single_button(new moodle_url('index.php', $options), get_string('profilecreatecategory', 'admin'));
 
 echo '</div>';
 
-echo $OUTPUT->footer();
+echo $output->footer();
 die;
-
-
-/***** Some functions relevant to this script *****/
-
-/**
- * Create a string containing the editing icons for the user profile categories
- * @param stdClass $category the category object
- * @return string the icon string
- */
-function local_metadata_category_icons($category, $contextlevel) {
-    global $CFG, $USER, $DB, $OUTPUT;
-
-    $categorycount = $DB->count_records('local_metadata_category', ['contextlevel' => $contextlevel]);
-    $fieldcount    = $DB->count_records('local_metadata_field', ['categoryid' => $category->id]);
-
-    $url = new moodle_url('/local/metadata/index.php',
-        ['id' => $category->id, 'contextlevel' => $contextlevel, 'sesskey' => sesskey()]);
-    $editstr = '';
-
-    // Delete.
-    // Can only delete the last category if there are no fields in it.
-    if (($categorycount > 1) || ($fieldcount == 0)) {
-        $url->param('action', 'deletecategory');
-        $editstr .= $OUTPUT->action_icon($url, new pix_icon('t/delete', get_string('delete')), null,
-            array('class' => 'action-icon action_delete'));
-    }
-
-    // Move up.
-    if ($category->sortorder > 1) {
-        $url->param('action', 'movecategory');
-        $url->param('dir', 'up');
-        $editstr .= $OUTPUT->action_icon($url, new pix_icon('t/up', get_string('moveup')), null,
-            array('class' => 'action-icon action_moveup'));
-    }
-
-    // Move down.
-    if ($category->sortorder < $categorycount) {
-        $url->param('action', 'movecategory');
-        $url->param('dir', 'down');
-        $editstr .= $OUTPUT->action_icon($url, new pix_icon('t/down', get_string('movedown')), null,
-            array('class' => 'action-icon action_movedown'));
-    }
-
-    return $editstr;
-}
-
-/**
- * Create a string containing the editing icons for the user profile fields
- * @param stdClass $field the field object
- * @return string the icon string
- */
-function local_metadata_field_icons($field, $contextlevel) {
-    global $CFG, $USER, $DB, $OUTPUT;
-
-    $strdelete   = get_string('delete');
-    $strmoveup   = get_string('moveup');
-    $strmovedown = get_string('movedown');
-    $stredit     = get_string('edit');
-
-    $fieldcount = $DB->count_records('local_metadata_field', ['categoryid' => $field->categoryid]);
-    $datacount  = $DB->count_records('local_metadata', ['fieldid' => $field->id]);
-
-    $argstr = 'id='.$field->id.'&amp;contextlevel='.$contextlevel;
-    // Edit.
-    $editstr = '<a title="'.$stredit.'" href="index.php?'.$argstr.'&amp;action=editfield"><img src="'.$OUTPUT->pix_url('t/edit') .
-        '" alt="'.$stredit.'" class="iconsmall" /></a> ';
-
-    // Delete.
-    $editstr .= '<a title="'.$strdelete.'" href="index.php?'.$argstr.'&amp;action=deletefield&amp;sesskey='.sesskey();
-    $editstr .= '"><img src="'.$OUTPUT->pix_url('t/delete') . '" alt="'.$strdelete.'" class="iconsmall" /></a> ';
-
-    // Move up.
-    if ($field->sortorder > 1) {
-        $editstr .= '<a title="'.$strmoveup.'" href="index.php?'.$argstr.'&amp;action=movefield&amp;dir=up&amp;sesskey='.sesskey().
-        '"><img src="'.$OUTPUT->pix_url('t/up') . '" alt="'.$strmoveup.'" class="iconsmall" /></a> ';
-    } else {
-        $editstr .= '<img src="'.$OUTPUT->pix_url('spacer') . '" alt="" class="iconsmall" /> ';
-    }
-
-    // Move down.
-    if ($field->sortorder < $fieldcount) {
-        $editstr .= '<a title="'.$strmovedown.'" href="index.php?'.$argstr.'&amp;action=movefield&amp;dir=down&amp;sesskey='.
-        sesskey().'"><img src="'.$OUTPUT->pix_url('t/down') . '" alt="'.$strmovedown.'" class="iconsmall" /></a> ';
-    } else {
-        $editstr .= '<img src="'.$OUTPUT->pix_url('spacer') . '" alt="" class="iconsmall" /> ';
-    }
-
-    return $editstr;
-}

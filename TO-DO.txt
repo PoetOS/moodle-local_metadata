@@ -2,7 +2,7 @@ TO-DO:
 * Look for all uses of "profile_field_base" class outside of profile code. - DONE
 * Look for all uses of "profile_define_base" class outside of profile code. - DONE
 * Look for all API uses in /user/profile/lib.php to see what needs to change. - DONE
-** profile_load_data - /user/edit.php, /user/editadvanced.php
+** profile_load_data - admin/tool/uploaduser/index.php, /user/edit.php, /user/editadvanced.php
 ** profile_definition - /admin/tool/uploaduser/user_form.php, /user/edit.php, /user/editadvanced.php
 ** profile_definition_after_data - /user/edit.php, /user/editadvanced.php
 ** profile_validation - /lib/authlib.php, /user/edit.php, /user/editadvanced.php

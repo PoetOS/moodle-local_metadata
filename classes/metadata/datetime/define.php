@@ -22,7 +22,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
 
-namespace local_metadata\fieldtype\datetime;
+namespace local_metadata\metadata\datetime;
 
 /**
  * Define datetime fields.
@@ -30,7 +30,7 @@ namespace local_metadata\fieldtype\datetime;
  * @copyright 2010 Mark Nelson <markn@moodle.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
-class define extends \local_metadata\fieldtype\define_base {
+class define extends \local_metadata\metadata\define_base {
 
     /**
      * Define the setting for a datetime custom field.

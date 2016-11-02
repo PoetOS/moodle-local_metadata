@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\fieldtype\menu;
+namespace local_metadata\metadata\menu;
 
 /**
  * Class local_metadata_field_menu
@@ -30,7 +30,7 @@ namespace local_metadata\fieldtype\menu;
  * @copyright  2007 onwards Shane Elliot {@link http://pukunui.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
+class metadata extends \local_metadata\metadata\metadata {
 
     /** @var array $options */
     public $options;
@@ -75,16 +75,6 @@ class fieldtype extends \local_metadata\fieldtype\fieldtype_base {
 
         // Set the name for display; will need to be a language string.
         $this->name = 'Dropdown menu';
-    }
-
-    /**
-     * Old syntax of class constructor. Deprecated in PHP7.
-     *
-     * @deprecated since Moodle 3.1
-     */
-    public function local_metadata_field_menu($fieldid=0, $instanceid=0) {
-        debugging('Use of class name as constructor is deprecated', DEBUG_DEVELOPER);
-        self::__construct($fieldid, $instanceid);
     }
 
     /**

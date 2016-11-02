@@ -29,7 +29,7 @@ function local_metadata_load_data($instance, $contextlevel) {
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $instance->id);
             $formfield->edit_load_instance_data($instance);
         }
@@ -64,7 +64,7 @@ function local_metadata_definition($mform, $instanceid = 0, $contextlevel) {
                 if ($display || $update) {
                     $mform->addElement('header', 'category_'.$category->id, format_string($category->name));
                     foreach ($fields as $field) {
-                        $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+                        $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
                         $formfield = new $newfield($field->id, $instanceid);
                         $formfield->edit_field($mform);
                     }
@@ -86,7 +86,7 @@ function local_metadata_definition_after_data($mform, $instanceid, $contextlevel
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $instanceid);
             $formfield->edit_after_data($mform);
         }
@@ -109,7 +109,7 @@ function local_metadata_validation($new, $files, $contextlevel) {
     $err = array();
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $new->id);
             $err += $formfield->edit_validate_field($new, $files);
         }
@@ -126,7 +126,7 @@ function local_metadata_save_data($new, $contextlevel) {
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $new->id);
             $formfield->edit_save_data($new);
         }
@@ -144,7 +144,7 @@ function local_metadata_display_fields($instanceid, $contextlevel) {
         foreach ($categories as $category) {
             if ($fields = $DB->get_records('local_metadata_field', ['categoryid' => $category->id], 'sortorder ASC')) {
                 foreach ($fields as $field) {
-                    $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+                    $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
                     $formfield = new $newfield($field->id, $instanceid);
                     if ($formfield->is_visible() && !$formfield->is_empty()) {
                         echo html_writer::tag('dt', format_string($formfield->field->name));
@@ -178,7 +178,7 @@ function local_metadata_get_signup_fields() {
 
     if ($fields = $DB->get_records_sql($sql, [CONTEXT_USER])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $fieldobject = new $newfield($field->fieldid);
 
             $profilefields[] = (object)array(
@@ -227,7 +227,7 @@ function local_metadata_user_record($instanceid, $onlyinuserobject = true) {
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => CONTEXT_USER])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $instanceid);
             if (!$onlyinuserobject || $formfield->is_instance_object_data()) {
                 $usercustomfields->{$field->shortname} = $formfield->data;
@@ -261,7 +261,7 @@ function local_metadata_get_custom_fields($onlyinuserobject = false, $contextlev
     // If only doing the user object ones, unset the rest.
     if ($onlyinuserobject) {
         foreach ($fields as $id => $field) {
-            $newfield = "\\local_metadata\\fieldtype\\{$field->datatype}\\fieldtype";
+            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $formfield = new $newfield();
             if (!$formfield->is_instance_object_data()) {
                 unset($fields[$id]);

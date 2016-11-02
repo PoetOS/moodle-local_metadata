@@ -238,13 +238,13 @@ function local_metadata_list_datatypes() {
     global $CFG;
 
     $datatypes = [];
-    $path = $CFG->dirroot.'/local/metadata/classes/fieldtype/';
+    $path = $CFG->dirroot.'/local/metadata/classes/metadata/';
     $thisdir = new \DirectoryIterator($path);
     foreach ($thisdir as $dir) {
         if ($dir->isDir()) {
             $name = $dir->getFilename();
             if (($name != '.') && ($name != '..')) {
-                $classname = "\\local_metadata\\fieldtype\\{$name}\\fieldtype";
+                $classname = "\\local_metadata\\metadata\\{$name}\\metadata";
                 $newdatatype = new $classname();
                 $datatypes[$name] = $newdatatype->name;
             }
@@ -359,7 +359,7 @@ function local_metadata_edit_field($id, $datatype, $redirect, $contextlevel) {
 
     } else {
         if ($data = $fieldform->get_data()) {
-            $newfield = "\\local_metadata\\fieldtype\\{$datatype}\\define";
+            $newfield = "\\local_metadata\\metadata\\{$datatype}\\define";
             $formfield = new $newfield($contextlevel);
 
             // Collect the description and format back into the proper data structure from the editor.
