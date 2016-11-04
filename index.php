@@ -26,6 +26,8 @@ require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot.'/local/metadata/lib.php');
 require_once($CFG->dirroot.'/local/metadata/definelib.php');
 
+require_login();
+
 $action   = optional_param('action', '', PARAM_ALPHA);
 $contextlevel = optional_param('contextlevel', CONTEXT_USER, PARAM_INT);
 $pages = [CONTEXT_USER => 'user', CONTEXT_COURSE => 'course'];
@@ -37,7 +39,9 @@ $strdefaultcategory = get_string('profiledefaultcategory', 'admin');
 $strnofields        = get_string('profilenofieldsdefined', 'admin');
 $strcreatefield     = get_string('profilecreatefield', 'admin');
 
-admin_externalpage_setup($pages[$contextlevel].'metadata');
+if ($action != 'coursesettings') {
+    admin_externalpage_setup('metadata'.$pages[$contextlevel]);
+}
 
 // Do we have any actions to perform before printing the header.
 
@@ -104,6 +108,37 @@ switch ($action) {
         local_metadata_edit_category($id, $redirect, $contextlevel);
         die;
         break;
+
+    case 'coursesettings':
+        $courseid = required_param('id', PARAM_INT);
+        $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
+        $context = context_course::instance($courseid);
+        require_login($course);
+        require_capability('moodle/course:create', $context);
+        $PAGE->set_url('/local/metadata/index.php',
+            ['contextlevel' => $contextlevel, 'id' => $courseid, 'action' => 'coursesettings']);
+        $PAGE->set_pagelayout('admin');
+        $PAGE->set_context($context);
+
+        // Add the metadata to the course object.
+        local_metadata_load_data($course, CONTEXT_COURSE);
+        $coursesettingsoutput = new \local_metadata\output\course\course_settings($course);
+        $coursesettingsform = new \local_metadata\output\course\course_settings_form(null, $coursesettingsoutput);
+
+        // Handle form data.
+        if ($coursesettingsform->is_cancelled()) {
+            redirect(new \moodle_url('/course/view.php', ['id' => $coursesettingsoutput->course->id]));
+        } else if (!($data = $coursesettingsform->get_data())) {
+            $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
+            echo $output->render_course_settings($coursesettingsoutput, $coursesettingsform);
+        } else {
+            local_metadata_save_data($data, CONTEXT_COURSE);
+            $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
+            echo $output->render_course_settings($coursesettingsoutput, $coursesettingsform, true);
+        }
+        die;
+        break;
+
     default:
         // Normal form.
 }
@@ -128,26 +163,7 @@ echo $output->header();
 echo $output->heading(get_string($pages[$contextlevel].'metadata', 'local_metadata'));
 
 echo $output->render(new \local_metadata\output\category_table($categories));
-
-echo '<hr />';
-echo '<div class="profileeditor">';
-
-// Create a new field link.
-$options = local_metadata_list_datatypes();
-$popupurl = new moodle_url('/local/metadata/index.php', ['id' => 0, 'action' => 'editfield', 'contextlevel' => $contextlevel]);
-echo $output->single_select($popupurl, 'datatype', $options, '',
-    ['' => get_string('choosedots')], 'newfieldform', ['label' => $strcreatefield]);
-
-// Add a div with a class so themers can hide, style or reposition the text.
-html_writer::start_tag('div', ['class' => 'adminuseractionhint']);
-echo get_string('or', 'lesson');
-html_writer::end_tag('div');
-
-// Create a new category link.
-$options = ['action' => 'editcategory', 'contextlevel' => $contextlevel];
-echo $output->single_button(new moodle_url('index.php', $options), get_string('profilecreatecategory', 'admin'));
-
-echo '</div>';
+echo $output->render(new \local_metadata\output\data_creation($contextlevel));
 
 echo $output->footer();
 die;

@@ -37,16 +37,26 @@ if ($hassiteconfig) {
     }
     $ADMIN->add('metadatafolder', $settings);
 
-    $ADMIN->add('metadatafolder',
-        new admin_externalpage('usermetadata', get_string('usermetadata', 'local_metadata'),
+    $ADMIN->add('metadatafolder', new admin_externalpage('metadatauser', get_string('usermetadata', 'local_metadata'),
             new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_USER]), ['moodle/course:create']
         )
     );
-    $ADMIN->add('metadatafolder',
-        new admin_externalpage('coursemetadata', get_string('coursemetadata', 'local_metadata'),
-            new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/course:create']
-        )
-    );
+
+    $ADMIN->add('metadatafolder', new admin_externalpage('metadatacourse', get_string('coursemetadata', 'local_metadata'),
+        new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/course:create']));
+
+
+    // Add the settings page to the user setttings menu, if enabled.
+    if (get_config('local_metadata', 'usermetadataenabled') == 1) {
+        $ADMIN->add('users', new admin_externalpage('users_metadata', get_string('usermetadata', 'local_metadata'),
+                new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_USER]), ['moodle/site:config']));
+    }
+
+    // Add the settings page to the course setttings menu, if enabled.
+    if (get_config('local_metadata', 'coursemetadataenabled') == 1) {
+        $ADMIN->add('courses', new admin_externalpage('courses_metadata', get_string('coursemetadata', 'local_metadata'),
+            new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/course:create']));
+    }
 
     $settings = null;
 }

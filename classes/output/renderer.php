@@ -35,6 +35,11 @@ defined('MOODLE_INTERNAL') || die;
 
 class renderer extends \plugin_renderer_base {
 
+    /**
+     * Category table renderer.
+     *
+     * @param category_table $categorytable renderable object.
+     */
     public function render_category_table(category_table $categorytable) {
         global $DB;
 
@@ -58,9 +63,41 @@ class renderer extends \plugin_renderer_base {
             if (count($table->data)) {
                 $output .= \html_writer::table($table);
             } else {
-                $output .= $this->notification($strnofields);
+                $output .= $this->notification(get_string('profilenofieldsdefined', 'admin'));
             }
         } // End of $categories foreach.
+
+        return $output;
+    }
+
+    /**
+     * Data creation renderer.
+     *
+     * @param data_creation $datacreation renderable object.
+     */
+    public function render_data_creation(data_creation $datacreation) {
+        $output = '';
+        $output .= \html_writer::empty_tag('hr');
+        $output .= \html_writer::start_tag('div', ['class' => 'profileditor']);
+
+        // Create a new field link.
+        $options = local_metadata_list_datatypes();
+        $popupurl = new \moodle_url('/local/metadata/index.php',
+            ['id' => 0, 'action' => 'editfield', 'contextlevel' => $datacreation->contextlevel]);
+        $output .= $this->single_select($popupurl, 'datatype', $options, '',
+            ['' => get_string('choosedots')], 'newfieldform', ['label' => get_string('profilecreatefield', 'admin')]);
+
+        // Add a div with a class so themers can hide, style or reposition the text.
+        $output .= \html_writer::start_tag('div', ['class' => 'adminuseractionhint']);
+        $output .= get_string('or', 'lesson');
+        $output .= \html_writer::end_tag('div');
+
+        // Create a new category link.
+        $options = ['action' => 'editcategory', 'contextlevel' => $datacreation->contextlevel];
+        $output .= $this->single_button(new \moodle_url('/local/metadata/index.php', $options),
+            get_string('profilecreatecategory', 'admin'));
+
+        $output .= \html_writer::end_tag('div');
 
         return $output;
     }
@@ -70,33 +107,35 @@ class renderer extends \plugin_renderer_base {
      * @param stdClass $field the field object
      * @return string the icon string
      */
-    private function field_icons($field, $contextlevel) {
+    protected function field_icons($field, $contextlevel) {
         global $DB;
+
+        $output = '';
 
         $fieldcount = $DB->count_records('local_metadata_field', ['categoryid' => $field->categoryid]);
 
         $url = new \moodle_url('/local/metadata/index.php',
             ['id' => $field->id, 'contextlevel' => $contextlevel, 'sesskey' => sesskey()]);
-        $editstr = '';
+        $output = '';
 
         // Edit.
         $url->param('action', 'editfield');
-        $editstr .= $this->action_icon($url, new \pix_icon('t/edit', get_string('edit')), null,
+        $output .= $this->action_icon($url, new \pix_icon('t/edit', get_string('edit')), null,
             array('class' => 'action-icon action_edit'));
 
         // Delete.
         $url->param('action', 'deletefield');
-        $editstr .= $this->action_icon($url, new \pix_icon('t/delete', get_string('delete')), null,
+        $output .= $this->action_icon($url, new \pix_icon('t/delete', get_string('delete')), null,
             array('class' => 'action-icon action_delete'));
 
         // Move up.
         if ($field->sortorder > 1) {
             $url->param('action', 'movefield');
             $url->param('dir', 'up');
-            $editstr .= $this->action_icon($url, new \pix_icon('t/up', get_string('moveup')), null,
+            $output .= $this->action_icon($url, new \pix_icon('t/up', get_string('moveup')), null,
                 array('class' => 'action-icon action_moveup'));
         } else {
-            $editstr .= $this->action_icon(null, new \pix_icon('spacer', ''), null,
+            $output .= $this->action_icon(null, new \pix_icon('spacer', ''), null,
                 array('class' => 'action-icon action_spacer'));
         }
 
@@ -104,14 +143,14 @@ class renderer extends \plugin_renderer_base {
         if ($field->sortorder < $fieldcount) {
             $url->param('action', 'movefield');
             $url->param('dir', 'down');
-            $editstr .= $this->action_icon($url, new \pix_icon('t/down', get_string('movedown')), null,
+            $output .= $this->action_icon($url, new \pix_icon('t/down', get_string('movedown')), null,
                 array('class' => 'action-icon action_movedown'));
         } else {
-            $editstr .= $this->action_icon(null, new \pix_icon('spacer', ''), null,
+            $output .= $this->action_icon(null, new \pix_icon('spacer', ''), null,
                 array('class' => 'action-icon action_spacer'));
         }
 
-        return $editstr;
+        return $output;
     }
 
     /**
@@ -127,13 +166,13 @@ class renderer extends \plugin_renderer_base {
 
         $url = new \moodle_url('/local/metadata/index.php',
             ['id' => $category->id, 'contextlevel' => $category->contextlevel, 'sesskey' => sesskey()]);
-        $editstr = '';
+        $output = '';
 
         // Delete.
         // Can only delete the last category if there are no fields in it.
         if (($categorycount > 1) || ($fieldcount == 0)) {
             $url->param('action', 'deletecategory');
-            $editstr .= $this->action_icon($url, new \pix_icon('t/delete', get_string('delete')), null,
+            $output .= $this->action_icon($url, new \pix_icon('t/delete', get_string('delete')), null,
                 array('class' => 'action-icon action_delete'));
         }
 
@@ -141,7 +180,7 @@ class renderer extends \plugin_renderer_base {
         if ($category->sortorder > 1) {
             $url->param('action', 'movecategory');
             $url->param('dir', 'up');
-            $editstr .= $this->action_icon($url, new \pix_icon('t/up', get_string('moveup')), null,
+            $output .= $this->action_icon($url, new \pix_icon('t/up', get_string('moveup')), null,
                 array('class' => 'action-icon action_moveup'));
         }
 
@@ -149,10 +188,10 @@ class renderer extends \plugin_renderer_base {
         if ($category->sortorder < $categorycount) {
             $url->param('action', 'movecategory');
             $url->param('dir', 'down');
-            $editstr .= $this->action_icon($url, new \pix_icon('t/down', get_string('movedown')), null,
+            $output .= $this->action_icon($url, new \pix_icon('t/down', get_string('movedown')), null,
                 array('class' => 'action-icon action_movedown'));
         }
 
-        return $editstr;
+        return $output;
     }
 }

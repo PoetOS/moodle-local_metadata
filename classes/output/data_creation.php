@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
@@ -20,11 +21,23 @@
  * @copyright 2016 The POET Group
  */
 
-$string['pluginname'] = 'Metadata';
+/**
+ * Data creation renderable.
+ *
+ * @package local_metadata
+ * @copyright  2016 The POET Group
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$string['coursemetadata'] = 'Course metadata';
-$string['coursemetadataenabled'] = 'Use metadata for courses';
-$string['metadata'] = 'Metadata';
-$string['metadatasaved'] = 'Metadata saved.';
-$string['usermetadata'] = 'User metadata';
-$string['usermetadataenabled'] = 'Use metadata for users';
+namespace local_metadata\output;
+
+defined('MOODLE_INTERNAL') || die;
+
+class data_creation implements \renderable {
+
+    public $contextlevel;
+
+    public function __construct($contextlevel) {
+        $this->contextlevel = $contextlevel;
+    }
+}

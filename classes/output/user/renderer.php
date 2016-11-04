@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
@@ -20,11 +21,18 @@
  * @copyright 2016 The POET Group
  */
 
-$string['pluginname'] = 'Metadata';
+/**
+ * Renderer class for course context. Override anything needed.
+ *
+ * @package local_metadata
+ * @copyright  2016 The POET Group
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$string['coursemetadata'] = 'Course metadata';
-$string['coursemetadataenabled'] = 'Use metadata for courses';
-$string['metadata'] = 'Metadata';
-$string['metadatasaved'] = 'Metadata saved.';
-$string['usermetadata'] = 'User metadata';
-$string['usermetadataenabled'] = 'Use metadata for users';
+namespace local_metadata\output\user;
+
+defined('MOODLE_INTERNAL') || die;
+
+class renderer extends \local_metadata\output\renderer {
+
+}

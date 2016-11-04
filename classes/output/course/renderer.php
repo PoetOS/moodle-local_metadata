@@ -22,7 +22,7 @@
  */
 
 /**
- * Renderer base class.
+ * Renderer class for course context. Override anything needed.
  *
  * @package local_metadata
  * @copyright  2016 The POET Group
@@ -35,4 +35,23 @@ defined('MOODLE_INTERNAL') || die;
 
 class renderer extends \local_metadata\output\renderer {
 
+    /**
+     * Course settings renderer.
+     *
+     * @param course_settings $coursesettings renderable object.
+     */
+    public function render_course_settings(course_settings $coursesettings, course_settings_form $mform, $saved = false) {
+        global $DB;
+
+        $output = '';
+        $output .= $this->header();
+        $output .= $this->heading(get_string('coursemetadata', 'local_metadata'));
+        if ($saved) {
+            $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
+        }
+        $output .= $mform->render();
+        $output .= $this->footer();
+
+        return $output;
+    }
 }

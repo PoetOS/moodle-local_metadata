@@ -314,3 +314,35 @@ function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
         return local_metadata\output\categoryname::update($itemid, $newvalue);
     }
 }
+
+function local_metadata_extend_settings_navigation($settingsnav, $context) {
+    global $CFG, $PAGE;
+
+    // Only add this settings item on non-site course pages.
+    if (!$PAGE->course or $PAGE->course->id == 1) {
+        return;
+    }
+
+    // Only let users with the appropriate capability see this settings item.
+    if (!has_capability('moodle/course:create', context_course::instance($PAGE->course->id))) {
+        return;
+    }
+
+    if ($settingnode = $settingsnav->find('courseadmin', navigation_node::TYPE_COURSE)) {
+        $strmetadata = get_string('metadata', 'local_metadata');
+        $url = new moodle_url('/local/metadata/index.php',
+            ['id' => $PAGE->course->id, 'action' => 'coursesettings', 'contextlevel' => CONTEXT_COURSE]);
+        $metadatanode = navigation_node::create(
+            $strmetadata,
+            $url,
+            navigation_node::NODETYPE_LEAF,
+            'metadata',
+            'metadata',
+            new pix_icon('i/settings', $strmetadata)
+        );
+        if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+            $metadatanode->make_active();
+        }
+        $settingnode->add_node($metadatanode);
+    }
+}
