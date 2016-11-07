@@ -137,9 +137,10 @@ function local_metadata_save_data($new, $contextlevel) {
  * Display profile fields.
  * @param int $instanceid
  */
-function local_metadata_display_fields($instanceid, $contextlevel) {
+function local_metadata_display_fields($instanceid, $contextlevel, $returnonly=false) {
     global $DB;
 
+    $output = '';
     if ($categories = $DB->get_records('local_metadata_category', ['contextlevel' => $contextlevel], 'sortorder ASC')) {
         foreach ($categories as $category) {
             if ($fields = $DB->get_records('local_metadata_field', ['categoryid' => $category->id], 'sortorder ASC')) {
@@ -147,12 +148,18 @@ function local_metadata_display_fields($instanceid, $contextlevel) {
                     $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
                     $formfield = new $newfield($field->id, $instanceid);
                     if ($formfield->is_visible() && !$formfield->is_empty()) {
-                        echo html_writer::tag('dt', format_string($formfield->field->name));
-                        echo html_writer::tag('dd', $formfield->display_data());
+                        $output .= html_writer::tag('dt', format_string($formfield->field->name));
+                        $output .= html_writer::tag('dd', $formfield->display_data());
                     }
                 }
             }
         }
+    }
+
+    if (!$returnonly) {
+        echo $output;
+    } else {
+        return $output;
     }
 }
 
@@ -321,31 +328,46 @@ function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
 function local_metadata_extend_settings_navigation($settingsnav, $context) {
     global $PAGE;
 
-    // Only add this settings item on non-site course pages.
-    if (!$PAGE->course || ($PAGE->course->id == 1)) {
-        return;
-    }
+    switch ($context->contextlevel) {
+        case CONTEXT_COURSE:
+            // Only add this settings item on non-site course pages.
+            if ($PAGE->course && ($PAGE->course->id != 1) &&
+                (get_config('local_metadata', 'coursemetadataenabled') == 1) &&
+                has_capability('moodle/course:create', context_course::instance($PAGE->course->id))) {
 
-    // Only let users with the appropriate capability see this settings item.
-    if (!has_capability('moodle/course:create', context_course::instance($PAGE->course->id))) {
-        return;
-    }
+                if ($settingnode = $settingsnav->find('courseadmin', navigation_node::TYPE_COURSE)) {
+                    $strmetadata = get_string('metadata', 'local_metadata');
+                    $url = new moodle_url('/local/metadata/index.php',
+                        ['id' => $PAGE->course->id, 'action' => 'coursesettings', 'contextlevel' => CONTEXT_COURSE]);
+                    $metadatanode = navigation_node::create(
+                        $strmetadata,
+                        $url,
+                        navigation_node::NODETYPE_LEAF,
+                        'metadata',
+                        'metadata',
+                        new pix_icon('i/settings', $strmetadata)
+                    );
+                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                        $metadatanode->make_active();
+                    }
+                    $settingnode->add_node($metadatanode);
+                }
+            }
+            break;
 
-    if ($settingnode = $settingsnav->find('courseadmin', navigation_node::TYPE_COURSE)) {
-        $strmetadata = get_string('metadata', 'local_metadata');
-        $url = new moodle_url('/local/metadata/index.php',
-            ['id' => $PAGE->course->id, 'action' => 'coursesettings', 'contextlevel' => CONTEXT_COURSE]);
-        $metadatanode = navigation_node::create(
-            $strmetadata,
-            $url,
-            navigation_node::NODETYPE_LEAF,
-            'metadata',
-            'metadata',
-            new pix_icon('i/settings', $strmetadata)
-        );
-        if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
-            $metadatanode->make_active();
-        }
-        $settingnode->add_node($metadatanode);
+        default:
+            break;
+    }
+}
+
+/**
+ * Hook function that is called when user profile page is being built.
+ */
+function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
+    if (get_config('local_metadata', 'usermetadataenabled') == 1) {
+        $content = local_metadata_display_fields($user->id, CONTEXT_USER, true);
+        $node = new \core_user\output\myprofile\node('contact', 'metadata',
+            get_string('metadata', 'local_metadata'), null, null, $content);
+        $tree->add_node($node);
     }
 }

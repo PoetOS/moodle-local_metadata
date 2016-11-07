@@ -35,4 +35,16 @@ defined('MOODLE_INTERNAL') || die;
 
 class renderer extends \local_metadata\output\renderer {
 
+    /**
+     * Category table renderer.
+     *
+     * @param category_table $categorytable renderable object.
+     */
+    public function render_category_table(\local_metadata\output\category_table $categorytable) {
+        $output = parent::render_category_table($categorytable);
+        if (get_config('local_metadata', 'usermetadataenabled') == 0) {
+            $output = $this->notification(get_string('usermetadatadisabled', 'local_metadata')) . $output;
+        }
+        return $output;
+    }
 }

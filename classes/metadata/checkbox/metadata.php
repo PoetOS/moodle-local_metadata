@@ -81,7 +81,7 @@ class metadata extends \local_metadata\metadata\metadata {
      * @return string HTML.
      */
     public function display_data() {
-        $options = new stdClass();
+        $options = new \stdClass();
         $options->para = false;
         $checked = intval($this->data) === 1 ? 'checked="checked"' : '';
         return '<input disabled="disabled" type="checkbox" name="'.$this->inputname.'" '.$checked.' />';
