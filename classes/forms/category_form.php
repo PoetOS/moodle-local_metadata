@@ -40,8 +40,6 @@ class category_form extends moodleform {
      * Define the form.
      */
     public function definition () {
-        global $USER, $CFG;
-
         $mform = $this->_form;
 
         $strrequired = get_string('required');
@@ -70,7 +68,7 @@ class category_form extends moodleform {
      * @return array
      */
     public function validation($data, $files) {
-        global $CFG, $DB;
+        global $DB;
         $errors = parent::validation($data, $files);
 
         $data  = (object)$data;

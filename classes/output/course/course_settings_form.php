@@ -43,8 +43,6 @@ class course_settings_form extends moodleform {
      * Define the form.
      */
     public function definition () {
-        global $USER, $CFG;
-
         $mform = $this->_form;
 
         $mform->addElement('hidden', 'action', 'coursesettings');
@@ -66,7 +64,7 @@ class course_settings_form extends moodleform {
         }
         $this->add_action_buttons(true);
 
-        // Finally set the current form data
+        // Finally set the current form data.
         $this->set_data($this->_customdata->course);
     }
 
@@ -78,7 +76,6 @@ class course_settings_form extends moodleform {
      * @return array
      */
     public function validation($data, $files) {
-        global $CFG, $DB;
         $errors = parent::validation($data, $files);
 
         $data  = (object)$data;

@@ -40,16 +40,14 @@ class renderer extends \local_metadata\output\renderer {
      *
      * @param course_settings $coursesettings renderable object.
      */
-    public function render_course_settings(course_settings $coursesettings, course_settings_form $mform, $saved = false) {
-        global $DB;
-
+    public function render_course_settings(course_settings $coursesettings) {
         $output = '';
         $output .= $this->header();
         $output .= $this->heading(get_string('coursemetadata', 'local_metadata'));
-        if ($saved) {
+        if ($coursesettings->saved) {
             $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
         }
-        $output .= $mform->render();
+        $output .= $coursesettings->form->render();
         $output .= $this->footer();
 
         return $output;

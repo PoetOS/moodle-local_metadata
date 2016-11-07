@@ -42,8 +42,6 @@ class define_base {
      * @param int $instanceid id of the user for whom we are displaying data
      */
     public function __construct($contextlevel = CONTEXT_USER) {
-        global $USER;
-
         $this->contextlevel = $contextlevel;
     }
 

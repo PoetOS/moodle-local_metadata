@@ -37,38 +37,46 @@ class course_settings implements \renderable {
 
     public $course;
     public $data;
+    public $form;
+    public $saved = false;
 
     public function __construct($course = null) {
         global $COURSE, $DB;
 
-        $this->course = ($course === null) ? $COURSE : $course;
-
+        $this->course = ($course === null) ? clone($COURSE) : $course;
         $this->data = [];
-        // If user is "admin" fields are displayed regardless.
-        $update = has_capability('moodle/course:create', \context_course::instance($this->course->id));
+
+        require_capability('moodle/course:create', \context_course::instance($this->course->id));
 
         if ($categories = $DB->get_records('local_metadata_category', ['contextlevel' => CONTEXT_COURSE], 'sortorder ASC')) {
             foreach ($categories as $category) {
                 if ($fields = $DB->get_records('local_metadata_field', ['categoryid' => $category->id], 'sortorder ASC')) {
-
-                    // Check first if *any* fields will be displayed.
-                    $display = false;
-                    foreach ($fields as $field) {
-                        if ($field->visible != PROFILE_VISIBLE_NONE) {
-                            $display = true;
-                        }
-                    }
-
                     // Display the header and the fields.
-                    if ($display || $update) {
-                        $this->data[$category->id]['categoryname'] = format_string($category->name);
-                        foreach ($fields as $field) {
-                            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
-                            $this->data[$category->id][$field->id] = new $newfield($field->id, $this->course->id);
-                        }
+                    $this->data[$category->id]['categoryname'] = format_string($category->name);
+                    foreach ($fields as $field) {
+                        $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+                        $this->data[$category->id][$field->id] = new $newfield($field->id, $this->course->id);
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Function to add a form to render within.
+     *
+     * @param \moodleform $form A moodleform object or child.
+     */
+    public function add_form($form) {
+        $this->form = $form;
+    }
+
+    /**
+     * Function to add a form to render within.
+     *
+     * @param \moodleform $form A moodleform object or child.
+     */
+    public function set_saved($state = true) {
+        $this->saved = $state;
     }
 }

@@ -26,8 +26,6 @@ require_once($CFG->libdir.'/adminlib.php');
 require_once($CFG->dirroot.'/local/metadata/lib.php');
 require_once($CFG->dirroot.'/local/metadata/definelib.php');
 
-require_login();
-
 $action   = optional_param('action', '', PARAM_ALPHA);
 $contextlevel = optional_param('contextlevel', CONTEXT_USER, PARAM_INT);
 $pages = [CONTEXT_USER => 'user', CONTEXT_COURSE => 'course'];
@@ -41,6 +39,8 @@ $strcreatefield     = get_string('profilecreatefield', 'admin');
 
 if ($action != 'coursesettings') {
     admin_externalpage_setup('metadata'.$pages[$contextlevel]);
+} else {
+    require_login();
 }
 
 // Do we have any actions to perform before printing the header.
@@ -124,17 +124,19 @@ switch ($action) {
         local_metadata_load_data($course, CONTEXT_COURSE);
         $coursesettingsoutput = new \local_metadata\output\course\course_settings($course);
         $coursesettingsform = new \local_metadata\output\course\course_settings_form(null, $coursesettingsoutput);
+        $coursesettingsoutput->add_form($coursesettingsform);
 
         // Handle form data.
         if ($coursesettingsform->is_cancelled()) {
             redirect(new \moodle_url('/course/view.php', ['id' => $coursesettingsoutput->course->id]));
         } else if (!($data = $coursesettingsform->get_data())) {
             $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
-            echo $output->render_course_settings($coursesettingsoutput, $coursesettingsform);
+            echo $output->render($coursesettingsoutput);
         } else {
             local_metadata_save_data($data, CONTEXT_COURSE);
             $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
-            echo $output->render_course_settings($coursesettingsoutput, $coursesettingsform, true);
+            $coursesettingsoutput->set_saved();
+            echo $output->render($coursesettingsoutput);
         }
         die;
         break;

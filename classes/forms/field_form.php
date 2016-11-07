@@ -43,16 +43,12 @@ class field_form extends moodleform {
      * Define the form
      */
     public function definition () {
-        global $CFG;
-
         $mform = $this->_form;
 
         // Everything else is dependant on the data type.
         $datatype = $this->_customdata['datatype'];
         $newfield = "\\local_metadata\\metadata\\{$datatype}\\define";
         $this->field = new $newfield($this->_customdata['contextlevel']);
-
-        $strrequired = get_string('required');
 
         // Add some extra hidden fields.
         $mform->addElement('hidden', 'id');

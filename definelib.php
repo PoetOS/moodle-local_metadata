@@ -273,7 +273,7 @@ function local_metadata_list_categories($contextlevel) {
  * @param string $redirect
  */
 function local_metadata_edit_category($id, $redirect, $contextlevel) {
-    global $DB, $OUTPUT, $CFG;
+    global $DB, $OUTPUT;
 
     $categoryform = new local_metadata\forms\category_form();
 
@@ -310,7 +310,6 @@ function local_metadata_edit_category($id, $redirect, $contextlevel) {
         echo $OUTPUT->heading($strheading);
         $categoryform->display();
         echo $OUTPUT->footer();
-        die;
     }
 
 }
@@ -324,7 +323,7 @@ function local_metadata_edit_category($id, $redirect, $contextlevel) {
  * @param int $contextlevel
  */
 function local_metadata_edit_field($id, $datatype, $redirect, $contextlevel) {
-    global $CFG, $DB, $OUTPUT, $PAGE;
+    global $DB, $OUTPUT, $PAGE;
 
     if (!$field = $DB->get_record('local_metadata_field', array('id' => $id))) {
         $field = new stdClass();
@@ -404,7 +403,6 @@ function local_metadata_edit_field($id, $datatype, $redirect, $contextlevel) {
         echo $OUTPUT->heading($strheading);
         $fieldform->display();
         echo $OUTPUT->footer();
-        die;
     }
 }
 

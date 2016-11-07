@@ -315,11 +315,14 @@ function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
     }
 }
 
+/**
+ * Hook function that is called when settings blocks are being built.
+ */
 function local_metadata_extend_settings_navigation($settingsnav, $context) {
-    global $CFG, $PAGE;
+    global $PAGE;
 
     // Only add this settings item on non-site course pages.
-    if (!$PAGE->course or $PAGE->course->id == 1) {
+    if (!$PAGE->course || ($PAGE->course->id == 1)) {
         return;
     }
 
