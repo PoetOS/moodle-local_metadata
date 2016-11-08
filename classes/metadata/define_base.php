@@ -84,7 +84,7 @@ class define_base {
 
         $form->addElement('selectyesno', 'signup', get_string('profilesignup', 'admin'));
 
-        $choices = array();
+        $choices = [];
         $choices[PROFILE_VISIBLE_NONE]    = get_string('profilevisiblenone', 'admin');
         $choices[PROFILE_VISIBLE_PRIVATE] = get_string('profilevisibleprivate', 'admin');
         $choices[PROFILE_VISIBLE_ALL]     = get_string('profilevisibleall', 'admin');
@@ -116,7 +116,7 @@ class define_base {
     public function define_validate($data, $files) {
 
         $data = (object)$data;
-        $err = array();
+        $err = [];
 
         $err += $this->define_validate_common($data, $files);
         $err += $this->define_validate_specific($data, $files);
@@ -136,7 +136,7 @@ class define_base {
     public function define_validate_common($data, $files) {
         global $DB;
 
-        $err = array();
+        $err = [];
 
         // Check the shortname was not truncated by cleaning.
         if (empty($data->shortname)) {
@@ -144,7 +144,7 @@ class define_base {
 
         } else {
             // Fetch field-record from DB.
-            $field = $DB->get_record('local_metadata_field', array('shortname' => $data->shortname));
+            $field = $DB->get_record('local_metadata_field', ['shortname' => $data->shortname]);
             // Check the shortname is unique.
             if ($field && ($field->id <> $data->id)) {
                 $err['shortname'] = get_string('profileshortnamenotunique', 'admin');
@@ -166,7 +166,7 @@ class define_base {
      */
     public function define_validate_specific($data, $files) {
         // Do nothing - overwrite if necessary.
-        return array();
+        return [];
     }
 
     /**
@@ -188,12 +188,12 @@ class define_base {
 
         $old = false;
         if (!empty($data->id)) {
-            $old = $DB->get_record('local_metadata_field', array('id' => (int)$data->id));
+            $old = $DB->get_record('local_metadata_field', ['id' => (int)$data->id]);
         }
 
         // Check to see if the category has changed.
         if (!$old || ($old->categoryid != $data->categoryid)) {
-            $data->sortorder = $DB->count_records('local_metadata_field', array('categoryid' => $data->categoryid)) + 1;
+            $data->sortorder = $DB->count_records('local_metadata_field', ['categoryid' => $data->categoryid]) + 1;
         }
 
         if (empty($data->id)) {
@@ -225,6 +225,6 @@ class define_base {
      * @return array
      */
     public function define_editors() {
-        return array();
+        return [];
     }
 }

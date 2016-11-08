@@ -47,6 +47,6 @@ class define extends \local_metadata\metadata\define_base {
      * @return array
      */
     public function define_editors() {
-        return array('defaultdata');
+        return ['defaultdata'];
     }
 }

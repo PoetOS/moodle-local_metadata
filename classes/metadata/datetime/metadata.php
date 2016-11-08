@@ -66,11 +66,11 @@ class metadata extends \local_metadata\metadata\metadata {
         $startdate = $calendartype->convert_from_gregorian($this->field->param1, 1, 1);
         $stopdate = $calendartype->convert_from_gregorian($this->field->param2, 1, 1);
 
-        $attributes = array(
+        $attributes = [
             'startyear' => $startdate['year'],
             'stopyear'  => $stopdate['year'],
             'optional'  => $optional
-        );
+        ];
 
         // Check if they wanted to include time as well.
         if (!empty($this->field->param3)) {
@@ -147,6 +147,6 @@ class metadata extends \local_metadata\metadata\metadata {
      * @since Moodle 3.2
      */
     public function get_field_properties() {
-        return array(PARAM_INT, NULL_NOT_ALLOWED);
+        return [PARAM_INT, NULL_NOT_ALLOWED];
     }
 }

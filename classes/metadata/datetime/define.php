@@ -84,7 +84,7 @@ class define extends \local_metadata\metadata\define_base {
      * @return array associative array of error messages
      */
     public function define_validate_specific($data, $files) {
-        $errors = array();
+        $errors = [];
 
         // Make sure the start year is not greater than the end year.
         if ($data->param1 > $data->param2) {
@@ -112,13 +112,13 @@ class define extends \local_metadata\metadata\define_base {
         }
 
         // Get the field data from the DB.
-        $field = $DB->get_record('local_metadata_field', array('id' => $id), 'param1, param2', MUST_EXIST);
+        $field = $DB->get_record('local_metadata_field', ['id' => $id], 'param1, param2', MUST_EXIST);
 
         // Get the current calendar in use - see MDL-18375.
         $calendartype = \core_calendar\type_factory::get_calendar_instance();
 
         // An array to store form values.
-        $values = array();
+        $values = [];
 
         // The start and end year will be set as a Gregorian year in the DB. We want
         // convert these to the equivalent year in the current calendar type being used.

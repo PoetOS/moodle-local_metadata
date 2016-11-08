@@ -94,7 +94,7 @@ class metadata extends \local_metadata\metadata\metadata {
      * @since Moodle 3.2
      */
     public function get_field_properties() {
-        return array(PARAM_TEXT, NULL_NOT_ALLOWED);
+        return [PARAM_TEXT, NULL_NOT_ALLOWED];
     }
 }
 

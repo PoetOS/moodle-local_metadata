@@ -106,7 +106,7 @@ function local_metadata_validation($new, $files, $contextlevel) {
         $new = (object)$new;
     }
 
-    $err = array();
+    $err = [];
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
             $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
@@ -188,13 +188,13 @@ function local_metadata_get_signup_fields() {
             $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
             $fieldobject = new $newfield($field->fieldid);
 
-            $profilefields[] = (object)array(
+            $profilefields[] = (object)[
                 'categoryid' => $field->categoryid,
                 'categoryname' => $field->categoryname,
                 'fieldid' => $field->fieldid,
                 'datatype' => $field->datatype,
                 'object' => $fieldobject
-            );
+            ];
         }
     }
     return $profilefields;

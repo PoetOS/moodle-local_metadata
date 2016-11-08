@@ -85,7 +85,7 @@ class metadata extends \local_metadata\metadata\metadata {
     public function edit_load_instance_data($instance) {
         if ($this->data !== null) {
             $this->data = clean_text($this->data, $this->dataformat);
-            $instance->{$this->inputname} = array('text' => $this->data, 'format' => $this->dataformat);
+            $instance->{$this->inputname} = ['text' => $this->data, 'format' => $this->dataformat];
         }
     }
 
@@ -94,7 +94,7 @@ class metadata extends \local_metadata\metadata\metadata {
      * @return string
      */
     public function display_data() {
-        return format_text($this->data, $this->dataformat, array('overflowdiv' => true));
+        return format_text($this->data, $this->dataformat, ['overflowdiv' => true]);
     }
 
     /**
@@ -105,7 +105,7 @@ class metadata extends \local_metadata\metadata\metadata {
      * @since Moodle 3.2
      */
     public function get_field_properties() {
-        return array(PARAM_RAW, NULL_NOT_ALLOWED);
+        return [PARAM_RAW, NULL_NOT_ALLOWED];
     }
 }
 

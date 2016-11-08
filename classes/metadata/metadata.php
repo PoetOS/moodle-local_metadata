@@ -159,7 +159,7 @@ class metadata {
     public function edit_validate_field($new) {
         global $DB;
 
-        $errors = array();
+        $errors = [];
         // Get input value.
         if (isset($new->{$this->inputname})) {
             if (is_array($new->{$this->inputname}) && isset($new->{$this->inputname}['text'])) {
@@ -178,7 +178,7 @@ class metadata {
                       FROM {local_metadata}
                      WHERE fieldid = ?
                        AND ' . $DB->sql_compare_text('data', 255) . ' = ' . $DB->sql_compare_text('?', 255),
-                    array($this->field->id, $value));
+                    [$this->field->id, $value]);
             if ($data) {
                 $existing = false;
                 foreach ($data as $v) {
@@ -293,7 +293,7 @@ class metadata {
         global $DB;
 
         // Load the field object.
-        if (($this->fieldid == 0) || (!($field = $DB->get_record('local_metadata_field', array('id' => $this->fieldid))))) {
+        if (($this->fieldid == 0) || (!($field = $DB->get_record('local_metadata_field', ['id' => $this->fieldid])))) {
             $this->field = null;
             $this->inputname = '';
         } else {
@@ -302,7 +302,7 @@ class metadata {
         }
 
         if (!empty($this->field)) {
-            $params = array('instanceid' => $this->instanceid, 'fieldid' => $this->fieldid);
+            $params = ['instanceid' => $this->instanceid, 'fieldid' => $this->fieldid];
             if ($data = $DB->get_record('local_metadata', $params, 'data, dataformat')) {
                 $this->data = $data->data;
                 $this->dataformat = $data->dataformat;
@@ -403,7 +403,7 @@ class metadata {
      * @since Moodle 3.2
      */
     public function get_field_properties() {
-        return array(PARAM_RAW, NULL_NOT_ALLOWED);
+        return [PARAM_RAW, NULL_NOT_ALLOWED];
     }
 
     /**

@@ -62,7 +62,7 @@ class categoryname extends \core\output\inplace_editable {
     public static function update($itemid, $newvalue) {
         global $DB;
         require_capability('moodle/user:update', context_system::instance());
-        $category = $DB->get_record('local_metadata_category', array('id' => $itemid), '*', MUST_EXIST);
+        $category = $DB->get_record('local_metadata_category', ['id' => $itemid], '*', MUST_EXIST);
         $category->name = $newvalue;
         $DB->update_record('local_metadata_category', $category);
         return new self($category);

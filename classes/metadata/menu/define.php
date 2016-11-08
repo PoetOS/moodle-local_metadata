@@ -38,7 +38,7 @@ class define extends \local_metadata\metadata\define_base {
      */
     public function define_form_specific($form) {
         // Param 1 for menu type contains the options.
-        $form->addElement('textarea', 'param1', get_string('profilemenuoptions', 'admin'), array('rows' => 6, 'cols' => 40));
+        $form->addElement('textarea', 'param1', get_string('profilemenuoptions', 'admin'), ['rows' => 6, 'cols' => 40]);
         $form->setType('param1', PARAM_TEXT);
 
         // Default data.
@@ -54,7 +54,7 @@ class define extends \local_metadata\metadata\define_base {
      * @return array
      */
     public function define_validate_specific($data, $files) {
-        $err = array();
+        $err = [];
 
         $data->param1 = str_replace("\r", '', $data->param1);
 

@@ -47,7 +47,7 @@ class metadata extends \local_metadata\metadata\metadata {
 
         if (!empty($this->field)) {
             $datafield = $DB->get_field('local_metadata', 'data',
-                array('instanceid' => $this->instanceid, 'fieldid' => $this->fieldid));
+                ['instanceid' => $this->instanceid, 'fieldid' => $this->fieldid]);
             if ($datafield !== false) {
                 $this->data = $datafield;
             } else {
@@ -95,7 +95,7 @@ class metadata extends \local_metadata\metadata\metadata {
      * @since Moodle 3.2
      */
     public function get_field_properties() {
-        return array(PARAM_BOOL, NULL_NOT_ALLOWED);
+        return [PARAM_BOOL, NULL_NOT_ALLOWED];
     }
 }
 

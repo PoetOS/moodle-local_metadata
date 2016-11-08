@@ -121,22 +121,22 @@ class renderer extends \plugin_renderer_base {
         // Edit.
         $url->param('action', 'editfield');
         $output .= $this->action_icon($url, new \pix_icon('t/edit', get_string('edit')), null,
-            array('class' => 'action-icon action_edit'));
+            ['class' => 'action-icon action_edit']);
 
         // Delete.
         $url->param('action', 'deletefield');
         $output .= $this->action_icon($url, new \pix_icon('t/delete', get_string('delete')), null,
-            array('class' => 'action-icon action_delete'));
+            ['class' => 'action-icon action_delete']);
 
         // Move up.
         if ($field->sortorder > 1) {
             $url->param('action', 'movefield');
             $url->param('dir', 'up');
             $output .= $this->action_icon($url, new \pix_icon('t/up', get_string('moveup')), null,
-                array('class' => 'action-icon action_moveup'));
+                ['class' => 'action-icon action_moveup']);
         } else {
             $output .= $this->action_icon(null, new \pix_icon('spacer', ''), null,
-                array('class' => 'action-icon action_spacer'));
+                ['class' => 'action-icon action_spacer']);
         }
 
         // Move down.
@@ -144,10 +144,10 @@ class renderer extends \plugin_renderer_base {
             $url->param('action', 'movefield');
             $url->param('dir', 'down');
             $output .= $this->action_icon($url, new \pix_icon('t/down', get_string('movedown')), null,
-                array('class' => 'action-icon action_movedown'));
+                ['class' => 'action-icon action_movedown']);
         } else {
             $output .= $this->action_icon(null, new \pix_icon('spacer', ''), null,
-                array('class' => 'action-icon action_spacer'));
+                ['class' => 'action-icon action_spacer']);
         }
 
         return $output;
@@ -173,7 +173,7 @@ class renderer extends \plugin_renderer_base {
         if (($categorycount > 1) || ($fieldcount == 0)) {
             $url->param('action', 'deletecategory');
             $output .= $this->action_icon($url, new \pix_icon('t/delete', get_string('delete')), null,
-                array('class' => 'action-icon action_delete'));
+                ['class' => 'action-icon action_delete']);
         }
 
         // Move up.
@@ -181,7 +181,7 @@ class renderer extends \plugin_renderer_base {
             $url->param('action', 'movecategory');
             $url->param('dir', 'up');
             $output .= $this->action_icon($url, new \pix_icon('t/up', get_string('moveup')), null,
-                array('class' => 'action-icon action_moveup'));
+                ['class' => 'action-icon action_moveup']);
         }
 
         // Move down.
@@ -189,7 +189,7 @@ class renderer extends \plugin_renderer_base {
             $url->param('action', 'movecategory');
             $url->param('dir', 'down');
             $output .= $this->action_icon($url, new \pix_icon('t/down', get_string('movedown')), null,
-                array('class' => 'action-icon action_movedown'));
+                ['class' => 'action-icon action_movedown']);
         }
 
         return $output;

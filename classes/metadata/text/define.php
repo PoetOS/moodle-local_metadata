@@ -62,11 +62,12 @@ class define extends \local_metadata\metadata\define_base {
         $form->addHelpButton('param4', 'profilefieldlink', 'admin');
 
         // Param 5 for text type contains link target.
-        $targetoptions = array( ''       => get_string('linktargetnone', 'editor'),
-                                '_blank' => get_string('linktargetblank', 'editor'),
-                                '_self'  => get_string('linktargetself', 'editor'),
-                                '_top'   => get_string('linktargettop', 'editor')
-                              );
+        $targetoptions = [
+            ''       => get_string('linktargetnone', 'editor'),
+            '_blank' => get_string('linktargetblank', 'editor'),
+            '_self'  => get_string('linktargetself', 'editor'),
+            '_top'   => get_string('linktargettop', 'editor')
+        ];
         $form->addElement('select', 'param5', get_string('profilefieldlinktarget', 'admin'), $targetoptions);
         $form->setType('param5', PARAM_RAW);
     }
