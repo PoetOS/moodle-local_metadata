@@ -25,5 +25,5 @@ defined('MOODLE_INTERNAL') || die;
 $plugin->version   = 2016102402;
 $plugin->release   = '3.2.0';
 $plugin->maturity  = MATURITY_ALPHA;
-$plugin->requires  = 2016102000; // Moodle 3.2 release and upwards.
+$plugin->requires  = 2016101400; // Moodle 3.2 release and upwards.
 $plugin->component = 'local_metadata';

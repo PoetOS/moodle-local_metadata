@@ -329,6 +329,32 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
     global $PAGE;
 
     switch ($context->contextlevel) {
+        case CONTEXT_MODULE:
+            // Only add this settings item on non-site course pages.
+            if ($PAGE->course && ($PAGE->course->id != 1) &&
+                (get_config('local_metadata', 'modulemetadataenabled') == 1) &&
+                has_capability('moodle/course:manageactivities', $context)) {
+
+                if ($settingnode = $settingsnav->find('modulesettings', settings_navigation::TYPE_SETTING)) {
+                    $strmetadata = get_string('metadata', 'local_metadata');
+                    $url = new moodle_url('/local/metadata/index.php',
+                        ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
+                    $metadatanode = navigation_node::create(
+                        $strmetadata,
+                        $url,
+                        navigation_node::NODETYPE_LEAF,
+                        'metadata',
+                        'metadata',
+                        new pix_icon('i/settings', $strmetadata)
+                    );
+                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                        $metadatanode->make_active();
+                    }
+                    $settingnode->add_node($metadatanode);
+                }
+            }
+            // Continue (no break) into "CONTEXT_COURSE" case since modules are on course pages as well.
+
         case CONTEXT_COURSE:
             // Only add this settings item on non-site course pages.
             if ($PAGE->course && ($PAGE->course->id != 1) &&
@@ -338,7 +364,7 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
                 if ($settingnode = $settingsnav->find('courseadmin', navigation_node::TYPE_COURSE)) {
                     $strmetadata = get_string('metadata', 'local_metadata');
                     $url = new moodle_url('/local/metadata/index.php',
-                        ['id' => $PAGE->course->id, 'action' => 'coursesettings', 'contextlevel' => CONTEXT_COURSE]);
+                        ['id' => $PAGE->course->id, 'action' => 'coursedata', 'contextlevel' => CONTEXT_COURSE]);
                     $metadatanode = navigation_node::create(
                         $strmetadata,
                         $url,

@@ -22,40 +22,42 @@
  */
 
 /**
- * Course settings renderable.
+ * General metadata management renderable.
  *
  * @package local_metadata
  * @copyright  2016 The POET Group
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\output\course;
+namespace local_metadata\output;
 
 defined('MOODLE_INTERNAL') || die;
 
-class course_settings implements \renderable {
+class manage_data implements \renderable {
 
-    public $course;
+    public $instance;
+    public $contextlevel;
+    public $action;
     public $data;
     public $form;
     public $saved = false;
 
-    public function __construct($course = null) {
-        global $COURSE, $DB;
+    public function __construct($instance = null, $contextlevel = null, $action = null) {
+        global $DB;
 
-        $this->course = ($course === null) ? clone($COURSE) : $course;
+        $this->instance = $instance;
+        $this->contextlevel = $contextlevel;
+        $this->action = $action;
         $this->data = [];
 
-        require_capability('moodle/course:create', \context_course::instance($this->course->id));
-
-        if ($categories = $DB->get_records('local_metadata_category', ['contextlevel' => CONTEXT_COURSE], 'sortorder ASC')) {
+        if ($categories = $DB->get_records('local_metadata_category', ['contextlevel' => $this->contextlevel], 'sortorder ASC')) {
             foreach ($categories as $category) {
                 if ($fields = $DB->get_records('local_metadata_field', ['categoryid' => $category->id], 'sortorder ASC')) {
                     // Display the header and the fields.
                     $this->data[$category->id]['categoryname'] = format_string($category->name);
                     foreach ($fields as $field) {
                         $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
-                        $this->data[$category->id][$field->id] = new $newfield($field->id, $this->course->id);
+                        $this->data[$category->id][$field->id] = new $newfield($field->id, $this->instance->id);
                     }
                 }
             }

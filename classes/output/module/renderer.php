@@ -22,14 +22,14 @@
  */
 
 /**
- * Renderer class for course context. Override anything needed.
+ * Renderer class for module context. Override anything needed.
  *
  * @package local_metadata
  * @copyright  2016 The POET Group
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\output\course;
+namespace local_metadata\output\module;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -42,25 +42,25 @@ class renderer extends \local_metadata\output\renderer {
      */
     public function render_category_table(\local_metadata\output\category_table $categorytable) {
         $output = parent::render_category_table($categorytable);
-        if (get_config('local_metadata', 'coursemetadataenabled') == 0) {
-            $output = $this->notification(get_string('coursemetadatadisabled', 'local_metadata')) . $output;
+        if (get_config('local_metadata', 'modulemetadataenabled') == 0) {
+            $output = $this->notification(get_string('modulemetadatadisabled', 'local_metadata')) . $output;
         }
         return $output;
     }
 
     /**
-     * Course settings renderer.
+     * Module settings renderer.
      *
-     * @param course_settings $coursesettings renderable object.
+     * @param module_settings $modulesettings renderable object.
      */
-    public function render_manage_data(manage_data $coursesettings) {
+    public function render_manage_data(manage_data $modulesettings) {
         $output = '';
         $output .= $this->header();
-        $output .= $this->heading(get_string('coursemetadata', 'local_metadata'));
-        if ($coursesettings->saved) {
+        $output .= $this->heading(get_string('modulemetadata', 'local_metadata'));
+        if ($modulesettings->saved) {
             $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
         }
-        $output .= $coursesettings->form->render();
+        $output .= $modulesettings->form->render();
         $output .= $this->footer();
 
         return $output;

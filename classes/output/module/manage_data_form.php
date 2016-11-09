@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
@@ -20,16 +21,18 @@
  * @copyright 2016 The POET Group
  */
 
-$string['pluginname'] = 'Metadata';
+/**
+ * Module settings form.
+ *
+ * @package local_metadata
+ * @copyright  2016 The POET Group
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$string['coursemetadata'] = 'Course metadata';
-$string['coursemetadatadisabled'] = 'Metadata for courses is currently disabled.';
-$string['coursemetadataenabled'] = 'Use metadata for courses';
-$string['metadata'] = 'Metadata';
-$string['metadatasaved'] = 'Metadata saved.';
-$string['modulemetadata'] = 'Module metadata';
-$string['modulemetadatadisabled'] = 'Metadata for modules is currently disabled.';
-$string['modulemetadataenabled'] = 'Use metadata for modules';
-$string['usermetadata'] = 'User metadata';
-$string['usermetadatadisabled'] = 'Metadata for users is currently disabled.';
-$string['usermetadataenabled'] = 'Use metadata for users';
+namespace local_metadata\output\module;
+
+defined('MOODLE_INTERNAL') || die();
+
+class manage_data_form extends \local_metadata\output\manage_data_form {
+    // Don't need to ovveride any of the parent. Just need to exist.
+}

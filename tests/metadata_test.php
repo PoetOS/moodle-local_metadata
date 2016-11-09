@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
@@ -20,16 +21,37 @@
  * @copyright 2016 The POET Group
  */
 
-$string['pluginname'] = 'Metadata';
+/**
+ * Renderer class for course context. Override anything needed.
+ *
+ * @package local_metadata
+ * @copyright  2016 The POET Group
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$string['coursemetadata'] = 'Course metadata';
-$string['coursemetadatadisabled'] = 'Metadata for courses is currently disabled.';
-$string['coursemetadataenabled'] = 'Use metadata for courses';
-$string['metadata'] = 'Metadata';
-$string['metadatasaved'] = 'Metadata saved.';
-$string['modulemetadata'] = 'Module metadata';
-$string['modulemetadatadisabled'] = 'Metadata for modules is currently disabled.';
-$string['modulemetadataenabled'] = 'Use metadata for modules';
-$string['usermetadata'] = 'User metadata';
-$string['usermetadatadisabled'] = 'Metadata for users is currently disabled.';
-$string['usermetadataenabled'] = 'Use metadata for users';
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * @group local_metadata
+ */
+class local_metadata_testcase extends advanced_testcase {
+
+    protected $metadata;
+
+    /**
+     * Sets up the test cases.
+     */
+    protected function setUp() {
+        parent::setUp();
+        $this->metadata = new \local_metadata\metadata\metadata();
+    }
+
+    /**
+     * Performs unit tests for all services supported by the filter.
+     *
+     * Need to update this test to not contact external services.
+     */
+    public function test_metadata() {
+        $this->resetAfterTest(true);
+    }
+}

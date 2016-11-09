@@ -28,7 +28,7 @@ require_once($CFG->dirroot.'/local/metadata/definelib.php');
 
 $action   = optional_param('action', '', PARAM_ALPHA);
 $contextlevel = optional_param('contextlevel', CONTEXT_USER, PARAM_INT);
-$pages = [CONTEXT_USER => 'user', CONTEXT_COURSE => 'course'];
+$pages = [CONTEXT_USER => 'user', CONTEXT_COURSE => 'course', CONTEXT_MODULE => 'module'];
 $redirect = $CFG->wwwroot.'/local/metadata/index.php?contextlevel='.$contextlevel;
 
 $strchangessaved    = get_string('changessaved');
@@ -37,10 +37,10 @@ $strdefaultcategory = get_string('profiledefaultcategory', 'admin');
 $strnofields        = get_string('profilenofieldsdefined', 'admin');
 $strcreatefield     = get_string('profilecreatefield', 'admin');
 
-if ($action != 'coursesettings') {
-    admin_externalpage_setup('metadata'.$pages[$contextlevel]);
-} else {
+if (($action == 'coursedata') || ($action == 'moduledata')) {
     require_login();
+} else {
+    admin_externalpage_setup('metadata'.$pages[$contextlevel]);
 }
 
 // Do we have any actions to perform before printing the header.
@@ -109,34 +109,57 @@ switch ($action) {
         die;
         break;
 
-    case 'coursesettings':
-        $courseid = required_param('id', PARAM_INT);
-        $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
-        $context = context_course::instance($courseid);
-        require_login($course);
-        require_capability('moodle/course:create', $context);
+    case 'coursedata':
+    case 'moduledata':
+        $instanceid = required_param('id', PARAM_INT);
+        if ($action == 'coursedata') {
+            $instance = $DB->get_record('course', ['id' => $instanceid], '*', MUST_EXIST);
+            $layout = 'admin';
+            $context = context_course::instance($instanceid);
+            $datatype = 'course';
+            $redirect = new \moodle_url('/course/view.php', ['id' => $instanceid]);
+            require_login($instance);
+            require_capability('moodle/course:create', $context);
+        } else {
+            $cmsql = 'SELECT cm.*, m.name ' .
+                     'FROM {course_modules} cm ' .
+                     'INNER JOIN {modules} m ON cm.module = m.id ' .
+                     'WHERE cm.id = ?';
+            if (!($instance = $DB->get_record_sql($cmsql, ['id' => $instanceid], MUST_EXIST))) {
+                print_error('invalidcoursemodule');
+            }
+            $layout = 'incourse';
+            $context = context_module::instance($instanceid);
+            $datatype = 'module';
+            $redirect = new \moodle_url('/mod/'.$instance->name.'/view.php', ['id' => $instanceid]);
+            require_login($instance->course, true, $instance);
+            require_capability('moodle/course:manageactivities', $context);
+        }
+
         $PAGE->set_url('/local/metadata/index.php',
-            ['contextlevel' => $contextlevel, 'id' => $courseid, 'action' => 'coursesettings']);
-        $PAGE->set_pagelayout('admin');
+            ['contextlevel' => $contextlevel, 'id' => $instanceid, 'action' => $action]);
+        $PAGE->set_pagelayout($layout);
         $PAGE->set_context($context);
 
-        // Add the metadata to the course object.
-        local_metadata_load_data($course, CONTEXT_COURSE);
-        $coursesettingsoutput = new \local_metadata\output\course\course_settings($course);
-        $coursesettingsform = new \local_metadata\output\course\course_settings_form(null, $coursesettingsoutput);
-        $coursesettingsoutput->add_form($coursesettingsform);
+        // Add the metadata to the object.
+        local_metadata_load_data($instance, $contextlevel);
+        $dataclass = "\\local_metadata\\output\\{$datatype}\\manage_data";
+        $formclass = "\\local_metadata\\output\\{$datatype}\\manage_data_form";
+        $dataoutput = new $dataclass($instance, $contextlevel, $action);
+        $dataform = new $formclass(null, $dataoutput);
+        $dataoutput->add_form($dataform);
 
         // Handle form data.
-        if ($coursesettingsform->is_cancelled()) {
-            redirect(new \moodle_url('/course/view.php', ['id' => $coursesettingsoutput->course->id]));
-        } else if (!($data = $coursesettingsform->get_data())) {
+        if ($dataform->is_cancelled()) {
+            redirect($redirect);
+        } else if (!($data = $dataform->get_data())) {
             $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
-            echo $output->render($coursesettingsoutput);
+            echo $output->render($dataoutput);
         } else {
-            local_metadata_save_data($data, CONTEXT_COURSE);
+            local_metadata_save_data($data, $contextlevel);
             $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
-            $coursesettingsoutput->set_saved();
-            echo $output->render($coursesettingsoutput);
+            $dataoutput->set_saved();
+            echo $output->render($dataoutput);
         }
         die;
         break;

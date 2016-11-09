@@ -22,14 +22,14 @@
  */
 
 /**
- * Course settings form.
+ * Metadata management form.
  *
  * @package local_metadata
  * @copyright  2016 The POET Group
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\output\course;
+namespace local_metadata\output;
 
 require_once($CFG->libdir . '/formslib.php');
 
@@ -37,7 +37,7 @@ use moodleform;
 
 defined('MOODLE_INTERNAL') || die();
 
-class course_settings_form extends moodleform {
+class manage_data_form extends moodleform {
 
     /**
      * Define the form.
@@ -45,11 +45,11 @@ class course_settings_form extends moodleform {
     public function definition () {
         $mform = $this->_form;
 
-        $mform->addElement('hidden', 'action', 'coursesettings');
+        $mform->addElement('hidden', 'action', $this->_customdata->action);
         $mform->setType('action', PARAM_ALPHA);
-        $mform->addElement('hidden', 'contextlevel', CONTEXT_COURSE);
+        $mform->addElement('hidden', 'contextlevel', $this->_customdata->contextlevel);
         $mform->setType('contextlevel', PARAM_INT);
-        $mform->addElement('hidden', 'id', $this->_customdata->course->id);
+        $mform->addElement('hidden', 'id', $this->_customdata->instance->id);
         $mform->setType('id', PARAM_INT);
 
         $data = $this->_customdata->data;
@@ -65,7 +65,7 @@ class course_settings_form extends moodleform {
         $this->add_action_buttons(true);
 
         // Finally set the current form data.
-        $this->set_data($this->_customdata->course);
+        $this->set_data($this->_customdata->instance);
     }
 
     /**
