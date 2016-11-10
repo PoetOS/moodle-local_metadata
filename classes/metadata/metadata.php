@@ -85,7 +85,7 @@ class metadata {
      * @return string
      */
     public function display_data() {
-        $options = new stdClass();
+        $options = new \stdClass();
         $options->para = false;
         return format_text($this->data, FORMAT_MOODLE, $options);
     }

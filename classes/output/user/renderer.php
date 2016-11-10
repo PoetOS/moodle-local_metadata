@@ -47,4 +47,25 @@ class renderer extends \local_metadata\output\renderer {
         }
         return $output;
     }
+
+    /**
+     * User settings renderer.
+     *
+     * @param manage_data $usersettings renderable object.
+     */
+    public function render_manage_data(manage_data $usersettings) {
+        global $PAGE;
+
+        $PAGE->set_title(get_string('usermetadata', 'local_metadata'));
+        $output = '';
+        $output .= $this->header();
+        $output .= $this->heading(get_string('usermetadata', 'local_metadata'));
+        if ($usersettings->saved) {
+            $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
+        }
+        $output .= $usersettings->form->render();
+        $output .= $this->footer();
+
+        return $output;
+    }
 }

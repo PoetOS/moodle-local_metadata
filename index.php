@@ -111,16 +111,16 @@ switch ($action) {
 
     case 'coursedata':
     case 'moduledata':
+    case 'userdata':
         $instanceid = required_param('id', PARAM_INT);
         if ($action == 'coursedata') {
             $instance = $DB->get_record('course', ['id' => $instanceid], '*', MUST_EXIST);
             $layout = 'admin';
             $context = context_course::instance($instanceid);
-            $datatype = 'course';
             $redirect = new \moodle_url('/course/view.php', ['id' => $instanceid]);
             require_login($instance);
             require_capability('moodle/course:create', $context);
-        } else {
+        } else if ($action == 'moduledata') {
             $cmsql = 'SELECT cm.*, m.name ' .
                      'FROM {course_modules} cm ' .
                      'INNER JOIN {modules} m ON cm.module = m.id ' .
@@ -130,10 +130,18 @@ switch ($action) {
             }
             $layout = 'incourse';
             $context = context_module::instance($instanceid);
-            $datatype = 'module';
             $redirect = new \moodle_url('/mod/'.$instance->name.'/view.php', ['id' => $instanceid]);
             require_login($instance->course, true, $instance);
             require_capability('moodle/course:manageactivities', $context);
+        } else if ($action == 'userdata') {
+            $instance = $DB->get_record('user', ['id' => $instanceid], '*', MUST_EXIST);
+            $layout = 'admin';
+            $context = context_user::instance($instanceid);
+            $redirect = new \moodle_url('/user/preferences.php', ['userid' => $instanceid]);
+            require_login();
+            require_capability('moodle/user:editprofile', $context);
+        } else {
+            break;
         }
 
         $PAGE->set_url('/local/metadata/index.php',
@@ -143,8 +151,8 @@ switch ($action) {
 
         // Add the metadata to the object.
         local_metadata_load_data($instance, $contextlevel);
-        $dataclass = "\\local_metadata\\output\\{$datatype}\\manage_data";
-        $formclass = "\\local_metadata\\output\\{$datatype}\\manage_data_form";
+        $dataclass = "\\local_metadata\\output\\{$pages[$contextlevel]}\\manage_data";
+        $formclass = "\\local_metadata\\output\\{$pages[$contextlevel]}\\manage_data_form";
         $dataoutput = new $dataclass($instance, $contextlevel, $action);
         $dataform = new $formclass(null, $dataoutput);
         $dataoutput->add_form($dataform);

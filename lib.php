@@ -353,32 +353,6 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
                     $settingnode->add_node($metadatanode);
                 }
             }
-            // Continue (no break) into "CONTEXT_COURSE" case since modules are on course pages as well.
-
-        case CONTEXT_COURSE:
-            // Only add this settings item on non-site course pages.
-            if ($PAGE->course && ($PAGE->course->id != 1) &&
-                (get_config('local_metadata', 'coursemetadataenabled') == 1) &&
-                has_capability('moodle/course:create', context_course::instance($PAGE->course->id))) {
-
-                if ($settingnode = $settingsnav->find('courseadmin', navigation_node::TYPE_COURSE)) {
-                    $strmetadata = get_string('metadata', 'local_metadata');
-                    $url = new moodle_url('/local/metadata/index.php',
-                        ['id' => $PAGE->course->id, 'action' => 'coursedata', 'contextlevel' => CONTEXT_COURSE]);
-                    $metadatanode = navigation_node::create(
-                        $strmetadata,
-                        $url,
-                        navigation_node::NODETYPE_LEAF,
-                        'metadata',
-                        'metadata',
-                        new pix_icon('i/settings', $strmetadata)
-                    );
-                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
-                        $metadatanode->make_active();
-                    }
-                    $settingnode->add_node($metadatanode);
-                }
-            }
             break;
 
         default:
@@ -395,5 +369,46 @@ function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $t
         $node = new \core_user\output\myprofile\node('contact', 'metadata',
             get_string('metadata', 'local_metadata'), null, null, $content);
         $tree->add_node($node);
+    }
+}
+
+/**
+ * Hook function to extend the course settings navigation.
+ */
+function local_metadata_extend_navigation_course($parentnode, $course, $context) {
+    if ((get_config('local_metadata', 'coursemetadataenabled') == 1) &&
+        has_capability('moodle/course:create', $context)) {
+        $strmetadata = get_string('metadata', 'local_metadata');
+        $url = new moodle_url('/local/metadata/index.php',
+            ['id' => $course->id, 'action' => 'coursedata', 'contextlevel' => CONTEXT_COURSE]);
+        $metadatanode = navigation_node::create($strmetadata, $url, navigation_node::NODETYPE_LEAF,
+            'metadata', 'metadata', new pix_icon('i/settings', $strmetadata)
+        );
+        $parentnode->add_node($metadatanode);
+    }
+}
+
+/**
+ * This function extends the navigation with the metadata for user settings node.
+ *
+ * @param navigation_node $navigation  The navigation node to extend
+ * @param stdClass        $user        The user object
+ * @param context         $usercontext The context of the user
+ * @param stdClass        $course      The course to object for the tool
+ * @param context         $coursecontext     The context of the course
+ */
+function local_metadata_extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
+    global $USER, $SITE;
+
+    if ((get_config('local_metadata', 'usermetadataenabled') == 1) &&
+        (($USER->id == $user->id) || has_capability('moodle/user:editprofile', $usercontext))) {
+
+        $strmetadata = get_string('usermetadata', 'local_metadata');
+        $url = new moodle_url('/local/metadata/index.php',
+            ['id' => $user->id, 'action' => 'userdata', 'contextlevel' => CONTEXT_USER]);
+        $metadatanode = navigation_node::create($strmetadata, $url, navigation_node::NODETYPE_LEAF,
+            'metadata', 'metadata', new pix_icon('i/settings', $strmetadata)
+        );
+        $navigation->add_node($metadatanode);
     }
 }
