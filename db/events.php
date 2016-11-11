@@ -21,37 +21,14 @@
  * @copyright 2016 The POET Group
  */
 
-/**
- * Renderer class for course context. Override anything needed.
- *
- * @package local_metadata
- * @copyright  2016 The POET Group
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-defined('MOODLE_INTERNAL') || die();
-
-/**
- * @group local_metadata
- */
-class local_metadata_testcase extends advanced_testcase {
-
-    protected $metadata;
-
-    /**
-     * Sets up the test cases.
-     */
-    protected function setUp() {
-        parent::setUp();
-        $this->metadata = new \local_metadata\metadata\metadata();
-    }
-
-    /**
-     * Performs unit tests for all services supported by the filter.
-     *
-     * Need to update this test to not contact external services.
-     */
-    public function test_metadata() {
-        $this->resetAfterTest(true);
-    }
-}
+$observers = [
+    ['eventname' => '\core\event\course_deleted',
+     'callback' => '\local_metadata\observer::course_deleted'
+    ],
+    ['eventname' => '\core\event\user_deleted',
+     'callback' => '\local_metadata\observer::user_deleted'
+    ],
+    ['eventname' => '\core\event\module_deleted',
+     'callback' => '\local_metadata\observer::module_deleted'
+    ],
+];

@@ -60,7 +60,7 @@ class metadata extends \local_metadata\metadata\metadata {
      * Overwrite base class method, data in this field type is potentially too large to be included in the user object.
      * @return bool
      */
-    public function is_user_object_data() {
+    public function is_instance_object_data() {
         return false;
     }
 

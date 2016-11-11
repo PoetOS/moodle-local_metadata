@@ -58,7 +58,16 @@ if ($hassiteconfig) {
     // Add the settings page to the course setttings menu, if enabled.
     if (get_config('local_metadata', 'coursemetadataenabled') == 1) {
         $ADMIN->add('courses', new admin_externalpage('courses_metadata', get_string('coursemetadata', 'local_metadata'),
-            new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/course:create']));
+            new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/site:config']));
+    }
+
+    // Add the settings page to the activity modules settings menu, if enabled.
+    // Add the settings page to the course setttings menu, if enabled.
+    if (get_config('local_metadata', 'modulemetadataenabled') == 1) {
+        $ADMIN->add('modsettings',
+            new admin_externalpage('modules_metadata', get_string('modulemetadata', 'local_metadata'),
+                new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_MODULE]), ['moodle/site:config']),
+            'managemodulescommon');
     }
 
     $settings = null;

@@ -259,7 +259,7 @@ function local_metadata_user_record($instanceid, $onlyinuserobject = true) {
  * @return array Array of field objects from database (indexed by id)
  * @since Moodle 2.7.1
  */
-function local_metadata_get_custom_fields($onlyinuserobject = false, $contextlevel) {
+function local_metadata_get_custom_fields($contextlevel, $onlyinuserobject = false) {
     global $DB;
 
     // Get all the fields.
