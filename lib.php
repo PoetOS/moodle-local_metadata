@@ -18,8 +18,36 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
+
+// Group context was dropped between 1.8 and 1.9. Use the old definition here.
+define('CONTEXT_GROUP', 60);
+
+// Cohort context has never existed. Define it here using the '9000' category.
+define('CONTEXT_COHORT', 9000);
+
+// Current contexts available. Woud be better handled in a main class and subplugin structure.
+global $LOCALMETADATACONTEXTS;
+$LOCALMETADATACONTEXTS = [
+    CONTEXT_USER => 'user',
+    CONTEXT_COURSE => 'course',
+    CONTEXT_MODULE => 'module',
+    CONTEXT_GROUP => 'group',
+    CONTEXT_COHORT => 'cohort',
+];
+
+
+function local_metadata_supports($feature) {
+    switch($feature) {
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+
+        default:
+            return null;
+    }
+}
+
 /**
  * Loads user profile field data into the user object.
  * @param stdClass $user
@@ -339,6 +367,32 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
                     $strmetadata = get_string('metadata', 'local_metadata');
                     $url = new moodle_url('/local/metadata/index.php',
                         ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
+                    $metadatanode = navigation_node::create(
+                        $strmetadata,
+                        $url,
+                        navigation_node::NODETYPE_LEAF,
+                        'metadata',
+                        'metadata',
+                        new pix_icon('i/settings', $strmetadata)
+                    );
+                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                        $metadatanode->make_active();
+                    }
+                    $settingnode->add_node($metadatanode);
+                }
+            }
+            break;
+
+        // This is not working.
+        case CONTEXT_COHORT:
+            // Only add this settings item on non-site course pages.
+            if ((get_config('local_metadata', 'cohortmetadataenabled') == 1) &&
+                has_capability('moodle/cohort:manage', $context)) {
+
+                if ($settingnode = $settingsnav->find('cohortsettings', settings_navigation::TYPE_SETTING)) {
+                    $strmetadata = get_string('metadata', 'local_metadata');
+                    $url = new moodle_url('/local/metadata/index.php',
+                        ['id' => $context->instanceid, 'action' => 'cohortdata', 'contextlevel' => CONTEXT_COHORT]);
                     $metadatanode = navigation_node::create(
                         $strmetadata,
                         $url,

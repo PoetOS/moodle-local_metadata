@@ -17,3 +17,6 @@ TO-DO:
 ** profile_has_required_custom_fields_set - /lib/moodlelib.php
 * Modify the API functions above to use the new local plugin API.
 * Find all direct access to "user_info_" tables in Moodle and correct them to use the profile data / metadata API.
+
+* To add group metadata, need a way to extend the group navigation pages for settings and information.
+* To add cohort metadata, need a way to extend the cohort navigation pages for settings and information.

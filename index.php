@@ -18,7 +18,7 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
 
 require('../../config.php');
@@ -28,7 +28,6 @@ require_once($CFG->dirroot.'/local/metadata/definelib.php');
 
 $action   = optional_param('action', '', PARAM_ALPHA);
 $contextlevel = optional_param('contextlevel', CONTEXT_USER, PARAM_INT);
-$pages = [CONTEXT_USER => 'user', CONTEXT_COURSE => 'course', CONTEXT_MODULE => 'module'];
 $redirect = $CFG->wwwroot.'/local/metadata/index.php?contextlevel='.$contextlevel;
 
 $strchangessaved    = get_string('changessaved');
@@ -37,10 +36,12 @@ $strdefaultcategory = get_string('profiledefaultcategory', 'admin');
 $strnofields        = get_string('profilenofieldsdefined', 'admin');
 $strcreatefield     = get_string('profilecreatefield', 'admin');
 
-if (($action == 'coursedata') || ($action == 'moduledata')) {
+$contextname = $LOCALMETADATACONTEXTS[$contextlevel];
+
+if ($action == $contextname.'data') {
     require_login();
 } else {
-    admin_externalpage_setup('metadata'.$pages[$contextlevel]);
+    admin_externalpage_setup('metadata'.$contextname);
 }
 
 // Do we have any actions to perform before printing the header.
@@ -55,6 +56,7 @@ switch ($action) {
         }
         redirect($redirect);
         break;
+
     case 'movefield':
         $id  = required_param('id', PARAM_INT);
         $dir = required_param('dir', PARAM_ALPHA);
@@ -64,6 +66,7 @@ switch ($action) {
         }
         redirect($redirect);
         break;
+
     case 'deletecategory':
         $id      = required_param('id', PARAM_INT);
         if (confirm_sesskey()) {
@@ -71,6 +74,7 @@ switch ($action) {
         }
         redirect($redirect, get_string('deleted'));
         break;
+
     case 'deletefield':
         $id      = required_param('id', PARAM_INT);
         $confirm = optional_param('confirm', 0, PARAM_BOOL);
@@ -95,6 +99,7 @@ switch ($action) {
         echo $OUTPUT->footer();
         die;
         break;
+
     case 'editfield':
         $id       = optional_param('id', 0, PARAM_INT);
         $datatype = optional_param('datatype', '', PARAM_ALPHA);
@@ -102,6 +107,7 @@ switch ($action) {
         local_metadata_edit_field($id, $datatype, $redirect, $contextlevel);
         die;
         break;
+
     case 'editcategory':
         $id = optional_param('id', 0, PARAM_INT);
 
@@ -109,71 +115,50 @@ switch ($action) {
         die;
         break;
 
-    case 'coursedata':
-    case 'moduledata':
-    case 'userdata':
-        $instanceid = required_param('id', PARAM_INT);
-        if ($action == 'coursedata') {
-            $instance = $DB->get_record('course', ['id' => $instanceid], '*', MUST_EXIST);
-            $layout = 'admin';
-            $context = context_course::instance($instanceid);
-            $redirect = new \moodle_url('/course/view.php', ['id' => $instanceid]);
-            require_login($instance);
-            require_capability('moodle/course:create', $context);
-        } else if ($action == 'moduledata') {
-            $cmsql = 'SELECT cm.*, m.name ' .
-                     'FROM {course_modules} cm ' .
-                     'INNER JOIN {modules} m ON cm.module = m.id ' .
-                     'WHERE cm.id = ?';
-            if (!($instance = $DB->get_record_sql($cmsql, ['id' => $instanceid], MUST_EXIST))) {
-                print_error('invalidcoursemodule');
-            }
-            $layout = 'incourse';
-            $context = context_module::instance($instanceid);
-            $redirect = new \moodle_url('/mod/'.$instance->name.'/view.php', ['id' => $instanceid]);
-            require_login($instance->course, true, $instance);
-            require_capability('moodle/course:manageactivities', $context);
-        } else if ($action == 'userdata') {
-            $instance = $DB->get_record('user', ['id' => $instanceid], '*', MUST_EXIST);
-            $layout = 'admin';
-            $context = context_user::instance($instanceid);
-            $redirect = new \moodle_url('/user/preferences.php', ['userid' => $instanceid]);
-            require_login();
-            require_capability('moodle/user:editprofile', $context);
-        } else {
-            break;
-        }
-
-        $PAGE->set_url('/local/metadata/index.php',
-            ['contextlevel' => $contextlevel, 'id' => $instanceid, 'action' => $action]);
-        $PAGE->set_pagelayout($layout);
-        $PAGE->set_context($context);
-
-        // Add the metadata to the object.
-        local_metadata_load_data($instance, $contextlevel);
-        $dataclass = "\\local_metadata\\output\\{$pages[$contextlevel]}\\manage_data";
-        $formclass = "\\local_metadata\\output\\{$pages[$contextlevel]}\\manage_data_form";
-        $dataoutput = new $dataclass($instance, $contextlevel, $action);
-        $dataform = new $formclass(null, $dataoutput);
-        $dataoutput->add_form($dataform);
-
-        // Handle form data.
-        if ($dataform->is_cancelled()) {
-            redirect($redirect);
-        } else if (!($data = $dataform->get_data())) {
-            $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
-            echo $output->render($dataoutput);
-        } else {
-            local_metadata_save_data($data, $contextlevel);
-            $output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
-            $dataoutput->set_saved();
-            echo $output->render($dataoutput);
-        }
-        die;
-        break;
-
     default:
+        if (($action == $contextname.'data') && file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
+            $instanceid = required_param('id', PARAM_INT);
+            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            $contexthandler = new $contextclass($instanceid);
+
+            $instance = $contexthandler->get_instance();
+            $layout = $contexthandler->get_layout();
+            $context = $contexthandler->get_context();
+            $redirect = $contexthandler->get_redirect();
+            if (!$contexthandler->require_access()) {
+                // Error. No access should be granted.
+                die;
+            }
+
+            $PAGE->set_url('/local/metadata/index.php',
+                ['contextlevel' => $contextlevel, 'id' => $instanceid, 'action' => $action]);
+            $PAGE->set_pagelayout($layout);
+            $PAGE->set_context($context);
+
+            // Add the metadata to the object.
+            local_metadata_load_data($instance, $contextlevel);
+            $dataclass = "\\local_metadata\\output\\{$contextname}\\manage_data";
+            $formclass = "\\local_metadata\\output\\{$contextname}\\manage_data_form";
+            $dataoutput = new $dataclass($instance, $contextlevel, $action);
+            $dataform = new $formclass(null, $dataoutput);
+            $dataoutput->add_form($dataform);
+
+            // Handle form data.
+            if ($dataform->is_cancelled()) {
+                redirect($redirect);
+            } else if (!($data = $dataform->get_data())) {
+                $output = $PAGE->get_renderer('local_metadata', $contextname);
+                echo $output->render($dataoutput);
+            } else {
+                local_metadata_save_data($data, $contextlevel);
+                $output = $PAGE->get_renderer('local_metadata', $contextname);
+                $dataoutput->set_saved();
+                echo $output->render($dataoutput);
+            }
+            die;
+        }
         // Normal form.
+        break;
 }
 
 // Show all categories.
@@ -190,10 +175,10 @@ if (empty($categories)) {
 }
 
 $PAGE->set_url($CFG->wwwroot.'/local/metadata/index.php', ['contextlevel' => $contextlevel]);
-$output = $PAGE->get_renderer('local_metadata', $pages[$contextlevel]);
+$output = $PAGE->get_renderer('local_metadata', $contextname);
 // Print the header.
 echo $output->header();
-echo $output->heading(get_string($pages[$contextlevel].'metadata', 'local_metadata'));
+echo $output->heading(get_string($contextname.'metadata', 'local_metadata'));
 
 echo $output->render(new \local_metadata\output\category_table($categories));
 echo $output->render(new \local_metadata\output\data_creation($contextlevel));

@@ -17,14 +17,20 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
 
 $string['pluginname'] = 'Metadata';
 
+$string['cohortmetadata'] = 'Cohort metadata';
+$string['cohortmetadatadisabled'] = 'Metadata for cohorts is currently disabled.';
+$string['cohortmetadataenabled'] = 'Use metadata for cohorts';
 $string['coursemetadata'] = 'Course metadata';
 $string['coursemetadatadisabled'] = 'Metadata for courses is currently disabled.';
 $string['coursemetadataenabled'] = 'Use metadata for courses';
+$string['groupmetadata'] = 'Group metadata';
+$string['groupmetadatadisabled'] = 'Metadata for groups is currently disabled.';
+$string['groupmetadataenabled'] = 'Use metadata for groups';
 $string['metadata'] = 'Metadata';
 $string['metadatasaved'] = 'Metadata saved.';
 $string['modulemetadata'] = 'Module metadata';

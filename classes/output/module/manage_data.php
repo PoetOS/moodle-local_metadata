@@ -18,14 +18,14 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
 
 /**
  * Module metadata management renderable.
  *
  * @package local_metadata
- * @copyright  2016 The POET Group
+ * @copyright  2016 POET
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

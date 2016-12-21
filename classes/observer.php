@@ -18,7 +18,7 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
 
 namespace local_metadata;
@@ -29,6 +29,23 @@ defined('MOODLE_INTERNAL') || die();
  * Local metadata event handler.
  */
 class observer {
+
+    /**
+     * Triggered via any defined delete event.
+     * - Dispatches metadata type specific event, if it exists.
+     * - Currently only monitors "[context]_deleted" events.
+     *
+     * @param \core\event\* $event
+     * @return bool true on success
+     */
+    public static function all_events($event) {
+        $localobserver = substr(strrchr($event->eventname, '\\'), 1);
+        if (method_exists('local_metadata\observer', $localobserver)) {
+            return self::$localobserver($event);
+        } else {
+            return true;
+        }
+    }
 
     /**
      * Triggered via course_deleted event.
@@ -56,10 +73,10 @@ class observer {
      * Triggered via module_deleted event.
      * - Removes module metadata
      *
-     * @param \core\event\module_deleted $event
+     * @param \core\event\course_module_deleted $event
      * @return bool true on success
      */
-    public static function module_deleted(\core\event\module_deleted $event) {
+    public static function course_module_deleted(\core\event\course_module_deleted $event) {
         return self::delete_metadata(CONTEXT_MODULE, $event->objectid);
     }
 

@@ -18,7 +18,7 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
 
 $observers = [
@@ -28,7 +28,12 @@ $observers = [
     ['eventname' => '\core\event\user_deleted',
      'callback' => '\local_metadata\observer::user_deleted'
     ],
-    ['eventname' => '\core\event\module_deleted',
-     'callback' => '\local_metadata\observer::module_deleted'
+    ['eventname' => '\core\event\course_module_deleted',
+     'callback' => '\local_metadata\observer::course_module_deleted'
     ],
+    // Default event observer. This will dispatch events according to metadata types.
+//    ['eventname' => '*',
+//     'callback' => '\local_metadata\observer::all_events',
+//     'priority' => 9999,
+//    ],
 ];

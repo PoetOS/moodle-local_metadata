@@ -22,14 +22,14 @@
  */
 
 /**
- * Renderer class for course context. Override anything needed.
+ * Renderer class for cohort context. Override anything needed.
  *
  * @package local_metadata
  * @copyright  2016 POET
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_metadata\output\user;
+namespace local_metadata\output\cohort;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -42,28 +42,28 @@ class renderer extends \local_metadata\output\renderer {
      */
     public function render_category_table(\local_metadata\output\category_table $categorytable) {
         $output = parent::render_category_table($categorytable);
-        if (get_config('local_metadata', 'usermetadataenabled') == 0) {
-            $output = $this->notification(get_string('usermetadatadisabled', 'local_metadata')) . $output;
+        if (get_config('local_metadata', 'cohortmetadataenabled') == 0) {
+            $output = $this->notification(get_string('cohortmetadatadisabled', 'local_metadata')) . $output;
         }
         return $output;
     }
 
     /**
-     * User settings renderer.
+     * Cohort settings renderer.
      *
-     * @param manage_data $usersettings renderable object.
+     * @param cohort_settings $cohortsettings renderable object.
      */
-    public function render_manage_data(manage_data $usersettings) {
+    public function render_manage_data(manage_data $cohortsettings) {
         global $PAGE;
 
-        $PAGE->set_title(get_string('usermetadata', 'local_metadata'));
+        $PAGE->set_title(get_string('cohortmetadata', 'local_metadata'));
         $output = '';
         $output .= $this->header();
-        $output .= $this->heading(get_string('usermetadata', 'local_metadata'));
-        if ($usersettings->saved) {
+        $output .= $this->heading(get_string('cohortmetadata', 'local_metadata'));
+        if ($cohortsettings->saved) {
             $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
         }
-        $output .= $usersettings->form->render();
+        $output .= $cohortsettings->form->render();
         $output .= $this->footer();
 
         return $output;

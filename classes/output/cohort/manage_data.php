@@ -22,36 +22,21 @@
  */
 
 /**
- * Renderer class for course context. Override anything needed.
+ * Cohort metadata management renderable.
  *
  * @package local_metadata
  * @copyright  2016 POET
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace local_metadata\output\cohort;
 
-/**
- * @group local_metadata
- */
-class local_metadata_testcase extends advanced_testcase {
+defined('MOODLE_INTERNAL') || die;
 
-    protected $metadata;
+class manage_data extends \local_metadata\output\manage_data {
 
-    /**
-     * Sets up the test cases.
-     */
-    protected function setUp() {
-        parent::setUp();
-        $this->metadata = new \local_metadata\metadata\metadata();
-    }
-
-    /**
-     * Performs unit tests for all services supported by the filter.
-     *
-     * Need to update this test to not contact external services.
-     */
-    public function test_metadata() {
-        $this->resetAfterTest(true);
+    public function __construct($instance = null, $contextlevel=null, $action=null) {
+        $action = ($action === null) ? 'cohortdata' : $action;
+        parent::__construct($instance, CONTEXT_COHORT, $action);
     }
 }

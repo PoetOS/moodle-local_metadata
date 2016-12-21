@@ -18,11 +18,11 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
 
 defined('MOODLE_INTERNAL') || die;
-$plugin->version   = 2016102403;
+$plugin->version   = 2016102406;
 $plugin->release   = '3.2.0';
 $plugin->maturity  = MATURITY_ALPHA;
 $plugin->requires  = 2016052300; // Moodle 3.1 release and upwards.

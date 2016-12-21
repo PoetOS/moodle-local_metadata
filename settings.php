@@ -18,56 +18,42 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 The POET Group
+ * @copyright 2016 POET
  */
 
 defined('MOODLE_INTERNAL') || die;
 
+// Required for non-standard context constants definition.
+require_once($CFG->dirroot.'/local/metadata/lib.php');
+global $LOCALMETADATACONTEXTS;
+
 if ($hassiteconfig) {
     $ADMIN->add('localplugins', new admin_category('metadatafolder', get_string('metadata', 'local_metadata')));
 
+    // Create a settings page and add an enable setting for each metadata context type.
     $settings = new admin_settingpage('local_metadata', get_string('settings'));
     if ($ADMIN->fulltree) {
-        $item = new admin_setting_configcheckbox('local_metadata/usermetadataenabled',
-            new lang_string('usermetadataenabled', 'local_metadata'), '', 0);
-        $settings->add($item);
-        $item = new admin_setting_configcheckbox('local_metadata/coursemetadataenabled',
-            new lang_string('coursemetadataenabled', 'local_metadata'), '', 1);
-        $settings->add($item);
-        $item = new admin_setting_configcheckbox('local_metadata/modulemetadataenabled',
-            new lang_string('modulemetadataenabled', 'local_metadata'), '', 0);
-        $settings->add($item);
+        foreach ($LOCALMETADATACONTEXTS as $contextname) {
+            $item = new admin_setting_configcheckbox('local_metadata/'.$contextname.'metadataenabled',
+                new lang_string($contextname.'metadataenabled', 'local_metadata'), '', 0);
+            $settings->add($item);
+        }
     }
     $ADMIN->add('metadatafolder', $settings);
 
-    $ADMIN->add('metadatafolder', new admin_externalpage('metadatauser', get_string('usermetadata', 'local_metadata'),
-        new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_USER]), ['moodle/site:config']));
+    // Create a new external settings page for each metadata context type data definitions.
+    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
+        $ADMIN->add('metadatafolder',
+            new admin_externalpage('metadata'.$contextname, get_string($contextname.'metadata', 'local_metadata'),
+                new moodle_url('/local/metadata/index.php', ['contextlevel' => $contextlevel]), ['moodle/site:config']));
 
-    $ADMIN->add('metadatafolder', new admin_externalpage('metadatacourse', get_string('coursemetadata', 'local_metadata'),
-        new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/site:config']));
-
-    $ADMIN->add('metadatafolder', new admin_externalpage('metadatamodule', get_string('modulemetadata', 'local_metadata'),
-        new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_MODULE]), ['moodle/site:config']));
-
-    // Add the settings page to the user setttings menu, if enabled.
-    if (get_config('local_metadata', 'usermetadataenabled') == 1) {
-        $ADMIN->add('users', new admin_externalpage('users_metadata', get_string('usermetadata', 'local_metadata'),
-                new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_USER]), ['moodle/site:config']));
-    }
-
-    // Add the settings page to the course setttings menu, if enabled.
-    if (get_config('local_metadata', 'coursemetadataenabled') == 1) {
-        $ADMIN->add('courses', new admin_externalpage('courses_metadata', get_string('coursemetadata', 'local_metadata'),
-            new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/site:config']));
-    }
-
-    // Add the settings page to the activity modules settings menu, if enabled.
-    // Add the settings page to the course setttings menu, if enabled.
-    if (get_config('local_metadata', 'modulemetadataenabled') == 1) {
-        $ADMIN->add('modsettings',
-            new admin_externalpage('modules_metadata', get_string('modulemetadata', 'local_metadata'),
-                new moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_MODULE]), ['moodle/site:config']),
-            'managemodulescommon');
+        // Add context settings to specific context settings pages (if possible).
+        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
+            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            $contexthandler = new $contextclass();
+            $contexthandler->add_settings_to_context_page($ADMIN);
+        }
     }
 
     $settings = null;

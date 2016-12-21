@@ -22,36 +22,17 @@
  */
 
 /**
- * Renderer class for course context. Override anything needed.
+ * Cohort settings form.
  *
  * @package local_metadata
  * @copyright  2016 POET
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_metadata\output\cohort;
+
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * @group local_metadata
- */
-class local_metadata_testcase extends advanced_testcase {
-
-    protected $metadata;
-
-    /**
-     * Sets up the test cases.
-     */
-    protected function setUp() {
-        parent::setUp();
-        $this->metadata = new \local_metadata\metadata\metadata();
-    }
-
-    /**
-     * Performs unit tests for all services supported by the filter.
-     *
-     * Need to update this test to not contact external services.
-     */
-    public function test_metadata() {
-        $this->resetAfterTest(true);
-    }
+class manage_data_form extends \local_metadata\output\manage_data_form {
+    // Don't need to ovveride any of the parent. Just need to exist.
 }
