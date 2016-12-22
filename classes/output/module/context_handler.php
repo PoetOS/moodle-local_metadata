@@ -102,12 +102,45 @@ class context_handler extends \local_metadata\output\context_handler {
     /**
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
      */
-    public function add_settings_to_context_page($navmenu) {
+    public function add_settings_to_context_menu($navmenu) {
         // Add the settings page to the activity modules settings menu, if enabled.
         $navmenu->add('modsettings',
             new \admin_externalpage('modules_metadata', get_string('modulemetadata', 'local_metadata'),
                 new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_MODULE]), ['moodle/site:config']),
             'managemodulescommon');
         return true;
+    }
+
+    /**
+     * Hook function that is called when settings blocks are being built.
+     */
+    public function extend_settings_navigation($settingsnav, $context) {
+        global $PAGE;
+
+        if ($context->contextlevel == CONTEXT_MODULE) {
+            // Only add this settings item on non-site course pages.
+            if ($PAGE->course && ($PAGE->course->id != 1) &&
+                (get_config('local_metadata', 'modulemetadataenabled') == 1) &&
+                has_capability('moodle/course:manageactivities', $context)) {
+
+                if ($settingnode = $settingsnav->find('modulesettings', \settings_navigation::TYPE_SETTING)) {
+                    $strmetadata = get_string('modulemetadata', 'local_metadata');
+                    $url = new \moodle_url('/local/metadata/index.php',
+                        ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
+                    $metadatanode = \navigation_node::create(
+                        $strmetadata,
+                        $url,
+                        \navigation_node::NODETYPE_LEAF,
+                        'metadata',
+                        'metadata',
+                        new \pix_icon('i/settings', $strmetadata)
+                    );
+                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                        $metadatanode->make_active();
+                    }
+                    $settingnode->add_node($metadatanode);
+                }
+            }
+        }
     }
 }

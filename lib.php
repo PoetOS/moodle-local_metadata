@@ -351,109 +351,50 @@ function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
 }
 
 /**
- * Hook function that is called when settings blocks are being built.
+ * Hook function that is called when settings blocks are being built. Call all context functions
  */
 function local_metadata_extend_settings_navigation($settingsnav, $context) {
-    global $PAGE;
+    global $CFG, $LOCALMETADATACONTEXTS;
 
-    if ($context->contextlevel == CONTEXT_MODULE) {
-        // Only add this settings item on non-site course pages.
-        if ($PAGE->course && ($PAGE->course->id != 1) &&
-            (get_config('local_metadata', 'modulemetadataenabled') == 1) &&
-            has_capability('moodle/course:manageactivities', $context)) {
-
-            if ($settingnode = $settingsnav->find('modulesettings', settings_navigation::TYPE_SETTING)) {
-                $strmetadata = get_string('metadatafor', 'local_metadata');
-                $url = new moodle_url('/local/metadata/index.php',
-                    ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
-                $metadatanode = navigation_node::create(
-                    $strmetadata,
-                    $url,
-                    navigation_node::NODETYPE_LEAF,
-                    'metadata',
-                    'metadata',
-                    new pix_icon('i/settings', $strmetadata)
-                );
-                if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
-                    $metadatanode->make_active();
-                }
-                $settingnode->add_node($metadatanode);
-            }
-        }
-    } else if ($PAGE->pagetype == 'cohort-edit') {
-        if ((get_config('local_metadata', 'cohortmetadataenabled') == 1) &&
-            has_capability('moodle/cohort:manage', $context)) {
-
-            if ($settingnode = $settingsnav->find('cohorts', settings_navigation::TYPE_SETTING)) {
-                $strmetadata = get_string('metadatafor', 'local_metadata');
-                $cohortid = $PAGE->url->param('id');
-                $url = new moodle_url('/local/metadata/index.php',
-                    ['id' => $cohortid, 'action' => 'cohortdata', 'contextlevel' => CONTEXT_COHORT]);
-                $metadatanode = navigation_node::create(
-                    $strmetadata,
-                    $url,
-                    navigation_node::NODETYPE_LEAF,
-                    'metadata',
-                    'metadata',
-                    new pix_icon('i/settings', $strmetadata)
-                );
-                if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
-                    $metadatanode->make_active();
-                }
-                $settingnode->add_node($metadatanode);
-            }
-        }
-    } else if ($PAGE->pagetype == 'group-group') {
-        if ((get_config('local_metadata', 'groupmetadataenabled') == 1) &&
-            has_capability('moodle/course:managegroups', $context)) {
-
-            if ($settingnode = $settingsnav->find('groups', settings_navigation::TYPE_SETTING)) {
-                $strmetadata = get_string('metadatafor', 'local_metadata');
-                $groupid = $PAGE->url->param('id');
-                $url = new moodle_url('/local/metadata/index.php',
-                    ['id' => $groupid, 'action' => 'groupdata', 'contextlevel' => CONTEXT_GROUP]);
-                $metadatanode = navigation_node::create(
-                    $strmetadata,
-                    $url,
-                    navigation_node::NODETYPE_LEAF,
-                    'metadata',
-                    'metadata',
-                    new pix_icon('i/settings', $strmetadata)
-                );
-                if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
-                    $metadatanode->make_active();
-                }
-                $settingnode->add_node($metadatanode);
-            }
+    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
+        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
+            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            $contexthandler = new $contextclass();
+            $contexthandler->extend_settings_navigation($settingsnav, $context);
         }
     }
 }
 
 /**
- * Hook function that is called when user profile page is being built.
+ * Hook function that is called when user profile page is being built. Call all context functions
  */
 function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
-    if (get_config('local_metadata', 'usermetadataenabled') == 1) {
-        $content = local_metadata_display_fields($user->id, CONTEXT_USER, true);
-        $node = new \core_user\output\myprofile\node('contact', 'metadata',
-            get_string('metadata', 'local_metadata'), null, null, $content);
-        $tree->add_node($node);
+    global $CFG, $LOCALMETADATACONTEXTS;
+
+    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
+        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
+            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            $contexthandler = new $contextclass();
+            $contexthandler->myprofile_navigation($tree, $user, $iscurrentuser, $course);
+        }
     }
 }
 
 /**
- * Hook function to extend the course settings navigation.
+ * Hook function to extend the course settings navigation. Call all context functions
  */
 function local_metadata_extend_navigation_course($parentnode, $course, $context) {
-    if ((get_config('local_metadata', 'coursemetadataenabled') == 1) &&
-        has_capability('moodle/course:create', $context)) {
-        $strmetadata = get_string('metadata', 'local_metadata');
-        $url = new moodle_url('/local/metadata/index.php',
-            ['id' => $course->id, 'action' => 'coursedata', 'contextlevel' => CONTEXT_COURSE]);
-        $metadatanode = navigation_node::create($strmetadata, $url, navigation_node::NODETYPE_LEAF,
-            'metadata', 'metadata', new pix_icon('i/settings', $strmetadata)
-        );
-        $parentnode->add_node($metadatanode);
+    global $CFG, $LOCALMETADATACONTEXTS;
+
+    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
+        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
+            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            $contexthandler = new $contextclass();
+            $contexthandler->extend_navigation_course($parentnode, $course, $context);
+        }
     }
 }
 
@@ -467,17 +408,14 @@ function local_metadata_extend_navigation_course($parentnode, $course, $context)
  * @param context         $coursecontext     The context of the course
  */
 function local_metadata_extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
-    global $USER, $SITE;
+    global $CFG, $LOCALMETADATACONTEXTS;
 
-    if ((get_config('local_metadata', 'usermetadataenabled') == 1) &&
-        (($USER->id == $user->id) || has_capability('moodle/user:editprofile', $usercontext))) {
-
-        $strmetadata = get_string('usermetadata', 'local_metadata');
-        $url = new moodle_url('/local/metadata/index.php',
-            ['id' => $user->id, 'action' => 'userdata', 'contextlevel' => CONTEXT_USER]);
-        $metadatanode = navigation_node::create($strmetadata, $url, navigation_node::NODETYPE_LEAF,
-            'metadata', 'metadata', new pix_icon('i/settings', $strmetadata)
-        );
-        $navigation->add_node($metadatanode);
+    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
+        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
+            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            $contexthandler = new $contextclass();
+            $contexthandler->extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext);
+        }
     }
 }

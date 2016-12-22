@@ -88,10 +88,47 @@ class context_handler extends \local_metadata\output\context_handler {
     /**
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
      */
-    public function add_settings_to_context_page($navmenu) {
+    public function add_settings_to_context_menu($navmenu) {
         // Add the settings page to the user setttings menu.
         $navmenu->add('users', new \admin_externalpage('users_metadata', get_string('usermetadata', 'local_metadata'),
                 new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_USER]), ['moodle/site:config']));
         return true;
+    }
+
+    /**
+     * Hook function that is called when user profile page is being built.
+     */
+    public function myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
+        if (get_config('local_metadata', 'usermetadataenabled') == 1) {
+            $content = local_metadata_display_fields($user->id, CONTEXT_USER, true);
+            $node = new \core_user\output\myprofile\node('contact', 'metadata',
+                get_string('metadata', 'local_metadata'), null, null, $content);
+            $tree->add_node($node);
+        }
+    }
+
+    /**
+     * This function extends the navigation with the metadata for user settings node.
+     *
+     * @param navigation_node $navigation  The navigation node to extend
+     * @param stdClass        $user        The user object
+     * @param context         $usercontext The context of the user
+     * @param stdClass        $course      The course to object for the tool
+     * @param context         $coursecontext     The context of the course
+     */
+    public function extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
+        global $USER, $SITE;
+
+        if ((get_config('local_metadata', 'usermetadataenabled') == 1) &&
+            (($USER->id == $user->id) || has_capability('moodle/user:editprofile', $usercontext))) {
+
+            $strmetadata = get_string('usermetadata', 'local_metadata');
+            $url = new \moodle_url('/local/metadata/index.php',
+                ['id' => $user->id, 'action' => 'userdata', 'contextlevel' => CONTEXT_USER]);
+            $metadatanode = \navigation_node::create($strmetadata, $url, \navigation_node::NODETYPE_LEAF,
+                'metadata', 'metadata', new \pix_icon('i/settings', $strmetadata)
+            );
+            $navigation->add_node($metadatanode);
+        }
     }
 }

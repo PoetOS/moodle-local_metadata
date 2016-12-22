@@ -90,7 +90,7 @@ class context_handler extends \local_metadata\output\context_handler {
     /**
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
      */
-    public function add_settings_to_context_page($navmenu) {
+    public function add_settings_to_context_menu($navmenu) {
         global $PAGE;
 
         if (method_exists($navmenu, 'find') && $navmenu->find('groups', \settings_navigation::TYPE_SETTING)) {
@@ -102,5 +102,37 @@ class context_handler extends \local_metadata\output\context_handler {
         $navmenu->add('courses', new \admin_externalpage('group_metadata', get_string('groupmetadata', 'local_metadata'),
             new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_GROUP]), ['moodle/site:config']));
         return true;
+    }
+
+    /**
+     * Hook function that is called when settings blocks are being built.
+     */
+    public function extend_settings_navigation($settingsnav, $context) {
+        global $PAGE;
+        if ($PAGE->pagetype == 'group-group') {
+            // Context level is CONTEXT_COURSE.
+            if ((get_config('local_metadata', 'groupmetadataenabled') == 1) &&
+                has_capability('moodle/course:managegroups', $context)) {
+
+                if ($settingnode = $settingsnav->find('groups', \settings_navigation::TYPE_SETTING)) {
+                    $strmetadata = get_string('groupmetadata', 'local_metadata');
+                    $groupid = $PAGE->url->param('id');
+                    $url = new \moodle_url('/local/metadata/index.php',
+                        ['id' => $groupid, 'action' => 'groupdata', 'contextlevel' => CONTEXT_GROUP]);
+                    $metadatanode = \navigation_node::create(
+                        $strmetadata,
+                        $url,
+                        \navigation_node::NODETYPE_LEAF,
+                        'metadata',
+                        'metadata',
+                        new \pix_icon('i/settings', $strmetadata)
+                    );
+                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                        $metadatanode->make_active();
+                    }
+                    $settingnode->add_node($metadatanode);
+                }
+            }
+        }
     }
 }

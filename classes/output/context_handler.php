@@ -101,10 +101,45 @@ abstract class context_handler {
     }
 
     /**
-     * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
+     * Implement if specific context settings can be added to a context settings menu (e.g. site admin / users).
      * @param object $navmenu The Moodle navmenu to add the settings link to.
      */
-    public function add_settings_to_context_page($navmenu) {
+    public function add_settings_to_context_menu($navmenu) {
         return false;
+    }
+
+    /**
+     * Implement extend_settings_navigation hook if general administration navigation entries are required.
+     *
+     */
+    public function extend_settings_navigation($settingsnav, $context) {
+        return true;
+    }
+
+    /**
+     * Implement myprofile_navigation hook function that is called when user profile page is being built.
+     */
+    public function myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
+        return true;
+    }
+
+    /**
+     * Implement extend_navigation_course hook function to extend the course settings navigation.
+     */
+    public function extend_navigation_course($parentnode, $course, $context) {
+        return true;
+    }
+
+    /**
+     * Implement extend_navigation_user_settings hook function to extend the navigation for user settings node.
+     *
+     * @param navigation_node $navigation  The navigation node to extend
+     * @param stdClass        $user        The user object
+     * @param context         $usercontext The context of the user
+     * @param stdClass        $course      The course to object for the tool
+     * @param context         $coursecontext     The context of the course
+     */
+    function extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
+        return true;
     }
 }

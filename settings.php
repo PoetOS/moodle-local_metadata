@@ -52,7 +52,7 @@ if ($hassiteconfig) {
             file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
             $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
-            $contexthandler->add_settings_to_context_page($ADMIN);
+            $contexthandler->add_settings_to_context_menu($ADMIN);
         }
     }
 
