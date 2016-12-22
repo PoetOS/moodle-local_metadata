@@ -139,7 +139,7 @@ abstract class context_handler {
      * @param stdClass        $course      The course to object for the tool
      * @param context         $coursecontext     The context of the course
      */
-    function extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
+    public function extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
         return true;
     }
 }
