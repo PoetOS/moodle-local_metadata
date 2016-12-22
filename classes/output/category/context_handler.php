@@ -100,7 +100,8 @@ class context_handler extends \local_metadata\output\context_handler {
      */
     public function extend_settings_navigation($settingsnav, $context) {
         global $PAGE;
-        if (($context->contextlevel == CONTEXT_COURSECAT) && ($PAGE->pagetype == 'course-editcategory')) {
+//        if (($context->contextlevel == CONTEXT_COURSECAT) && ($PAGE->pagetype == 'course-editcategory')) {
+        if ($context->contextlevel == CONTEXT_COURSECAT) {
             // Context level is CONTEXT_COURSECAT.
             if ((get_config('local_metadata', 'categorymetadataenabled') == 1) &&
                 has_capability('moodle/category:manage', $context)) {
