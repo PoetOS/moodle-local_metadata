@@ -31,9 +31,4 @@ $observers = [
     ['eventname' => '\core\event\course_module_deleted',
      'callback' => '\local_metadata\observer::course_module_deleted'
     ],
-    // Default event observer. This will dispatch events according to metadata types.
-//    ['eventname' => '*',
-//     'callback' => '\local_metadata\observer::all_events',
-//     'priority' => 9999,
-//    ],
 ];

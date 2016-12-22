@@ -32,6 +32,7 @@ $string['groupmetadata'] = 'Group metadata';
 $string['groupmetadatadisabled'] = 'Metadata for groups is currently disabled.';
 $string['groupmetadataenabled'] = 'Use metadata for groups';
 $string['metadata'] = 'Metadata';
+$string['metadatafor'] = 'Instance metadata';
 $string['metadatasaved'] = 'Metadata saved.';
 $string['modulemetadata'] = 'Module metadata';
 $string['modulemetadatadisabled'] = 'Metadata for modules is currently disabled.';

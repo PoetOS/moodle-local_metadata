@@ -356,61 +356,76 @@ function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
 function local_metadata_extend_settings_navigation($settingsnav, $context) {
     global $PAGE;
 
-    switch ($context->contextlevel) {
-        case CONTEXT_MODULE:
-            // Only add this settings item on non-site course pages.
-            if ($PAGE->course && ($PAGE->course->id != 1) &&
-                (get_config('local_metadata', 'modulemetadataenabled') == 1) &&
-                has_capability('moodle/course:manageactivities', $context)) {
+    if ($context->contextlevel == CONTEXT_MODULE) {
+        // Only add this settings item on non-site course pages.
+        if ($PAGE->course && ($PAGE->course->id != 1) &&
+            (get_config('local_metadata', 'modulemetadataenabled') == 1) &&
+            has_capability('moodle/course:manageactivities', $context)) {
 
-                if ($settingnode = $settingsnav->find('modulesettings', settings_navigation::TYPE_SETTING)) {
-                    $strmetadata = get_string('metadata', 'local_metadata');
-                    $url = new moodle_url('/local/metadata/index.php',
-                        ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
-                    $metadatanode = navigation_node::create(
-                        $strmetadata,
-                        $url,
-                        navigation_node::NODETYPE_LEAF,
-                        'metadata',
-                        'metadata',
-                        new pix_icon('i/settings', $strmetadata)
-                    );
-                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
-                        $metadatanode->make_active();
-                    }
-                    $settingnode->add_node($metadatanode);
+            if ($settingnode = $settingsnav->find('modulesettings', settings_navigation::TYPE_SETTING)) {
+                $strmetadata = get_string('metadatafor', 'local_metadata');
+                $url = new moodle_url('/local/metadata/index.php',
+                    ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
+                $metadatanode = navigation_node::create(
+                    $strmetadata,
+                    $url,
+                    navigation_node::NODETYPE_LEAF,
+                    'metadata',
+                    'metadata',
+                    new pix_icon('i/settings', $strmetadata)
+                );
+                if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                    $metadatanode->make_active();
                 }
+                $settingnode->add_node($metadatanode);
             }
-            break;
+        }
+    } else if ($PAGE->pagetype == 'cohort-edit') {
+        if ((get_config('local_metadata', 'cohortmetadataenabled') == 1) &&
+            has_capability('moodle/cohort:manage', $context)) {
 
-        // This is not working.
-        case CONTEXT_COHORT:
-            // Only add this settings item on non-site course pages.
-            if ((get_config('local_metadata', 'cohortmetadataenabled') == 1) &&
-                has_capability('moodle/cohort:manage', $context)) {
-
-                if ($settingnode = $settingsnav->find('cohortsettings', settings_navigation::TYPE_SETTING)) {
-                    $strmetadata = get_string('metadata', 'local_metadata');
-                    $url = new moodle_url('/local/metadata/index.php',
-                        ['id' => $context->instanceid, 'action' => 'cohortdata', 'contextlevel' => CONTEXT_COHORT]);
-                    $metadatanode = navigation_node::create(
-                        $strmetadata,
-                        $url,
-                        navigation_node::NODETYPE_LEAF,
-                        'metadata',
-                        'metadata',
-                        new pix_icon('i/settings', $strmetadata)
-                    );
-                    if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
-                        $metadatanode->make_active();
-                    }
-                    $settingnode->add_node($metadatanode);
+            if ($settingnode = $settingsnav->find('cohorts', settings_navigation::TYPE_SETTING)) {
+                $strmetadata = get_string('metadatafor', 'local_metadata');
+                $cohortid = $PAGE->url->param('id');
+                $url = new moodle_url('/local/metadata/index.php',
+                    ['id' => $cohortid, 'action' => 'cohortdata', 'contextlevel' => CONTEXT_COHORT]);
+                $metadatanode = navigation_node::create(
+                    $strmetadata,
+                    $url,
+                    navigation_node::NODETYPE_LEAF,
+                    'metadata',
+                    'metadata',
+                    new pix_icon('i/settings', $strmetadata)
+                );
+                if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                    $metadatanode->make_active();
                 }
+                $settingnode->add_node($metadatanode);
             }
-            break;
+        }
+    } else if ($PAGE->pagetype == 'group-group') {
+        if ((get_config('local_metadata', 'groupmetadataenabled') == 1) &&
+            has_capability('moodle/course:managegroups', $context)) {
 
-        default:
-            break;
+            if ($settingnode = $settingsnav->find('groups', settings_navigation::TYPE_SETTING)) {
+                $strmetadata = get_string('metadatafor', 'local_metadata');
+                $groupid = $PAGE->url->param('id');
+                $url = new moodle_url('/local/metadata/index.php',
+                    ['id' => $groupid, 'action' => 'groupdata', 'contextlevel' => CONTEXT_GROUP]);
+                $metadatanode = navigation_node::create(
+                    $strmetadata,
+                    $url,
+                    navigation_node::NODETYPE_LEAF,
+                    'metadata',
+                    'metadata',
+                    new pix_icon('i/settings', $strmetadata)
+                );
+                if ($PAGE->url->compare($url, URL_MATCH_BASE)) {
+                    $metadatanode->make_active();
+                }
+                $settingnode->add_node($metadatanode);
+            }
+        }
     }
 }
 

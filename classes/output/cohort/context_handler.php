@@ -86,7 +86,7 @@ class context_handler extends \local_metadata\output\context_handler {
     }
 
     /**
-     * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
+     * Implement if specific context settings can be added to a context settings page (e.g. Users / Accounts).
      */
     public function add_settings_to_context_page($navmenu) {
         // Add the settings page to the cohorts settings menu, if enabled.

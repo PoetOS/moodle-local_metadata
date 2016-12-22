@@ -89,7 +89,7 @@ class context_handler extends \local_metadata\output\context_handler {
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
      */
     public function add_settings_to_context_page($navmenu) {
-        // Add the settings page to the course setttings menu.
+        // Add the settings page to the course settings menu.
         $navmenu->add('courses', new \admin_externalpage('courses_metadata', get_string('coursemetadata', 'local_metadata'),
             new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/site:config']));
         return true;

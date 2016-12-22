@@ -91,9 +91,15 @@ class context_handler extends \local_metadata\output\context_handler {
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
      */
     public function add_settings_to_context_page($navmenu) {
-        // Add the settings page to the groups settings menu, if enabled.
-        // Note - *** Currently there is no group settings admin menu to inject into.
-        $navmenu->add('groups', new \admin_externalpage('group_metadata', get_string('groupmetadata', 'local_metadata'),
+        global $PAGE;
+
+        if (method_exists($navmenu, 'find') && $navmenu->find('groups', \settings_navigation::TYPE_SETTING)) {
+            // Add the settings page to the groups settings menu, if enabled.
+            $navmenu->add('groups', new \admin_externalpage('group_metadata', get_string('groupmetadata', 'local_metadata'),
+                new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_GROUP]), ['moodle/site:config']));
+        }
+        // Add the settings page to the course settings menu.
+        $navmenu->add('courses', new \admin_externalpage('group_metadata', get_string('groupmetadata', 'local_metadata'),
             new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_GROUP]), ['moodle/site:config']));
         return true;
     }
