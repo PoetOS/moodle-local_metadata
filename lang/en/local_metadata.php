@@ -22,6 +22,9 @@
 
 $string['pluginname'] = 'Metadata';
 
+$string['categorymetadata'] = 'Category metadata';
+$string['categorymetadatadisabled'] = 'Metadata for course categories is currently disabled.';
+$string['categorymetadataenabled'] = 'Use metadata for course categories';
 $string['cohortmetadata'] = 'Cohort metadata';
 $string['cohortmetadatadisabled'] = 'Metadata for cohorts is currently disabled.';
 $string['cohortmetadataenabled'] = 'Use metadata for cohorts';

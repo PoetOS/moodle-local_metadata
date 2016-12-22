@@ -32,6 +32,7 @@ global $LOCALMETADATACONTEXTS;
 $LOCALMETADATACONTEXTS = [
     CONTEXT_USER => 'user',
     CONTEXT_COURSE => 'course',
+    CONTEXT_COURSECAT => 'category',
     CONTEXT_MODULE => 'module',
     CONTEXT_GROUP => 'group',
     CONTEXT_COHORT => 'cohort',
