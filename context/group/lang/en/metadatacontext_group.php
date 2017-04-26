@@ -26,4 +26,5 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$string['metadatatitle'] = 'Group metadata';
 $string['pluginname'] = 'Group metadata context';

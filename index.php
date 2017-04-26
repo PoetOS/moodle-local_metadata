@@ -116,9 +116,10 @@ switch ($action) {
         break;
 
     default:
-        if (($action == $contextname.'data') && file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
+        // TODO - Use a Moodle subtypes API to determine validity.
+        if (($action == $contextname.'data') && file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname)) {
             $instanceid = required_param('id', PARAM_INT);
-            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass($instanceid);
 
             $instance = $contexthandler->get_instance();
@@ -137,8 +138,8 @@ switch ($action) {
 
             // Add the metadata to the object.
             local_metadata_load_data($instance, $contextlevel);
-            $dataclass = "\\local_metadata\\output\\{$contextname}\\manage_data";
-            $formclass = "\\local_metadata\\output\\{$contextname}\\manage_data_form";
+            $dataclass = "\\metadatacontext_{$contextname}\\manage_data";
+            $formclass = "\\metadatacontext_{$contextname}\\manage_data_form";
             $dataoutput = new $dataclass($instance, $contextlevel, $action);
             $dataform = new $formclass(null, $dataoutput);
             $dataoutput->add_form($dataform);
@@ -147,11 +148,11 @@ switch ($action) {
             if ($dataform->is_cancelled()) {
                 redirect($redirect);
             } else if (!($data = $dataform->get_data())) {
-                $output = $PAGE->get_renderer('local_metadata', $contextname);
+                $output = $PAGE->get_renderer('metadatacontext_'.$contextname);
                 echo $output->render($dataoutput);
             } else {
                 local_metadata_save_data($data, $contextlevel);
-                $output = $PAGE->get_renderer('local_metadata', $contextname);
+                $output = $PAGE->get_renderer('metadatacontext_'.$contextname);
                 $dataoutput->set_saved();
                 echo $output->render($dataoutput);
             }
@@ -175,10 +176,10 @@ if (empty($categories)) {
 }
 
 $PAGE->set_url($CFG->wwwroot.'/local/metadata/index.php', ['contextlevel' => $contextlevel]);
-$output = $PAGE->get_renderer('local_metadata', $contextname);
+$output = $PAGE->get_renderer('metadatacontext_'.$contextname);
 // Print the header.
 echo $output->header();
-echo $output->heading(get_string($contextname.'metadata', 'local_metadata'));
+echo $output->heading(get_string('metadatatitle', 'metadatacontext_'.$contextname));
 
 echo $output->render(new \local_metadata\output\category_table($categories));
 echo $output->render(new \local_metadata\output\data_creation($contextlevel));

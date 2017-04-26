@@ -232,19 +232,20 @@ function local_metadata_move_category($id, $move) {
 
 /**
  * Retrieve a list of all the available data types
+ * TODO - Replace this with subplugins function.
  * @return   array   a list of the datatypes suitable to use in a select statement
  */
 function local_metadata_list_datatypes() {
     global $CFG;
 
     $datatypes = [];
-    $path = $CFG->dirroot.'/local/metadata/classes/metadata/';
+    $path = $CFG->dirroot.'/local/metadata/fieldtype/';
     $thisdir = new \DirectoryIterator($path);
     foreach ($thisdir as $dir) {
         if ($dir->isDir()) {
             $name = $dir->getFilename();
             if (($name != '.') && ($name != '..')) {
-                $classname = "\\local_metadata\\metadata\\{$name}\\metadata";
+                $classname = "\\metadatafieldtype_{$name}\\metadata";
                 $newdatatype = new $classname();
                 $datatypes[$name] = $newdatatype->name;
             }
@@ -358,7 +359,7 @@ function local_metadata_edit_field($id, $datatype, $redirect, $contextlevel) {
 
     } else {
         if ($data = $fieldform->get_data()) {
-            $newfield = "\\local_metadata\\metadata\\{$datatype}\\define";
+            $newfield = "\\metadatafieldtype_{$datatype}\\define";
             $formfield = new $newfield($contextlevel);
 
             // Collect the description and format back into the proper data structure from the editor.
@@ -405,5 +406,3 @@ function local_metadata_edit_field($id, $datatype, $redirect, $contextlevel) {
         echo $OUTPUT->footer();
     }
 }
-
-

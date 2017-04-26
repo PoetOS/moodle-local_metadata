@@ -26,4 +26,5 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$string['metadatatitle'] = 'User metadata';
 $string['pluginname'] = 'User metadata context';
