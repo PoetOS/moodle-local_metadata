@@ -27,6 +27,7 @@ define('CONTEXT_GROUP', 60);
 // Cohort context has never existed. Define it here using the '9000' category.
 define('CONTEXT_COHORT', 9000);
 
+// TODO - Replace this with subplugins API.
 // Current contexts available. Woud be better handled in a main class and subplugin structure.
 global $LOCALMETADATACONTEXTS;
 $LOCALMETADATACONTEXTS = [
@@ -58,7 +59,7 @@ function local_metadata_load_data($instance, $contextlevel) {
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $instance->id);
             $formfield->edit_load_instance_data($instance);
         }
@@ -93,7 +94,7 @@ function local_metadata_definition($mform, $instanceid = 0, $contextlevel) {
                 if ($display || $update) {
                     $mform->addElement('header', 'category_'.$category->id, format_string($category->name));
                     foreach ($fields as $field) {
-                        $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+                        $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
                         $formfield = new $newfield($field->id, $instanceid);
                         $formfield->edit_field($mform);
                     }
@@ -115,7 +116,7 @@ function local_metadata_definition_after_data($mform, $instanceid, $contextlevel
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $instanceid);
             $formfield->edit_after_data($mform);
         }
@@ -138,7 +139,7 @@ function local_metadata_validation($new, $files, $contextlevel) {
     $err = [];
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $new->id);
             $err += $formfield->edit_validate_field($new, $files);
         }
@@ -155,7 +156,7 @@ function local_metadata_save_data($new, $contextlevel) {
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $new->id);
             $formfield->edit_save_data($new);
         }
@@ -174,7 +175,7 @@ function local_metadata_display_fields($instanceid, $contextlevel, $returnonly=f
         foreach ($categories as $category) {
             if ($fields = $DB->get_records('local_metadata_field', ['categoryid' => $category->id], 'sortorder ASC')) {
                 foreach ($fields as $field) {
-                    $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+                    $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
                     $formfield = new $newfield($field->id, $instanceid);
                     if ($formfield->is_visible() && !$formfield->is_empty()) {
                         $output .= html_writer::tag('dt', format_string($formfield->field->name));
@@ -214,7 +215,7 @@ function local_metadata_get_signup_fields() {
 
     if ($fields = $DB->get_records_sql($sql, [CONTEXT_USER])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
             $fieldobject = new $newfield($field->fieldid);
 
             $profilefields[] = (object)[
@@ -263,7 +264,7 @@ function local_metadata_user_record($instanceid, $onlyinuserobject = true) {
 
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => CONTEXT_USER])) {
         foreach ($fields as $field) {
-            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
             $formfield = new $newfield($field->id, $instanceid);
             if (!$onlyinuserobject || $formfield->is_instance_object_data()) {
                 $usercustomfields->{$field->shortname} = $formfield->data;
@@ -297,7 +298,7 @@ function local_metadata_get_custom_fields($contextlevel, $onlyinuserobject = fal
     // If only doing the user object ones, unset the rest.
     if ($onlyinuserobject) {
         foreach ($fields as $id => $field) {
-            $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
             $formfield = new $newfield();
             if (!$formfield->is_instance_object_data()) {
                 unset($fields[$id]);
@@ -359,8 +360,8 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
         if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
-            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_settings_navigation($settingsnav, $context);
         }
@@ -375,8 +376,8 @@ function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $t
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
         if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
-            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->myprofile_navigation($tree, $user, $iscurrentuser, $course);
         }
@@ -391,8 +392,8 @@ function local_metadata_extend_navigation_course($parentnode, $course, $context)
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
         if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
-            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_navigation_course($parentnode, $course, $context);
         }
@@ -413,8 +414,8 @@ function local_metadata_extend_navigation_user_settings($navigation, $user, $use
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
         if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/classes/output/'.$contextname)) {
-            $contextclass = "\\local_metadata\\output\\{$contextname}\\context_handler";
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext);
         }

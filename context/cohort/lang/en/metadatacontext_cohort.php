@@ -26,4 +26,5 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$string['metadatatitle'] = 'Cohort metadata';
 $string['pluginname'] = 'Cohort metadata context';

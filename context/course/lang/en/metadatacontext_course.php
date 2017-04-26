@@ -26,4 +26,5 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$string['metadatatitle'] = 'Course metadata';
 $string['pluginname'] = 'Course metadata context';
