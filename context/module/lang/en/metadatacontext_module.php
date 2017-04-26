@@ -27,4 +27,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['metadatatitle'] = 'Module metadata';
+$string['metadatadisabled'] = 'Metadata for modules is currently disabled.';
+$string['metadataenabled'] = 'Use metadata for modules';
 $string['pluginname'] = 'Module metadata context';

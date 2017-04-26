@@ -27,4 +27,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['metadatatitle'] = 'Cohort metadata';
+$string['metadatadisabled'] = 'Metadata for cohorts is currently disabled.';
+$string['metadataenabled'] = 'Use metadata for cohorts';
 $string['pluginname'] = 'Cohort metadata context';

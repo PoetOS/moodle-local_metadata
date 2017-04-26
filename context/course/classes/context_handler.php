@@ -90,7 +90,8 @@ class context_handler extends \local_metadata\context\context_handler {
      */
     public function add_settings_to_context_menu($navmenu) {
         // Add the settings page to the course settings menu.
-        $navmenu->add('courses', new \admin_externalpage('courses_metadata', get_string('coursemetadata', 'local_metadata'),
+        $navmenu->add('courses', new \admin_externalpage('metadatacontext_courses',
+            get_string('metadatatitle', 'metadatacontext_course'),
             new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSE]), ['moodle/site:config']));
         return true;
     }
@@ -99,9 +100,9 @@ class context_handler extends \local_metadata\context\context_handler {
      * Hook function to extend the course settings navigation.
      */
     public function extend_navigation_course($parentnode, $course, $context) {
-        if ((get_config('local_metadata', 'coursemetadataenabled') == 1) &&
+        if ((get_config('metadatacontext_course', 'metadataenabled') == 1) &&
             has_capability('moodle/course:create', $context)) {
-            $strmetadata = get_string('coursemetadata', 'local_metadata');
+            $strmetadata = get_string('metadatatitle', 'metadatacontext_course');
             $url = new \moodle_url('/local/metadata/index.php',
                 ['id' => $course->id, 'action' => 'coursedata', 'contextlevel' => CONTEXT_COURSE]);
             $metadatanode = \navigation_node::create($strmetadata, $url, \navigation_node::NODETYPE_LEAF,

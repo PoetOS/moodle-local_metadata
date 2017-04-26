@@ -27,4 +27,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['metadatatitle'] = 'Group metadata';
+$string['metadatadisabled'] = 'Metadata for groups is currently disabled.';
+$string['metadataenabled'] = 'Use metadata for groups';
 $string['pluginname'] = 'Group metadata context';

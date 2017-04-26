@@ -27,4 +27,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['metadatatitle'] = 'Course metadata';
+$string['metadatadisabled'] = 'Metadata for courses is currently disabled.';
+$string['metadataenabled'] = 'Use metadata for courses';
 $string['pluginname'] = 'Course metadata context';

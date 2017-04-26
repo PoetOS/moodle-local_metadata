@@ -42,8 +42,8 @@ class renderer extends \local_metadata\output\renderer {
      */
     public function render_category_table(\local_metadata\output\category_table $categorytable) {
         $output = parent::render_category_table($categorytable);
-        if (get_config('local_metadata', 'categorymetadataenabled') == 0) {
-            $output = $this->notification(get_string('categorymetadatadisabled', 'local_metadata')) . $output;
+        if (get_config('metadatacontext_category', 'metadataenabled') == 0) {
+            $output = $this->notification(get_string('metadatadisabled', 'metadatacontext_category')) . $output;
         }
         return $output;
     }
@@ -56,10 +56,10 @@ class renderer extends \local_metadata\output\renderer {
     public function render_manage_data(manage_data $categorysettings) {
         global $PAGE;
 
-        $PAGE->set_title($categorysettings->instance->name . ': ' . get_string('categorymetadata', 'local_metadata'));
+        $PAGE->set_title($categorysettings->instance->name . ': ' . get_string('metadatatitle', 'metadatacontext_category'));
         $output = '';
         $output .= $this->header();
-        $output .= $this->heading(get_string('categorymetadata', 'local_metadata'));
+        $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_category'));
         if ($categorysettings->saved) {
             $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
         }

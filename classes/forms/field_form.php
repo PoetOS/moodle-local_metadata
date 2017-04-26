@@ -47,7 +47,7 @@ class field_form extends moodleform {
 
         // Everything else is dependant on the data type.
         $datatype = $this->_customdata['datatype'];
-        $newfield = "\\local_metadata\\metadata\\{$datatype}\\define";
+        $newfield = "\\metadatafieldtype_{$datatype}\\define";
         $this->field = new $newfield($this->_customdata['contextlevel']);
 
         // Add some extra hidden fields.

@@ -105,7 +105,7 @@ class context_handler extends \local_metadata\context\context_handler {
     public function add_settings_to_context_menu($navmenu) {
         // Add the settings page to the activity modules settings menu, if enabled.
         $navmenu->add('modsettings',
-            new \admin_externalpage('modules_metadata', get_string('modulemetadata', 'local_metadata'),
+            new \admin_externalpage('metadatacontext_modules', get_string('metadatatitle', 'metadatacontext_module'),
                 new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_MODULE]), ['moodle/site:config']),
             'managemodulescommon');
         return true;
@@ -120,11 +120,11 @@ class context_handler extends \local_metadata\context\context_handler {
         if ($context->contextlevel == CONTEXT_MODULE) {
             // Only add this settings item on non-site course pages.
             if ($PAGE->course && ($PAGE->course->id != 1) &&
-                (get_config('local_metadata', 'modulemetadataenabled') == 1) &&
+                (get_config('metadatacontext_module', 'metadataenabled') == 1) &&
                 has_capability('moodle/course:manageactivities', $context)) {
 
                 if ($settingnode = $settingsnav->find('modulesettings', \settings_navigation::TYPE_SETTING)) {
-                    $strmetadata = get_string('modulemetadata', 'local_metadata');
+                    $strmetadata = get_string('metadatatitle', 'metadatacontext_module');
                     $url = new \moodle_url('/local/metadata/index.php',
                         ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
                     $metadatanode = \navigation_node::create(

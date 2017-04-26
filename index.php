@@ -41,7 +41,7 @@ $contextname = $LOCALMETADATACONTEXTS[$contextlevel];
 if ($action == $contextname.'data') {
     require_login();
 } else {
-    admin_externalpage_setup('metadata'.$contextname);
+    admin_externalpage_setup('metadatacontext_'.$contextname);
 }
 
 // Do we have any actions to perform before printing the header.

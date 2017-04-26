@@ -90,7 +90,7 @@ class context_handler extends \local_metadata\context\context_handler {
      */
     public function add_settings_to_context_menu($navmenu) {
         // Add the settings page to the user setttings menu.
-        $navmenu->add('users', new \admin_externalpage('users_metadata', get_string('usermetadata', 'local_metadata'),
+        $navmenu->add('users', new \admin_externalpage('metadatacontext_users', get_string('metadatatitle', 'metadatacontext_user'),
                 new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_USER]), ['moodle/site:config']));
         return true;
     }
@@ -99,7 +99,7 @@ class context_handler extends \local_metadata\context\context_handler {
      * Hook function that is called when user profile page is being built.
      */
     public function myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
-        if (get_config('local_metadata', 'usermetadataenabled') == 1) {
+        if (get_config('metadatacontext_user', 'metadataenabled') == 1) {
             $content = local_metadata_display_fields($user->id, CONTEXT_USER, true);
             $node = new \core_user\output\myprofile\node('contact', 'metadata',
                 get_string('metadata', 'local_metadata'), null, null, $content);
@@ -119,10 +119,10 @@ class context_handler extends \local_metadata\context\context_handler {
     public function extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
         global $USER, $SITE;
 
-        if ((get_config('local_metadata', 'usermetadataenabled') == 1) &&
+        if ((get_config('metadatacontext_user', 'metadataenabled') == 1) &&
             (($USER->id == $user->id) || has_capability('moodle/user:editprofile', $usercontext))) {
 
-            $strmetadata = get_string('usermetadata', 'local_metadata');
+            $strmetadata = get_string('metadatatitle', 'metadatacontext_user');
             $url = new \moodle_url('/local/metadata/index.php',
                 ['id' => $user->id, 'action' => 'userdata', 'contextlevel' => CONTEXT_USER]);
             $metadatanode = \navigation_node::create($strmetadata, $url, \navigation_node::NODETYPE_LEAF,

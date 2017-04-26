@@ -42,8 +42,8 @@ class renderer extends \local_metadata\output\renderer {
      */
     public function render_category_table(\local_metadata\output\category_table $categorytable) {
         $output = parent::render_category_table($categorytable);
-        if (get_config('local_metadata', 'usermetadataenabled') == 0) {
-            $output = $this->notification(get_string('usermetadatadisabled', 'local_metadata')) . $output;
+        if (get_config('metadatacontext_user', 'metadataenabled') == 0) {
+            $output = $this->notification(get_string('metadatadisabled', 'metadatacontext_user')) . $output;
         }
         return $output;
     }
@@ -56,10 +56,10 @@ class renderer extends \local_metadata\output\renderer {
     public function render_manage_data(manage_data $usersettings) {
         global $PAGE;
 
-        $PAGE->set_title(get_string('usermetadata', 'local_metadata'));
+        $PAGE->set_title(get_string('metadatatitle', 'metadatacontext_user'));
         $output = '';
         $output .= $this->header();
-        $output .= $this->heading(get_string('usermetadata', 'local_metadata'));
+        $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_user'));
         if ($usersettings->saved) {
             $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
         }

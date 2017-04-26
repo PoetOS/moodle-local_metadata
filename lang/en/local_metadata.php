@@ -23,22 +23,10 @@
 
 $string['pluginname'] = 'Metadata';
 
-$string['categorymetadatadisabled'] = 'Metadata for course categories is currently disabled.';
-$string['categorymetadataenabled'] = 'Use metadata for course categories';
-$string['cohortmetadatadisabled'] = 'Metadata for cohorts is currently disabled.';
-$string['cohortmetadataenabled'] = 'Use metadata for cohorts';
-$string['coursemetadatadisabled'] = 'Metadata for courses is currently disabled.';
-$string['coursemetadataenabled'] = 'Use metadata for courses';
-$string['groupmetadatadisabled'] = 'Metadata for groups is currently disabled.';
-$string['groupmetadataenabled'] = 'Use metadata for groups';
 $string['metadata'] = 'Metadata';
 $string['metadatafor'] = 'Instance metadata';
 $string['metadatasaved'] = 'Metadata saved.';
-$string['modulemetadatadisabled'] = 'Metadata for modules is currently disabled.';
-$string['modulemetadataenabled'] = 'Use metadata for modules';
 $string['subplugintype_metadatacontext'] = 'Data context';
 $string['subplugintype_metadatacontext_plural'] = 'Data contexts';
 $string['subplugintype_metadatafieldtype'] = 'Data field type';
 $string['subplugintype_metadatafieldtype_plural'] = 'Data field types';
-$string['usermetadatadisabled'] = 'Metadata for users is currently disabled.';
-$string['usermetadataenabled'] = 'Use metadata for users';
