@@ -13,11 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
+ * @copyright 2017 onwards Mike Churchward (mike.churchward@poetgroup.org)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 POET
  */
 
 $string['pluginname'] = 'Metadata';
@@ -40,6 +41,10 @@ $string['metadatasaved'] = 'Metadata saved.';
 $string['modulemetadata'] = 'Module metadata';
 $string['modulemetadatadisabled'] = 'Metadata for modules is currently disabled.';
 $string['modulemetadataenabled'] = 'Use metadata for modules';
+$string['subplugintype_metadatacontext'] = 'Data context';
+$string['subplugintype_metadatacontext_plural'] = 'Data contexts';
+$string['subplugintype_metadatafieldtype'] = 'Data field type';
+$string['subplugintype_metadatafieldtype_plural'] = 'Data field types';
 $string['usermetadata'] = 'User metadata';
 $string['usermetadatadisabled'] = 'Metadata for users is currently disabled.';
 $string['usermetadataenabled'] = 'Use metadata for users';
