@@ -95,11 +95,13 @@ class context_handler extends \local_metadata\context\context_handler {
 
         if (method_exists($navmenu, 'find') && $navmenu->find('groups', \settings_navigation::TYPE_SETTING)) {
             // Add the settings page to the groups settings menu, if enabled.
-            $navmenu->add('groups', new \admin_externalpage('group_metadata', get_string('groupmetadata', 'local_metadata'),
+            $navmenu->add('groups', new \admin_externalpage('metadatacontext_groups',
+                get_string('metadatatitle', 'metadatacontext_group'),
                 new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_GROUP]), ['moodle/site:config']));
         }
         // Add the settings page to the course settings menu.
-        $navmenu->add('courses', new \admin_externalpage('group_metadata', get_string('groupmetadata', 'local_metadata'),
+        $navmenu->add('courses', new \admin_externalpage('metadatacontext_groups',
+            get_string('metadatatitle', 'metadatacontext_group'),
             new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_GROUP]), ['moodle/site:config']));
         return true;
     }
@@ -111,11 +113,11 @@ class context_handler extends \local_metadata\context\context_handler {
         global $PAGE;
         if ($PAGE->pagetype == 'group-group') {
             // Context level is CONTEXT_COURSE.
-            if ((get_config('local_metadata', 'groupmetadataenabled') == 1) &&
+            if ((get_config('metadatacontext_group', 'metadataenabled') == 1) &&
                 has_capability('moodle/course:managegroups', $context)) {
 
                 if ($settingnode = $settingsnav->find('groups', \settings_navigation::TYPE_SETTING)) {
-                    $strmetadata = get_string('groupmetadata', 'local_metadata');
+                    $strmetadata = get_string('metadatatitle', 'metadatacontext_group');
                     $groupid = $PAGE->url->param('id');
                     $url = new \moodle_url('/local/metadata/index.php',
                         ['id' => $groupid, 'action' => 'groupdata', 'contextlevel' => CONTEXT_GROUP]);

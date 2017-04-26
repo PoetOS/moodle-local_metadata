@@ -27,7 +27,7 @@ namespace local_metadata\plugininfo;
 
 defined('MOODLE_INTERNAL') || die();
 
-class metdatacontext extends base {
+class metadatacontext extends \core\plugininfo\base {
     public function is_uninstall_allowed() {
         return true;
     }

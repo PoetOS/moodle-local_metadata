@@ -90,7 +90,8 @@ class context_handler extends \local_metadata\context\context_handler {
      */
     public function add_settings_to_context_menu($navmenu) {
         // Add the settings page to the course settings menu.
-        $navmenu->add('courses', new \admin_externalpage('category_metadata', get_string('categorymetadata', 'local_metadata'),
+        $navmenu->add('courses', new \admin_externalpage('metadatacontext_categories',
+            get_string('metadatatitle', 'metadatacontext_category'),
             new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COURSECAT]), ['moodle/site:config']));
         return true;
     }
@@ -103,11 +104,11 @@ class context_handler extends \local_metadata\context\context_handler {
 //        if (($context->contextlevel == CONTEXT_COURSECAT) && ($PAGE->pagetype == 'course-editcategory')) {
         if ($context->contextlevel == CONTEXT_COURSECAT) {
             // Context level is CONTEXT_COURSECAT.
-            if ((get_config('local_metadata', 'categorymetadataenabled') == 1) &&
+            if ((get_config('metadatacontext_category', 'metadataenabled') == 1) &&
                 has_capability('moodle/category:manage', $context)) {
 
                 if ($settingnode = $settingsnav->find('categorysettings', \navigation_node::TYPE_CONTAINER)) {
-                    $strmetadata = get_string('categorymetadata', 'local_metadata');
+                    $strmetadata = get_string('metadatatitle', 'metadatacontext_category');
                     $url = new \moodle_url('/local/metadata/index.php',
                         ['id' => $context->instanceid, 'action' => 'categorydata', 'contextlevel' => CONTEXT_COURSECAT]);
                     $metadatanode = \navigation_node::create(

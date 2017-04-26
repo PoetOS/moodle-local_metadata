@@ -91,7 +91,7 @@ class context_handler extends \local_metadata\context\context_handler {
     public function add_settings_to_context_menu($navmenu) {
         // Add the settings page to the cohorts settings menu, if enabled.
         $navmenu->add('accounts',
-            new \admin_externalpage('cohort_metadata', get_string('cohortmetadata', 'local_metadata'),
+            new \admin_externalpage('metadatacontext_cohorts', get_string('metadatatitle', 'metadatacontext_cohort'),
                 new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_COHORT]), ['moodle/site:config']),
             'cohorts');
         return true;
@@ -105,11 +105,11 @@ class context_handler extends \local_metadata\context\context_handler {
 
         if ($PAGE->pagetype == 'cohort-edit') {
             // Context level is CONTEXT_SYSTEM.
-            if ((get_config('local_metadata', 'cohortmetadataenabled') == 1) &&
+            if ((get_config('metadatacontext_cohort', 'metadataenabled') == 1) &&
                 has_capability('moodle/cohort:manage', $context)) {
 
                 if ($settingnode = $settingsnav->find('cohorts', \settings_navigation::TYPE_SETTING)) {
-                    $strmetadata = get_string('cohortmetadata', 'local_metadata');
+                    $strmetadata = get_string('metadatatitle', 'metadatacontext_cohort');
                     $cohortid = $PAGE->url->param('id');
                     $url = new \moodle_url('/local/metadata/index.php',
                         ['id' => $cohortid, 'action' => 'cohortdata', 'contextlevel' => CONTEXT_COHORT]);

@@ -42,8 +42,8 @@ class renderer extends \local_metadata\output\renderer {
      */
     public function render_category_table(\local_metadata\output\category_table $categorytable) {
         $output = parent::render_category_table($categorytable);
-        if (get_config('local_metadata', 'groupmetadataenabled') == 0) {
-            $output = $this->notification(get_string('groupmetadatadisabled', 'local_metadata')) . $output;
+        if (get_config('metadatacontext_group', 'metadataenabled') == 0) {
+            $output = $this->notification(get_string('metadatadisabled', 'metadatacontext_group')) . $output;
         }
         return $output;
     }
@@ -56,10 +56,10 @@ class renderer extends \local_metadata\output\renderer {
     public function render_manage_data(manage_data $groupsettings) {
         global $PAGE;
 
-        $PAGE->set_title(get_string('groupmetadata', 'local_metadata'));
+        $PAGE->set_title(get_string('metadatatitle', 'metadatacontext_group'));
         $output = '';
         $output .= $this->header();
-        $output .= $this->heading(get_string('groupmetadata', 'local_metadata'));
+        $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_group'));
         if ($groupsettings->saved) {
             $output .= $this->notification(get_string('metadatasaved', 'local_metadata'), 'success');
         }
