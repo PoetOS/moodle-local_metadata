@@ -37,7 +37,7 @@ abstract class context_handler {
 
     public $instanceid;
     protected $instance;
-    public $contextlevel;
+    protected $contextlevel;
     protected $context;
 
     /**
@@ -57,25 +57,17 @@ abstract class context_handler {
     abstract public function get_instance();
 
     /**
-     * Return a Moodle page layout. Defaults to "admin".
-     * @return string The layout name.
-     */
-    public function get_layout() {
-        return 'admin';
-    }
-
-    /**
      * Return the instance of the context. Must be handled by the implementing class.
      * @return object The Moodle context.
      */
     abstract public function get_context();
 
     /**
-     * Return the instance of the context. Defaults to the home page.
-     * @return object The Moodle redirect URL.
+     * Return the context level. Must be set by the implementing class in the constructor.
+     * @return int The metadata context level.
      */
-    public function get_redirect() {
-        return new \moodle_url('/');
+    public function get_contextlevel() {
+        return $this->contextlevel;
     }
 
     /**
@@ -86,15 +78,31 @@ abstract class context_handler {
     abstract public function require_access();
 
     /**
+     * Return a Moodle page layout. Defaults to "admin".
+     * @return string The layout name.
+     */
+    public function get_layout() {
+        return 'admin';
+    }
+
+    /**
+     * Return the instance of the context. Defaults to the home page.
+     * @return object The Moodle redirect URL.
+     */
+    public function get_redirect() {
+        return new \moodle_url('/');
+    }
+
+    /**
      * Magic method for getting properties.
      * @param string $name
      * @return mixed
      * @throws \coding_exception
      */
     public function __get($name) {
-        $allowed = ['instance', 'context'];
+        $allowed = ['instance', 'contextlevel', 'context'];
         if (in_array($name, $allowed)) {
-            return $this->{'get_'.$name};
+            return $this->{'get_'.$name}();
         } else {
             throw new \coding_exception($name.' is not a publicly accessible property of '.get_class($this));
         }

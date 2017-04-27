@@ -232,24 +232,15 @@ function local_metadata_move_category($id, $move) {
 
 /**
  * Retrieve a list of all the available data types
- * TODO - Replace this with subplugins function.
  * @return   array   a list of the datatypes suitable to use in a select statement
  */
 function local_metadata_list_datatypes() {
-    global $CFG;
-
     $datatypes = [];
-    $path = $CFG->dirroot.'/local/metadata/fieldtype/';
-    $thisdir = new \DirectoryIterator($path);
-    foreach ($thisdir as $dir) {
-        if ($dir->isDir()) {
-            $name = $dir->getFilename();
-            if (($name != '.') && ($name != '..')) {
-                $classname = "\\metadatafieldtype_{$name}\\metadata";
-                $newdatatype = new $classname();
-                $datatypes[$name] = $newdatatype->name;
-            }
-        }
+    $fieldtypeplugins = core_component::get_plugin_list('metadatafieldtype');
+    foreach ($fieldtypeplugins as $fieldtypename => $fieldtypelocation) {
+        $classname = "\\metadatafieldtype_{$fieldtypename}\\metadata";
+        $newdatatype = new $classname();
+        $datatypes[$fieldtypename] = $newdatatype->name;
     }
     asort($datatypes);
 

@@ -21,25 +21,6 @@
  * @copyright 2016 POET
  */
 
-// Group context was dropped between 1.8 and 1.9. Use the old definition here.
-define('CONTEXT_GROUP', 60);
-
-// Cohort context has never existed. Define it here using the '9000' category.
-define('CONTEXT_COHORT', 9000);
-
-// TODO - Replace this with subplugins API.
-// Current contexts available. Woud be better handled in a main class and subplugin structure.
-global $LOCALMETADATACONTEXTS;
-$LOCALMETADATACONTEXTS = [
-    CONTEXT_USER => 'user',
-    CONTEXT_COURSE => 'course',
-    CONTEXT_COURSECAT => 'category',
-    CONTEXT_MODULE => 'module',
-    CONTEXT_GROUP => 'group',
-    CONTEXT_COHORT => 'cohort',
-];
-
-
 function local_metadata_supports($feature) {
     switch($feature) {
         case FEATURE_BACKUP_MOODLE2:
@@ -338,6 +319,33 @@ function local_metadata_has_required_custom_fields_set($instanceid, $contextleve
 }
 
 /**
+ * Returns the contextlevel defined for the specified context plugin name.
+ *
+ * @param int $contextlevel The context level to look for.
+ * @return string The name of the located context.
+ */
+function local_metadata_get_contextname($contextlevel) {
+    static $contextnames = []; // Cache for located contexts.
+
+    $returnname = '';
+    if (isset($contextnames[$contextlevel])) {
+        $returnname = $contextnames[$contextlevel];
+    } else {
+        $contextplugins = core_component::get_plugin_list('metadatacontext');
+        foreach ($contextplugins as $contextname => $contextlocation) {
+            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
+            $contexthandler = new $contextclass();
+            if ($contexthandler->contextlevel == $contextlevel) {
+                $contextnames[$contextlevel] = $contextname;
+                $returnname = $contextname;
+                break;
+            }
+        }
+    }
+    return $returnname;
+}
+
+/**
  * Implements callback inplace_editable() allowing to edit values in-place
  *
  * @param string $itemtype
@@ -356,11 +364,9 @@ function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
  * Hook function that is called when settings blocks are being built. Call all context functions
  */
 function local_metadata_extend_settings_navigation($settingsnav, $context) {
-    global $CFG, $LOCALMETADATACONTEXTS;
-
-    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
+    $contextplugins = core_component::get_plugin_list('metadatacontext');
+    foreach ($contextplugins as $contextname => $contextlocation) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) && file_exists($contextlocation)) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_settings_navigation($settingsnav, $context);
@@ -372,11 +378,9 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
  * Hook function that is called when user profile page is being built. Call all context functions
  */
 function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
-    global $CFG, $LOCALMETADATACONTEXTS;
-
-    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
+    $contextplugins = core_component::get_plugin_list('metadatacontext');
+    foreach ($contextplugins as $contextname => $contextlocation) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) && file_exists($contextlocation)) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->myprofile_navigation($tree, $user, $iscurrentuser, $course);
@@ -388,11 +392,9 @@ function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $t
  * Hook function to extend the course settings navigation. Call all context functions
  */
 function local_metadata_extend_navigation_course($parentnode, $course, $context) {
-    global $CFG, $LOCALMETADATACONTEXTS;
-
-    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
+    $contextplugins = core_component::get_plugin_list('metadatacontext');
+    foreach ($contextplugins as $contextname => $contextlocation) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) && file_exists($contextlocation)) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_navigation_course($parentnode, $course, $context);
@@ -410,11 +412,9 @@ function local_metadata_extend_navigation_course($parentnode, $course, $context)
  * @param context         $coursecontext     The context of the course
  */
 function local_metadata_extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
-    global $CFG, $LOCALMETADATACONTEXTS;
-
-    foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
+    $contextplugins = core_component::get_plugin_list('metadatacontext');
+    foreach ($contextplugins as $contextname => $contextlocation) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) && file_exists($contextlocation)) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext);
