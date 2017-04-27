@@ -56,7 +56,7 @@ class manage_data implements \renderable {
                     // Display the header and the fields.
                     $this->data[$category->id]['categoryname'] = format_string($category->name);
                     foreach ($fields as $field) {
-                        $newfield = "\\local_metadata\\metadata\\{$field->datatype}\\metadata";
+                        $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
                         $this->data[$category->id][$field->id] = new $newfield($field->id, $this->instance->id);
                     }
                 }

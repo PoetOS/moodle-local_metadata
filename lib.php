@@ -359,8 +359,8 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
     global $CFG, $LOCALMETADATACONTEXTS;
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_settings_navigation($settingsnav, $context);
@@ -375,8 +375,8 @@ function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $t
     global $CFG, $LOCALMETADATACONTEXTS;
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->myprofile_navigation($tree, $user, $iscurrentuser, $course);
@@ -391,8 +391,8 @@ function local_metadata_extend_navigation_course($parentnode, $course, $context)
     global $CFG, $LOCALMETADATACONTEXTS;
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_navigation_course($parentnode, $course, $context);
@@ -413,8 +413,8 @@ function local_metadata_extend_navigation_user_settings($navigation, $user, $use
     global $CFG, $LOCALMETADATACONTEXTS;
 
     foreach ($LOCALMETADATACONTEXTS as $contextlevel => $contextname) {
-        if ((get_config('local_metadata', $contextname.'metadataenabled') == 1) &&
-            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'classes/output/')) {
+        if ((get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1) &&
+            file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname.'/classes/output/')) {
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass();
             $contexthandler->extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext);

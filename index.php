@@ -138,8 +138,8 @@ switch ($action) {
 
             // Add the metadata to the object.
             local_metadata_load_data($instance, $contextlevel);
-            $dataclass = "\\metadatacontext_{$contextname}\\manage_data";
-            $formclass = "\\metadatacontext_{$contextname}\\manage_data_form";
+            $dataclass = "\\metadatacontext_{$contextname}\\output\\manage_data";
+            $formclass = "\\metadatacontext_{$contextname}\\output\\manage_data_form";
             $dataoutput = new $dataclass($instance, $contextlevel, $action);
             $dataform = new $formclass(null, $dataoutput);
             $dataoutput->add_form($dataform);
