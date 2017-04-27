@@ -33,7 +33,19 @@ namespace metadatacontext_group;
 
 defined('MOODLE_INTERNAL') || die;
 
+// Group context was dropped between 1.8 and 1.9. Use the old definition here.
+define('CONTEXT_GROUP', 60);
+
 class context_handler extends \local_metadata\context\context_handler {
+
+    /**
+     * Constructor.
+     * @param int $instanceid The instance of the context in question.
+     * @param int $contextlevel The context level for this metadata.
+     */
+    public function __construct($instanceid = null, $contextlevel = null) {
+        return parent::__construct($instanceid, CONTEXT_GROUP);
+    }
 
     /**
      * Return the instance of the context. Must be handled by the implementing class.

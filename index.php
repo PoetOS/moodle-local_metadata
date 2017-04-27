@@ -36,7 +36,7 @@ $strdefaultcategory = get_string('profiledefaultcategory', 'admin');
 $strnofields        = get_string('profilenofieldsdefined', 'admin');
 $strcreatefield     = get_string('profilecreatefield', 'admin');
 
-$contextname = $LOCALMETADATACONTEXTS[$contextlevel];
+$contextname = local_metadata_get_contextname($contextlevel);
 
 if ($action == $contextname.'data') {
     require_login();
@@ -116,8 +116,8 @@ switch ($action) {
         break;
 
     default:
-        // TODO - Use a Moodle subtypes API to determine validity.
-        if (($action == $contextname.'data') && file_exists($CFG->dirroot.'/local/metadata/context/'.$contextname)) {
+        $contextplugins = core_component::get_plugin_list('metadatacontext');
+        if (($action == $contextname.'data') && isset($contextplugins[$contextname])) {
             $instanceid = required_param('id', PARAM_INT);
             $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
             $contexthandler = new $contextclass($instanceid);

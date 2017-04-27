@@ -36,6 +36,15 @@ defined('MOODLE_INTERNAL') || die;
 class context_handler extends \local_metadata\context\context_handler {
 
     /**
+     * Constructor.
+     * @param int $instanceid The instance of the context in question.
+     * @param int $contextlevel The context level for this metadata.
+     */
+    public function __construct($instanceid = null, $contextlevel = null) {
+        return parent::__construct($instanceid, CONTEXT_COURSECAT);
+    }
+
+    /**
      * Return the instance of the context. Must be handled by the implementing class.
      * @return object The Moodle data record for the instance.
      */

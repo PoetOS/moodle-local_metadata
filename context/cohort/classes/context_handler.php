@@ -33,7 +33,19 @@ namespace metadatacontext_cohort;
 
 defined('MOODLE_INTERNAL') || die;
 
+// Cohort context has never existed. Define it here using the '9000' category.
+define('CONTEXT_COHORT', 9000);
+
 class context_handler extends \local_metadata\context\context_handler {
+
+    /**
+     * Constructor.
+     * @param int $instanceid The instance of the context in question.
+     * @param int $contextlevel The context level for this metadata.
+     */
+    public function __construct($instanceid = null, $contextlevel = null) {
+        return parent::__construct($instanceid, CONTEXT_COHORT);
+    }
 
     /**
      * Return the instance of the context. Must be handled by the implementing class.
