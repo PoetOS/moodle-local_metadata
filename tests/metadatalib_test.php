@@ -36,7 +36,7 @@ global $CFG;
 /**
  * @group local_metadata
  */
-class local_metadata_testcase extends advanced_testcase {
+class local_metadatalib_testcase extends advanced_testcase {
     /**
      * Tests profile_get_custom_fields function and checks it is consistent
      * with profile_user_record.
