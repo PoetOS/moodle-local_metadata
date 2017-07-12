@@ -92,7 +92,7 @@ class local_metadatalib_testcase extends advanced_testcase {
      * Make sure that all profile fields can be initialised without arguments.
      */
     public function test_default_constructor() {
-        global $DB, $CFG;
+        global $CFG;
         require_once($CFG->dirroot . '/local/metadata/definelib.php');
         $datatypes = local_metadata_list_datatypes();
         foreach ($datatypes as $datatype => $datatypename) {

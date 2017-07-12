@@ -21,6 +21,8 @@
  * @copyright 2016 POET
  */
 
+defined('MOODLE_INTERNAL') || die;
+
 $observers = [
     ['eventname' => '\core\event\course_deleted',
      'callback' => '\local_metadata\observer::course_deleted'

@@ -103,8 +103,6 @@ class context_handler extends \local_metadata\context\context_handler {
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
      */
     public function add_settings_to_context_menu($navmenu) {
-        global $PAGE;
-
         if (method_exists($navmenu, 'find') && $navmenu->find('groups', \settings_navigation::TYPE_SETTING)) {
             // Add the settings page to the groups settings menu, if enabled.
             $navmenu->add('groups', new \admin_externalpage('metadatacontext_groups',

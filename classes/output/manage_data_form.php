@@ -31,11 +31,11 @@
 
 namespace local_metadata\output;
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir . '/formslib.php');
 
 use moodleform;
-
-defined('MOODLE_INTERNAL') || die();
 
 class manage_data_form extends moodleform {
 

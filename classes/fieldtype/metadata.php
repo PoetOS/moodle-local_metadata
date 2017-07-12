@@ -31,6 +31,8 @@
 
 namespace local_metadata\fieldtype;
 
+defined('MOODLE_INTERNAL') || die;
+
 class metadata {
 
     // These 2 variables are really what we're interested in.

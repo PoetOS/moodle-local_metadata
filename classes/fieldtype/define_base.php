@@ -31,6 +31,8 @@
 
 namespace local_metadata\fieldtype;
 
+defined('MOODLE_INTERNAL') || die;
+
 class define_base {
 
     /** @var int */

@@ -21,6 +21,8 @@
  * @copyright 2016 POET
  */
 
+defined('MOODLE_INTERNAL') || die;
+
 /**
  * Base class for the customisable metadata fields.
  *

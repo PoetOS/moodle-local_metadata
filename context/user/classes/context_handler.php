@@ -126,7 +126,7 @@ class context_handler extends \local_metadata\context\context_handler {
      * @param context         $coursecontext     The context of the course
      */
     public function extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
-        global $USER, $SITE;
+        global $USER;
 
         if ((get_config('metadatacontext_user', 'metadataenabled') == 1) &&
             (($USER->id == $user->id) || has_capability('moodle/user:editprofile', $usercontext))) {

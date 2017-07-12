@@ -26,8 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2016102400; // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2017070101;
+$plugin->release   = 'BETA3.3.1 (Build 2017071200)';
+$plugin->maturity  = MATURITY_BETA;
 $plugin->requires  = 2016052300; // Requires this Moodle version.
-$plugin->component = 'metadatafieldtype_text'; // Full name of the plugin (used for diagnostics)
-$plugin->release   = 'Alpha3.2.0 (Build - 2017042500)';
-$plugin->maturity  = MATURITY_ALPHA;
+$plugin->component = 'metadatafieldtype_text'; // Full name of the plugin (used for diagnostics).
