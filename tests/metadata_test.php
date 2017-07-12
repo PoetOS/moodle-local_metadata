@@ -43,7 +43,7 @@ class local_metadata_testcase extends advanced_testcase {
      */
     protected function setUp() {
         parent::setUp();
-        $this->metadata = new \local_metadata\metadata\metadata();
+        $this->metadata = new local_metadata\fieldtype\metadata();
     }
 
     /**

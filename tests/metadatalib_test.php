@@ -96,7 +96,7 @@ class local_metadatalib_testcase extends advanced_testcase {
         require_once($CFG->dirroot . '/local/metadata/definelib.php');
         $datatypes = local_metadata_list_datatypes();
         foreach ($datatypes as $datatype => $datatypename) {
-            $classname = "\\local_metadata\\metadata\\{$datatype}\\metadata";
+            $classname = "metadatafieldtype_{$datatype}\\metadata";
             $newdatatype = new $classname();
             $this->assertNotNull($newdatatype);
         }
