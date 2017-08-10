@@ -117,10 +117,9 @@ switch ($action) {
 
     default:
         $contextplugins = core_component::get_plugin_list('metadatacontext');
-        if (($action == $contextname.'data') && isset($contextplugins[$contextname])) {
+        if ($action == $contextname.'data') {
             $instanceid = required_param('id', PARAM_INT);
-            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
-            $contexthandler = new $contextclass($instanceid);
+            $contexthandler = \local_metadata\context\context_handler::factory($contextname, $instanceid);
 
             $instance = $contexthandler->get_instance();
             $layout = $contexthandler->get_layout();

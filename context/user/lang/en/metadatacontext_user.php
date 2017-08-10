@@ -26,6 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$string['contextname'] = 'user';
+$string['contexttitle'] = 'User';
 $string['metadatatitle'] = 'User metadata';
 $string['metadatadisabled'] = 'Metadata for users is currently disabled.';
 $string['metadataenabled'] = 'Use metadata for users';

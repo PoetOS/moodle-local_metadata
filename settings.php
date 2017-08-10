@@ -43,8 +43,7 @@ if ($hassiteconfig) {
 
     // Create a new external settings page for each metadata context type data definitions.
     foreach ($contextplugins as $contextname => $contextlocation) {
-        $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
-        $contexthandler = new $contextclass();
+        $contexthandler = \local_metadata\context\context_handler::factory($contextname);
         $ADMIN->add('metadatafolder',
             new admin_externalpage('metadatacontext_'.$contextname, get_string('metadatatitle', 'metadatacontext_'.$contextname),
                 new moodle_url('/local/metadata/index.php', ['contextlevel' => $contexthandler->contextlevel]),

@@ -37,6 +37,7 @@ abstract class context_handler {
 
     public $instanceid;
     protected $instance;
+    protected $contextname;
     protected $contextlevel;
     protected $context;
 
@@ -44,10 +45,79 @@ abstract class context_handler {
      * Constructor.
      * @param int $instanceid The instance of the context in question.
      * @param int $contextlevel The context level for this metadata.
+     * @param int $contextname The name of this context (must be static - no language string).
      */
-    public function __construct($instanceid = null, $contextlevel = null) {
+    public function __construct($instanceid = null, $contextlevel = null, $contextname = '') {
         $this->instanceid = $instanceid;
         $this->contextlevel = $contextlevel;
+        $this->contextname = $contextname;
+    }
+
+    /**
+     * Factory function to return a context object.
+     * @param string $contextname The name of a valid subplugin context.
+     * @param int $instanceid The instance of the context in question.
+     * @param int $contextlevel The context level for this metadata.
+     * @return object The object for the specified context subplugin.
+     */
+    static public function factory($contextname, $instanceid = null, $contextlevel = null) {
+        // Since get_plugin_list already caches the list, don't worry about multiple calls.
+        $contextplugins = \core_component::get_plugin_list('metadatacontext');
+        if (isset($contextplugins[$contextname])) {
+            $contextclass = "\\metadatacontext_{$contextname}\\context_handler";
+            return new $contextclass($instanceid, $contextlevel);
+        } else {
+            throw new \moodle_exception('errorcontextnotfound', 'local_metadata', null, ['contextname' => $contextname]);
+        }
+    }
+
+    /**
+     * Return context subplugin enabled status.
+     * @param string $contextname The name of a valid subplugin context.
+     * @return boolean Enabled status.
+     */
+    static public function is_enabled($contextname) {
+        return get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1;
+    }
+
+    /**
+     * Return an array of subplugin names for all subplugins.
+     * @return array Names of all subplugins.
+     */
+    static public function all_subplugin_names() {
+        $pluginnames = [];
+        $contextplugins = \core_component::get_plugin_list('metadatacontext');
+        foreach ($contextplugins as $contextname => $contextlocation) {
+            $pluginnames[] = $contextname;
+        }
+        return $pluginnames;
+    }
+
+    /**
+     * Return an array of empty subplugin objects for all subplugins.
+     * @return array Objects for all subplugins.
+     */
+    static public function all_subplugins() {
+        $plugins = [];
+        $pluginnames = self::all_subplugin_names();
+        foreach ($pluginnames as $contextname) {
+            $plugins[] = self::factory($contextname);
+        }
+        return $plugins;
+    }
+
+    /**
+     * Return an array of empty subplugin objects for all enabled subplugins.
+     * @return array Objects for all enabled subplugins.
+     */
+    static public function all_enabled_subplugins() {
+        $plugins = self::all_subplugins();
+        foreach ($plugins as $index => $contexthandler) {
+            if (!self::is_enabled($contexthandler->contextname)) {
+                unset($plugins[$index]);
+            }
+        }
+        return $plugins;
     }
 
     /**
@@ -63,11 +133,19 @@ abstract class context_handler {
     abstract public function get_context();
 
     /**
-     * Return the context level. Must be set by the implementing class in the constructor.
+     * Return the context level.
      * @return int The metadata context level.
      */
     public function get_contextlevel() {
         return $this->contextlevel;
+    }
+
+    /**
+     * Return the context name.
+     * @return int The metadata context level.
+     */
+    public function get_contextname() {
+        return $this->contextname;
     }
 
     /**
@@ -100,7 +178,7 @@ abstract class context_handler {
      * @throws \coding_exception
      */
     public function __get($name) {
-        $allowed = ['instance', 'contextlevel', 'context'];
+        $allowed = ['instance', 'contextlevel', 'context', 'contextname'];
         if (in_array($name, $allowed)) {
             return $this->{'get_'.$name}();
         } else {

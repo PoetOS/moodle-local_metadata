@@ -18,12 +18,12 @@
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetgroup.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 POET
+ * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)
  */
 
 defined('MOODLE_INTERNAL') || die;
-$plugin->version   = 2017070101;
-$plugin->release   = 'BETA3.3.1 (Build 2017071200)';
+$plugin->version   = 2017070102;
+$plugin->release   = 'BETA3.3.2 (Build 2017071200)';
 $plugin->maturity  = MATURITY_BETA;
 $plugin->requires  = 2016052300; // Moodle 3.1 release and upwards.
 $plugin->component = 'local_metadata';

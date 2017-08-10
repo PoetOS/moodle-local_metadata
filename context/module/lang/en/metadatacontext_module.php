@@ -26,6 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$string['contextname'] = 'module';
+$string['contexttitle'] = 'Module';
 $string['metadatatitle'] = 'Module metadata';
 $string['metadatadisabled'] = 'Metadata for modules is currently disabled.';
 $string['metadataenabled'] = 'Use metadata for modules';

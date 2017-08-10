@@ -42,9 +42,10 @@ class context_handler extends \local_metadata\context\context_handler {
      * Constructor.
      * @param int $instanceid The instance of the context in question.
      * @param int $contextlevel The context level for this metadata.
+     * @param int $contextname The name of this context (must be static - no language string).
      */
-    public function __construct($instanceid = null, $contextlevel = null) {
-        return parent::__construct($instanceid, CONTEXT_COHORT);
+    public function __construct($instanceid = null, $contextlevel = null, $contextname = '') {
+        return parent::__construct($instanceid, CONTEXT_COHORT, 'cohort');
     }
 
     /**

@@ -26,6 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$string['contextname'] = 'cohort';
+$string['contexttitle'] = 'Cohort';
 $string['metadatatitle'] = 'Cohort metadata';
 $string['metadatadisabled'] = 'Metadata for cohorts is currently disabled.';
 $string['metadataenabled'] = 'Use metadata for cohorts';
