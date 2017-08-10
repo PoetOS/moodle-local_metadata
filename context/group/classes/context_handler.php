@@ -80,6 +80,19 @@ class context_handler extends \local_metadata\context\context_handler {
     }
 
     /**
+     * Return the instance id of the currently accessed context. Used by page displays (filter). Must be handled by the implementing
+     * class.
+     * @return int|boolean Instance id or false if not determined.
+     */
+    public function get_instanceid_from_currentcontext() {
+        if (empty($this->instanceid)) {
+            debugging('Must provide a group id.');
+            $this->instanceid = false;
+        }
+        return $this->instanceid;
+    }
+
+    /**
      * Return the instance of the context. Defaults to the home page.
      * @return object The Moodle redirect URL.
      */

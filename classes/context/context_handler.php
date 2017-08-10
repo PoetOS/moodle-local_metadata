@@ -121,6 +121,22 @@ abstract class context_handler {
     }
 
     /**
+     * Find the instance of the context type from the most appropriate Moodle context.
+     * @var string $contextname The name of the context type.
+     * @return int|boolean The instance id determined; false if not found.
+     */
+    static public function find_instanceid($contextname) {
+        try {
+            $contexthandler = self::factory($contextname);
+            $instanceid = $contexthandler->get_instanceid_from_currentcontext();
+        } catch (\moodle_exception $e) {
+            debugging('Exception detected when using metadata filter: ' . $e->getMessage(), DEBUG_NORMAL, $e->getTrace());
+            $instanceid = false;
+        }
+        return $instanceid;
+    }
+
+    /**
      * Return the instance of the context. Must be handled by the implementing class.
      * @return object The Moodle data record for the instance.
      */
@@ -131,6 +147,13 @@ abstract class context_handler {
      * @return object The Moodle context.
      */
     abstract public function get_context();
+
+    /**
+     * Return the instance id of the currently accessed context. Used by page displays (filter). Must be handled by the implementing
+     * class.
+     * @return int|boolean Instance id or false if not determined.
+     */
+    abstract public function get_instanceid_from_currentcontext();
 
     /**
      * Return the context level.
