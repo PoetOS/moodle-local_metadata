@@ -121,7 +121,7 @@ abstract class context_handler {
     }
 
     /**
-     * Find the instance of the context type from the most appropriate Moodle context.
+     * Find the instance id of the context type from the most appropriate Moodle context.
      * @var string $contextname The name of the context type.
      * @return int|boolean The instance id determined; false if not found.
      */

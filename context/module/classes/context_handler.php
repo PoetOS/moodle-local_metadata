@@ -96,9 +96,13 @@ class context_handler extends \local_metadata\context\context_handler {
      * @return int|boolean Instance id or false if not determined.
      */
     public function get_instanceid_from_currentcontext() {
+        global $PAGE;
         if (empty($this->instanceid)) {
-            debugging('Must provide a module id.');
-            $this->instanceid = false;
+            if (isset($PAGE->cm->id)) {
+                $this->instanceid = $PAGE->cm->id;
+            } else {
+               $this->instanceid = false;
+            }
         }
         return $this->instanceid;
     }
