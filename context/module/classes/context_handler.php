@@ -101,7 +101,7 @@ class context_handler extends \local_metadata\context\context_handler {
             if (isset($PAGE->cm->id)) {
                 $this->instanceid = $PAGE->cm->id;
             } else {
-               $this->instanceid = false;
+                $this->instanceid = false;
             }
         }
         return $this->instanceid;
