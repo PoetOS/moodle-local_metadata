@@ -107,8 +107,14 @@ class context_handler extends \local_metadata\context\context_handler {
      * @return boolean False if access should not be granted.
      */
     public function require_access() {
+        global $USER;
+
         require_login();
-        require_capability('moodle/user:editownprofile', $this->context);
+        if ($USER->id != $this->instanceid) {
+            require_capability('moodle/user:editprofile', $this->context);
+        } else {
+            require_capability('moodle/user:editownprofile', $this->context);
+        }
         return true;
     }
 
