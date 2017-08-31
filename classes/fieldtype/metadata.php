@@ -315,13 +315,20 @@ class metadata {
         }
 
         if (!empty($this->field)) {
-            $params = ['instanceid' => $this->instanceid, 'fieldid' => $this->fieldid];
-            if ($data = $DB->get_record('local_metadata', $params, 'data, dataformat')) {
-                $this->data = $data->data;
-                $this->dataformat = $data->dataformat;
+            if (!empty($fielddata->data)) {
+                // If the instance data is included, just add it.
+                $this->data = $fielddata->data;
+                $this->dataformat = $fielddata->dataformat;
             } else {
-                $this->data = $this->field->defaultdata;
-                $this->dataformat = FORMAT_HTML;
+                // Check for instance data and include it if present. Otherwise set to default.
+                $params = ['instanceid' => $this->instanceid, 'fieldid' => $this->fieldid];
+                if ($data = $DB->get_record('local_metadata', $params, 'data, dataformat')) {
+                    $this->data = $data->data;
+                    $this->dataformat = $data->dataformat;
+                } else {
+                    $this->data = $this->field->defaultdata;
+                    $this->dataformat = FORMAT_HTML;
+                }
             }
         } else {
             $this->data = null;

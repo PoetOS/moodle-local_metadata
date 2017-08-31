@@ -40,12 +40,17 @@ function local_metadata_supports($feature) {
 function local_metadata_load_data($instance, $contextlevel) {
     global $DB;
 
-    if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
-        foreach ($fields as $field) {
-            $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
-            $formfield = new $newfield($field->id, $instance->id, $field);
-            $formfield->edit_load_instance_data($instance);
-        }
+    $sql = 'SELECT lmf.*. lm.instanceid, lm.fieldid, lm.data, lm.dataformat ';
+    $sql .= 'FROM {local_metadata_field} lmf ';
+    $sql .= 'LEFT JOIN {local_metadata} lm ON lmf.id = lm.fieldid AND lm.instanceid = :instanceid ';
+    $sql .= 'WHERE lmf.contextlevel = :contextlevel ';
+
+//    if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
+    $fields = $DB->get_records_sql($sql, ['instanceid' => $instance->id, 'contextlevel' => $contextlevel]);
+    foreach ($fields as $field) {
+        $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
+        $formfield = new $newfield($field->id, $instance->id, $field);
+        $formfield->edit_load_instance_data($instance);
     }
 }
 
