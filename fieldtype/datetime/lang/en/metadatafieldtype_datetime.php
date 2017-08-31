@@ -27,3 +27,4 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Datetime metadata fieldtype';
+$string['displayname'] = 'Date/Time';

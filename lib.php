@@ -18,9 +18,9 @@ defined('MOODLE_INTERNAL') || die;
 
 /**
  * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetgroup.org>
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 POET
+ * @copyright 2017, onwards Poet
  */
 
 function local_metadata_supports($feature) {
@@ -34,7 +34,7 @@ function local_metadata_supports($feature) {
 }
 
 /**
- * Loads user profile field data into the user object.
+ * Loads user profile field data into the context object.
  * @param stdClass $user
  */
 function local_metadata_load_data($instance, $contextlevel) {
@@ -43,7 +43,7 @@ function local_metadata_load_data($instance, $contextlevel) {
     if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $contextlevel])) {
         foreach ($fields as $field) {
             $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
-            $formfield = new $newfield($field->id, $instance->id);
+            $formfield = new $newfield($field->id, $instance->id, $field);
             $formfield->edit_load_instance_data($instance);
         }
     }

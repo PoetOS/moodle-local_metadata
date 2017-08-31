@@ -27,3 +27,4 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Checkbox metadata fieldtype';
+$string['displayname'] = 'Checkbox';

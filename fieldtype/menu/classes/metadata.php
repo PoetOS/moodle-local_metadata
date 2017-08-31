@@ -47,10 +47,11 @@ class metadata extends \local_metadata\fieldtype\metadata {
      *
      * @param int $fieldid
      * @param int $instanceid
+     * @param object $fielddata optional data for the field object.
      */
-    public function __construct($fieldid = 0, $instanceid = 0) {
+    public function __construct($fieldid = 0, $instanceid = 0, $fielddata = null) {
         // First call parent constructor.
-        parent::__construct($fieldid, $instanceid);
+        parent::__construct($fieldid, $instanceid, $fielddata);
 
         // Param 1 for menu type is the options.
         if (isset($this->field->param1)) {
@@ -75,8 +76,8 @@ class metadata extends \local_metadata\fieldtype\metadata {
             }
         }
 
-        // Set the name for display; will need to be a language string.
-        $this->name = 'Dropdown menu';
+        // Set the name for display.
+        $this->name = get_string('displayname', 'metadatafieldtype_menu');
     }
 
     /**

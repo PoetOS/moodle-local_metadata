@@ -41,24 +41,13 @@ class metadata extends \local_metadata\fieldtype\metadata {
      *
      * @param int $fieldid
      * @param int $instanceid
+     * @param object $fielddata optional data for the field object.
      */
-    public function __construct($fieldid=0, $instanceid=0) {
-        global $DB;
+    public function __construct($fieldid=0, $instanceid=0, $fielddata=null) {
         // First call parent constructor.
-        parent::__construct($fieldid, $instanceid);
-
-        if (!empty($this->field)) {
-            $datafield = $DB->get_field('local_metadata', 'data',
-                ['instanceid' => $this->instanceid, 'fieldid' => $this->fieldid]);
-            if ($datafield !== false) {
-                $this->data = $datafield;
-            } else {
-                $this->data = $this->field->defaultdata;
-            }
-        }
-
-        // Set the name for display; will need to be a language string.
-        $this->name = 'Checkbox';
+        parent::__construct($fieldid, $instanceid, $fielddata);
+        // Set the name for display.
+        $this->name = get_string('displayname', 'metadatafieldtype_checkbox');
     }
 
     /**

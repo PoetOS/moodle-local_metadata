@@ -27,3 +27,4 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Menu metadata fieldtype';
+$string['displayname'] = 'Dropdown menu';

@@ -63,11 +63,12 @@ class metadata {
      * Constructor method.
      * @param int $fieldid id of the profile from the local_metadata_field table
      * @param int $instanceid id of the instance for whom we are displaying data
+     * @param object $fielddata optional data for the field object.
      */
-    public function __construct($fieldid=0, $instanceid=0) {
+    public function __construct($fieldid=0, $instanceid=0, $fielddata=null) {
         $this->set_fieldid($fieldid);
         $this->set_instanceid($instanceid);
-        $this->load_data();
+        $this->load_data($fielddata);
         if (!isset($this->name)) {
             $this->name = '-- unknown --';
         }
@@ -290,17 +291,21 @@ class metadata {
      * Accessor method: Load the field record and instance data associated with the
      * object's fieldid and instanceis
      * @internal This method should not generally be overwritten by child classes.
+     * @param object $fielddata Optional data for the field object.
      */
-    public function load_data() {
+    public function load_data($fielddata=null) {
         global $DB;
 
-        // Load the field object.
-        if (($this->fieldid == 0) || (!($field = $DB->get_record('local_metadata_field', ['id' => $this->fieldid])))) {
+        // If no data passed in, and we know the field id, get it from the database.
+        if (($fielddata === null) && ($this->fieldid != 0)) {
+            $fielddata = $DB->get_record('local_metadata_field', ['id' => $this->fieldid]);
+        }
+        if (!$fielddata) {
             $this->field = null;
             $this->inputname = '';
         } else {
-            $this->field = $field;
-            $this->inputname = 'local_metadata_field_'.$field->shortname;
+            $this->field = $fielddata;
+            $this->inputname = 'local_metadata_field_'.$fielddata->shortname;
         }
 
         if (!empty($this->field)) {

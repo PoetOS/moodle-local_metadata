@@ -27,3 +27,4 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Textarea metadata fieldtype';
+$string['displayname'] = 'Text area';
