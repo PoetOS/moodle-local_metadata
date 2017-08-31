@@ -108,7 +108,7 @@ class context_handler extends \local_metadata\context\context_handler {
      */
     public function require_access() {
         require_login();
-        require_capability('moodle/user:editprofile', $this->context);
+        require_capability('moodle/user:editownprofile', $this->context);
         return true;
     }
 
