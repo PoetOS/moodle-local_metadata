@@ -75,9 +75,6 @@ class metadata extends \local_metadata\fieldtype\metadata {
                 $this->datakey = $key;
             }
         }
-
-        // Set the name for display.
-        $this->name = get_string('displayname', 'metadatafieldtype_menu');
     }
 
     /**

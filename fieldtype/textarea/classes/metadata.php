@@ -35,20 +35,6 @@ defined('MOODLE_INTERNAL') || die;
 class metadata extends \local_metadata\fieldtype\metadata {
 
     /**
-     * Constructor method.
-     *
-     * @param int $fieldid
-     * @param int $instanceid
-     * @param object $fielddata optional data for the field object.
-     */
-    public function __construct($fieldid=0, $instanceid=0, $fielddata=null) {
-        // First call parent constructor.
-        parent::__construct($fieldid, $instanceid, $fielddata);
-        // Set the name for display.
-        $this->name = get_string('displayname', 'metadatafieldtype_textarea');
-    }
-
-    /**
      * Adds elements for this field type to the edit form.
      * @param moodleform $mform
      */

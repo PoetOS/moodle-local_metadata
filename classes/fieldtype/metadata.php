@@ -16,16 +16,16 @@
 
 /**
  * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetgroup.org>
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 POET
+ * @copyright 2017, onwards Poet
  */
 
 /**
  * Base class for the customisable metadata fields.
  *
  * @package local_metadata
- * @copyright  2016 POET
+ * @copyright  2017, onwards Poet
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -69,7 +69,13 @@ class metadata {
         $this->set_fieldid($fieldid);
         $this->set_instanceid($instanceid);
         $this->load_data($fielddata);
-        if (!isset($this->name)) {
+
+        // Set the name for display. The fieldtype subplugin should have the same name as the namespace.
+        $classname = get_class($this);
+        $subpluginname = substr($classname, 0, strrpos($classname, '\\'));
+        if (strpos($subpluginname, 'metadatafieldtype_') !== false) {
+            $this->name = get_string('displayname', $subpluginname);
+        } else {
             $this->name = '-- unknown --';
         }
     }

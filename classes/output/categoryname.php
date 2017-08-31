@@ -18,9 +18,9 @@
  * Contains class local_metadata\output\categoryname
  *
  * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetgroup.org>
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 POET
+ * @copyright 2017, onwards Poet
  */
 
 namespace local_metadata\output;
@@ -34,9 +34,9 @@ use lang_string;
  * Class to preapare a metadata category for display.
  *
  * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetgroup.org>
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 POET
+ * @copyright 2017, onwards Poet
  */
 class categoryname extends \core\output\inplace_editable {
 

@@ -16,9 +16,9 @@
 
 /**
  * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetgroup.org>
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2016 POET
+ * @copyright 2017, onwards Poet
  */
 
 namespace local_metadata;
