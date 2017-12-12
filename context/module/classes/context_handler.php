@@ -61,7 +61,8 @@ class context_handler extends \local_metadata\context\context_handler {
                     print_error('invalidcoursemodule');
                 }
             } else {
-                $this->instance = false;
+                $this->instance = new \stdClass();
+                $this->instance->id = 0;
             }
         }
         return $this->instance;
@@ -133,7 +134,7 @@ class context_handler extends \local_metadata\context\context_handler {
         // Add the settings page to the activity modules settings menu, if enabled.
         $navmenu->add('modsettings',
             new \admin_externalpage('metadatacontext_modules', get_string('metadatatitle', 'metadatacontext_module'),
-                new \moodle_url('/local/metadata/index.php', ['contextlevel' => CONTEXT_MODULE]), ['moodle/site:config']),
+                new \moodle_url('/local/metadata/index.php', ['contextlevel' => $this->contextlevel]), ['moodle/site:config']),
             'managemodulescommon');
         return true;
     }
@@ -144,7 +145,7 @@ class context_handler extends \local_metadata\context\context_handler {
     public function extend_settings_navigation($settingsnav, $context) {
         global $PAGE;
 
-        if ($context->contextlevel == CONTEXT_MODULE) {
+        if ($context->contextlevel == $this->contextlevel) {
             // Only add this settings item on non-site course pages.
             if ($PAGE->course && ($PAGE->course->id != 1) &&
                 (get_config('metadatacontext_module', 'metadataenabled') == 1) &&
@@ -153,7 +154,7 @@ class context_handler extends \local_metadata\context\context_handler {
                 if ($settingnode = $settingsnav->find('modulesettings', \settings_navigation::TYPE_SETTING)) {
                     $strmetadata = get_string('metadatatitle', 'metadatacontext_module');
                     $url = new \moodle_url('/local/metadata/index.php',
-                        ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => CONTEXT_MODULE]);
+                        ['id' => $context->instanceid, 'action' => 'moduledata', 'contextlevel' => $this->contextlevel]);
                     $metadatanode = \navigation_node::create(
                         $strmetadata,
                         $url,
@@ -169,5 +170,53 @@ class context_handler extends \local_metadata\context\context_handler {
                 }
             }
         }
+    }
+
+    /**
+     * Hook function called when a module form is loaded and add metadata form elements for the module
+     */
+    public function coursemodule_standard_elements($formwrapper, $mform) {
+        global $DB;
+
+        // The instance id of the module is stored in $formwrapper.
+        if ($cm = $formwrapper->get_coursemodule()) {
+            $this->instanceid = $cm->id;
+        } else {
+            $this->instanceid = 0;
+        }
+        $dataoutput = new output\manage_data($this->get_instance(), $this->contextlevel);
+
+        foreach ($dataoutput->data as $categoryid => $fieldgroup) {
+            foreach ($fieldgroup as $groupid => $fielddata) {
+                if ($groupid === 'categoryname') {
+                    $mform->addElement('header', 'local_metadata_category_' . $categoryid, $fielddata);
+                } else {
+                    $fielddata->edit_field_add($mform);
+                }
+            }
+        }
+        local_metadata_load_data($this->get_instance(), $this->contextlevel);
+        $formwrapper->set_data($this->instance);
+    }
+
+    /**
+     * Hook function called when a module form is saved and insert/update metadata in the database for the module
+     */
+    public function coursemodule_edit_post_actions($data, $course) {
+        global $DB;
+
+        if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $this->contextlevel])) {
+            foreach ($fields as $field) {
+                // The id received in $data is not the one from course module but from the related module (url, label, etc...) instead.
+                // To get the right id and pass it to $formfield so it's saved, a new object is created with the course module id used by the metadata
+                $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
+                $datachunk = new \stdClass();
+                $datachunk->id = $data->coursemodule;
+                $datachunk->{'local_metadata_field_' . $field->shortname} = $data->{'local_metadata_field_' . $field->shortname};
+                $formfield = new $newfield($field->id, $datachunk->id);
+                $formfield->edit_save_data($datachunk);
+            }
+        }
+        return $data;
     }
 }

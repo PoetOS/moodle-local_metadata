@@ -60,3 +60,11 @@ Feature: Enable module context plugin
     And I navigate to "Module metadata" in current page administration
     Then I should see "Subject matter"
     And the field "id_local_metadata_field_subjectmatter" matches value "History"
+
+    And I am on "Course 1" course homepage
+    And I follow "Standard forum name"
+    And I navigate to "Edit settings" in current page administration
+    Then I should see "Other fields"
+    And I click on "Other fields" "link"
+    Then I should see "Subject matter"
+    And the field "id_local_metadata_field_subjectmatter" matches value "History"

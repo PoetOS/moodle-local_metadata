@@ -251,4 +251,23 @@ abstract class context_handler {
     public function extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext) {
         return true;
     }
+
+    /**
+     * Implement coursemodule_standard_elements hook function to insert metadata form elements in the native module form
+     * @param moodleform $formwrapper The moodle quickforms wrapper object.
+     * @param MoodleQuickForm $mform The actual form object (required to modify the form).
+     */
+    public function coursemodule_standard_elements($formwrapper, $mform) {
+        return true;
+    }
+
+    /**
+     * Hook the add/edit of the course module.
+     *
+     * @param stdClass $data Data from the form submission.
+     * @param stdClass $course The course.
+     */
+    public function coursemodule_edit_post_actions($data, $course) {
+        return $data;
+    }
 }
