@@ -22,7 +22,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
-$plugin->version   = 2017070102;
+$plugin->version   = 2017121200;
 $plugin->release   = 'BETA3.3.2 (Build 2017071200)';
 $plugin->maturity  = MATURITY_BETA;
 $plugin->requires  = 2016052300; // Moodle 3.1 release and upwards.
