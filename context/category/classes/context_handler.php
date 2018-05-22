@@ -133,6 +133,7 @@ class context_handler extends \local_metadata\context\context_handler {
             if ((get_config('metadatacontext_category', 'metadataenabled') == 1) &&
                 has_capability('moodle/category:manage', $context)) {
 
+                // This puts an entry in the 'Administration' block, which is no longer displayed by default.
                 if ($settingnode = $settingsnav->find('categorysettings', \navigation_node::TYPE_CONTAINER)) {
                     $strmetadata = get_string('metadatatitle', 'metadatacontext_category');
                     $url = new \moodle_url('/local/metadata/index.php',

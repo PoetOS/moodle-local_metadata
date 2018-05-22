@@ -135,8 +135,14 @@ class context_handler extends \local_metadata\context\context_handler {
                 has_capability('moodle/cohort:manage', $context)) {
 
                 if ($settingnode = $settingsnav->find('cohorts', \settings_navigation::TYPE_SETTING)) {
-                    $strmetadata = get_string('metadatatitle', 'metadatacontext_cohort');
                     $cohortid = $PAGE->url->param('id');
+                    $this->instanceid = $cohortid;
+                    $this->get_instance();
+                    if (isset($this->instance) && ($this->instance !== false)) {
+                        $strmetadata = get_string('instancemetadata', 'local_metadata', ['instancename' => $this->instance->name]);
+                    } else {
+                        $strmetadata = get_string('metadatatitle', 'metadatacontext_cohort');
+                    }
                     $url = new \moodle_url('/local/metadata/index.php',
                         ['id' => $cohortid, 'action' => 'cohortdata', 'contextlevel' => CONTEXT_COHORT]);
                     $metadatanode = \navigation_node::create(
