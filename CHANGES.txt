@@ -1,0 +1,5 @@
+Release Notes
+
+Version BETA3.3.3 (Build 2018052200)
+
+Added Behat tests to verify 3.4 and 3.5 compatibility.
