@@ -24,6 +24,7 @@
 $string['pluginname'] = 'Metadata';
 
 $string['errorcontextnotfound'] = 'Invalid context subplugin "{$a->contextname}" requested.';
+$string['instancemetadata'] = '{$a->instancename} metadata';
 $string['metadata'] = 'Metadata';
 $string['metadatafor'] = 'Instance metadata';
 $string['metadatasaved'] = 'Metadata saved.';
