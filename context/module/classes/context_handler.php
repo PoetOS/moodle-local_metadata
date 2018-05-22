@@ -170,4 +170,46 @@ class context_handler extends \local_metadata\context\context_handler {
             }
         }
     }
+
+    /**
+     * Hook function called when a module form is loaded and add metadata form elements for the module
+     */
+    public function coursemodule_standard_elements($formwrapper, $mform) {
+        global $DB;
+        if ($categories = $DB->get_records('local_metadata_category', ['contextlevel' => CONTEXT_MODULE], 'sortorder ASC')) {
+            foreach ($categories as $category) {
+                if ($fields = $DB->get_records('local_metadata_field', ['categoryid' => $category->id], 'sortorder ASC')) {
+                    $mform->addElement('header', 'local_metadata_category_' . $category->id, $category->name);
+                    foreach ($fields as $field) {
+                        $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
+                        $element = new $newfield($field->id, $this->instance->id);
+                        $element->edit_field_add($mform);
+                    }
+                }
+            }
+        }
+        $this->get_instanceid_from_currentcontext();
+        local_metadata_load_data($this->get_instance(), CONTEXT_MODULE);
+        $formwrapper->set_data($this->instance);
+    }
+
+    /**
+     * Hook function called when a module form is saved and insert/update metadata in the database for the module
+     */
+    public function coursemodule_edit_post_actions($data, $course) {
+        global $DB;
+        if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => CONTEXT_MODULE])) {
+            foreach ($fields as $field) {
+                // The id received in $data is not the one from course module but from the related module (url, label, etc...) instead.
+                // To get the right id and pass it to $formfield so it's saved, a new object is created with the course module id used by the metadata
+                $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
+                $data_chunk = new \stdClass();
+                $data_chunk->id = $data->coursemodule;
+                $data_chunk->{'local_metadata_field_' . $field->shortname} = $data->{'local_metadata_field_' . $field->shortname};
+                $formfield = new $newfield($field->id, $data_chunk->id);
+                $formfield->edit_save_data($data_chunk);
+            }
+        }
+        return $data;
+    }
 }

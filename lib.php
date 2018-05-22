@@ -404,3 +404,26 @@ function local_metadata_extend_navigation_user_settings($navigation, $user, $use
         $contexthandler->extend_navigation_user_settings($navigation, $user, $usercontext, $course, $coursecontext);
     }
 }
+
+/**
+ * Hook function to insert metadata form elements in the native module form
+ * @param moodleform $formwrapper The moodle quickforms wrapper object.
+ * @param MoodleQuickForm $mform The actual form object (required to modify the form).
+ */
+function local_metadata_coursemodule_standard_elements($formwrapper, $mform) {
+    foreach (\local_metadata\context\context_handler::all_enabled_subplugins() as $contexthandler) {
+        $contexthandler->coursemodule_standard_elements($formwrapper, $mform);
+    }
+}
+
+/**
+ * Hook the add/edit of the course module.
+ *
+ * @param stdClass $data Data from the form submission.
+ * @param stdClass $course The course.
+ */
+function local_metadata_coursemodule_edit_post_actions($data, $course) {
+    foreach (\local_metadata\context\context_handler::all_enabled_subplugins() as $contexthandler) {
+        $contexthandler->coursemodule_edit_post_actions($data, $course);
+    }
+}
