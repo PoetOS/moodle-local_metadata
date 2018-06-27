@@ -15,21 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Metadata course context plugin language file.
- *
  * @package local_metadata
- * @subpackage metadatacontext_course
+ * @subpackage metadatacontext_category
  * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2017, onwards Poet
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace metadatacontext_category\privacy;
 
-$string['contextname'] = 'course';
-$string['contexttitle'] = 'Course';
-$string['metadatatitle'] = 'Course metadata';
-$string['metadatadisabled'] = 'Metadata for courses is currently disabled.';
-$string['metadataenabled'] = 'Use metadata for courses';
-$string['pluginname'] = 'Course metadata context';
-$string['privacy:metadata'] = 'Data stored in the course context only.';
+defined('MOODLE_INTERNAL') || die();
+
+class provider implements
+// This plugin does not store any personal user data.
+    \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Returns meta data about this system.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}

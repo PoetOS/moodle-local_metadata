@@ -32,3 +32,4 @@ $string['metadatatitle'] = 'Category metadata';
 $string['metadatadisabled'] = 'Metadata for course categories is currently disabled.';
 $string['metadataenabled'] = 'Use metadata for course categories';
 $string['pluginname'] = 'Category metadata context';
+$string['privacy:metadata'] = 'Data stored in the course category context only.';

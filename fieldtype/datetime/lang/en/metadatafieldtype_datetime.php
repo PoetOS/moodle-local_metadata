@@ -28,3 +28,4 @@ defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Datetime metadata fieldtype';
 $string['displayname'] = 'Date/Time';
+$string['privacy:metadata'] = 'Fieldtypes do not store data.';

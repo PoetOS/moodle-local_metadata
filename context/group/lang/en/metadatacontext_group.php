@@ -32,3 +32,4 @@ $string['metadatatitle'] = 'Group metadata';
 $string['metadatadisabled'] = 'Metadata for groups is currently disabled.';
 $string['metadataenabled'] = 'Use metadata for groups';
 $string['pluginname'] = 'Group metadata context';
+$string['privacy:metadata'] = 'Data stored in the group context only.';

@@ -28,3 +28,4 @@ defined('MOODLE_INTERNAL') || die;
 
 $string['pluginname'] = 'Menu metadata fieldtype';
 $string['displayname'] = 'Dropdown menu';
+$string['privacy:metadata'] = 'Fieldtypes do not store data.';
