@@ -1,5 +1,8 @@
 Release Notes
 
-Version BETA3.3.3 (Build 2018052200)
+Release BETA3.3.4 (Build 2018062800)
+GHISSUE-1 - Added hooks to module form to include metadata form elements in the module settings page.
+GHISSUE-10 - Implemented Privacy API for GDPR compliance.
 
+Version BETA3.3.3 (Build 2018052200)
 Added Behat tests to verify 3.4 and 3.5 compatibility.

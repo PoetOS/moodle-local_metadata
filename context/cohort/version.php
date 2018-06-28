@@ -26,8 +26,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2017070102;
-$plugin->release   = 'BETA3.3.1 (Build 2017071200)';
+$plugin->version   = 2017070103;
+$plugin->release   = 'BETA3.3.4 (Build 2018062800)';
 $plugin->maturity  = MATURITY_BETA;
 $plugin->requires  = 2016052300; // Requires this Moodle version.
 $plugin->component = 'metadatacontext_cohort'; // Full name of the plugin (used for diagnostics).
