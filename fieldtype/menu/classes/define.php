@@ -42,6 +42,10 @@ class define extends \local_metadata\fieldtype\define_base {
         // Param 1 for menu type contains the options.
         $form->addElement('textarea', 'param1', get_string('profilemenuoptions', 'admin'), ['rows' => 6, 'cols' => 40]);
         $form->setType('param1', PARAM_TEXT);
+        $form->addHelpButton('param1', 'menu_options', 'local_metadata');
+
+        // Param 2 for turning dropdown into mutli-select
+        $form->addElement('selectyesno', 'param2', get_string('select_multiple', 'local_metadata'));
 
         // Default data.
         $form->addElement('text', 'defaultdata', get_string('profiledefaultdata', 'admin'), 'size="50"');
