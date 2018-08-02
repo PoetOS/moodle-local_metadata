@@ -36,6 +36,7 @@ class metadata extends \local_metadata\fieldtype\metadata {
 
     /** @var array $options */
     public $options;
+    public $multiple = false;
 
     /** @var int $datakey */
     public $datakey;
@@ -59,18 +60,34 @@ class metadata extends \local_metadata\fieldtype\metadata {
         } else {
             $options = [];
         }
+        // Param 1 for menu type is the options.
+        if (isset($this->field->param2)) {
+            $this->multiple = ((int)$this->field->param2 > 0);
+        } else {
+            $this->multiple = false;
+        }
+
         $this->options = [];
         if (!empty($this->field->required)) {
             $this->options[''] = get_string('choose').'...';
         }
         foreach ($options as $key => $option) {
-            $this->options[$option] = format_string($option); // Multilang formatting with filters.
+            if (strpos($option,"=>")!==false) {
+                // fields listed in "key=>text" get rendered as <option value="key">text</option>
+                list($key,$value) = array_map('trim',explode("=>",$option));
+            } else {
+                // fields listed in "text" get rendered as <option value="text">text</option>
+                $key = $option;
+                $value = $option;
+            }
+            $this->options[$key] = format_string($value); // Multilang formatting with filters.
         }
 
-        // Set the data key.
+        // Set the data key(s).
         if ($this->data !== null) {
-            $key = $this->data;
-            if (isset($this->options[$key]) || ($key = array_search($key, $this->options)) !== false) {
+            if ($this->multiple) {
+                $this->datakey = explode("\n", str_replace("\r", '', $this->data)); // array of data which will be keys anyway
+            } else if (isset($this->options[$key]) || ($key = array_search($key, $this->options)) !== false) {
                 $this->data = $key;
                 $this->datakey = $key;
             }
@@ -83,7 +100,10 @@ class metadata extends \local_metadata\fieldtype\metadata {
      * @param moodleform $mform Moodle form instance
      */
     public function edit_field_add($mform) {
-        $mform->addElement('select', $this->inputname, format_string($this->field->name), $this->options);
+        $select = $mform->addElement('select', $this->inputname, format_string($this->field->name), $this->options);
+        if ($this->multiple) {
+            $select->setMultiple(true);
+        }
     }
 
     /**
@@ -112,7 +132,16 @@ class metadata extends \local_metadata\fieldtype\metadata {
      * @return mixed Data or null
      */
     public function edit_save_data_preprocess($data, $datarecord) {
-        return isset($this->options[$data]) ? $data : null;
+        if (is_array($data)) {
+            $string = '';
+            foreach ($data as $key) {
+                if(isset($this->options[$key])) {
+                    $string .= $key."\r\n";
+                }
+            }
+            return substr($string,0,-2);
+        }
+        return isset($this->options[$data]) ? $data : NULL;
     }
 
     /**
