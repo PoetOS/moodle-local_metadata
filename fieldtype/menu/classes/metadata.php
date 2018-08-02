@@ -141,9 +141,7 @@ class metadata extends \local_metadata\fieldtype\metadata {
             }
             return substr($string,0,-2);
         }
-        return isset($this->options[$data]) ? $this->options[$data] : NULL;
-
-        // return isset($this->options[$data]) ? $data : null;
+        return isset($this->options[$data]) ? $data : NULL;
     }
 
     /**

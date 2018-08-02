@@ -154,6 +154,21 @@ function local_metadata_save_data($new, $contextlevel) {
             $formfield->edit_save_data($new);
         }
     }
+
+    // get all the field values and package it into an event
+    foreach ($new as $key=>$value) {
+        if (strpos($key,"local_metadata_field_")!==false) {
+            $data[substr($key,21)]=$value;
+        }
+    }
+    $contextid = $DB->get_field_sql("select id from {context} where contextlevel=? and instanceid=?", [$contextlevel, $new->id]);
+    $params = array(
+        'contextid' => $contextid,
+        'other' => $data, // all current field values
+    );
+    $event = \local_metadata\event\metadata_saved::create($params);
+    $event->trigger();
+
 }
 
 /**
