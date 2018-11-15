@@ -73,7 +73,9 @@ class category_form extends moodleform {
 
         $data  = (object)$data;
 
-        $duplicate = $DB->get_field('local_metadata_category', 'id', ['name' => $data->name]);
+        $duplicate = $DB->get_field(
+            'local_metadata_category', 'id', ['name' => $data->name, 'contextlevel' => $data->contextlevel]
+        );
 
         // Check the name is unique.
         if (!empty($data->id)) { // We are editing an existing record.
