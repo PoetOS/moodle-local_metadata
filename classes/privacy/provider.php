@@ -29,12 +29,14 @@ class provider implements
 // This plugin does not store any personal user data.
     \core_privacy\local\metadata\null_provider {
 
+    use \core_privacy\local\legacy_polyfill;
+
     /**
      * Returns meta data about this system.
      *
      * @return  string
      */
-    public static function get_reason() : string {
+    public static function _get_reason() {
         return 'privacy:metadata';
     }
 }

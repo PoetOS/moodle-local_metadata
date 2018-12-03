@@ -33,13 +33,15 @@ class provider implements
     // This plugin currently implements the original plugin_provider interface.
     \core_privacy\local\request\plugin\provider {
 
+    use \core_privacy\local\legacy_polyfill;
+
     /**
      * Returns meta data about this system.
      *
      * @param   collection $items The collection to add metadata to.
      * @return  collection  The array of metadata
      */
-    public static function get_metadata(\core_privacy\local\metadata\collection $collection): \core_privacy\local\metadata\collection {
+    public static function _get_metadata(\core_privacy\local\metadata\collection $collection) {
 
         // Add all of the relevant tables and fields to the collection.
         $collection->add_database_table('local_metadata', [
@@ -62,7 +64,7 @@ class provider implements
      * @param   int $userid The user to search.
      * @return  contextlist   $contextlist  The list of contexts used in this plugin.
      */
-    public static function get_contexts_for_userid(int $userid): \core_privacy\local\request\contextlist {
+    public static function _get_contexts_for_userid($userid) {
         $contextlist = new \core_privacy\local\request\contextlist();
         $contextlist->add_user_context($userid);
         return $contextlist;
@@ -141,7 +143,7 @@ class provider implements
      * @param int $userid The database id of the user.
      * @return moodle_recordset
      */
-    private static function get_user_metdata_rs(int $userid): \moodle_recordset {
+    private static function get_user_metdata_rs($userid) {
         global $DB;
 
         $sql = "SELECT lm.id, lm.data, lmf.name, lmf.description
