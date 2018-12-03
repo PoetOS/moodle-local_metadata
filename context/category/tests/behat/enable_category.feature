@@ -16,13 +16,13 @@ Feature: Enable category context plugin
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "admin"
-    And I navigate to "Settings" node in "Site administration > Plugins > Local plugins > Metadata"
+    And I navigate to "Plugins > Local plugins > Metadata" in site administration
     And I set the field "id_s_metadatacontext_category_metadataenabled" to "1"
     And I press "Save changes"
     Then the field "s_metadatacontext_category_metadataenabled" matches value "1"
-    And I navigate to "Courses" node in "Site administration"
+    And I navigate to "Courses" in site administration
     Then I should see "Category metadata"
-    And I navigate to "Category metadata" node in "Site administration > Courses"
+    And I navigate to "Courses > Category metadata" in site administration
     Then I should see "Category metadata"
     And I should see "Create a new profile field:"
     And I should see "Create a new profile category"
@@ -36,9 +36,9 @@ Feature: Enable category context plugin
     Then I should see "Category metadata"
     And I should see "Creation date"
 
-    And I navigate to "Courses" node in "Site administration"
+    And I navigate to "Courses" in site administration
     And I press "Blocks editing on"
-    And I navigate to "Manage courses and categories" node in "Site administration > Courses"
+    And I navigate to "Courses > Manage courses and categories" in site administration
     Then I should see "Miscellaneous"
     And I add the "Administration" block
     And I follow "Edit this category"
@@ -54,7 +54,7 @@ Feature: Enable category context plugin
     And I press "Save changes"
     And I should see "Metadata saved"
 
-    And I navigate to "Manage courses and categories" node in "Site administration > Courses"
+    And I navigate to "Courses > Manage courses and categories" in site administration
     And I follow "Edit this category"
     And I follow "Category metadata"
     Then I should see "Creation date"

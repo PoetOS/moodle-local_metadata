@@ -16,14 +16,14 @@ Feature: Enable course context plugin
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "admin"
-    And I navigate to "Settings" node in "Site administration > Plugins > Local plugins > Metadata"
+    And I navigate to "Plugins > Local plugins > Metadata" in site administration
     And I set the field "id_s_metadatacontext_course_metadataenabled" to "1"
     And I press "Save changes"
     Then the field "s_metadatacontext_course_metadataenabled" matches value "1"
 
-    And I navigate to "Courses" node in "Site administration"
+    And I navigate to "Courses" in site administration
     Then I should see "Course metadata"
-    And I navigate to "Course metadata" node in "Site administration > Courses"
+    And I navigate to "Courses > Course metadata" in site administration
     Then I should see "Course metadata"
     And I should see "Create a new profile field:"
     And I should see "Create a new profile category"

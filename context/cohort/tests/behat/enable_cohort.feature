@@ -16,14 +16,14 @@ Feature: Enable cohort context plugin
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "admin"
-    And I navigate to "Settings" node in "Site administration > Plugins > Local plugins > Metadata"
+    And I navigate to "Plugins > Local plugins > Metadata" in site administration
     And I set the field "id_s_metadatacontext_cohort_metadataenabled" to "1"
     And I press "Save changes"
     Then the field "s_metadatacontext_cohort_metadataenabled" matches value "1"
 
-    And I navigate to "Users" node in "Site administration"
+    And I navigate to "Users" in site administration
     Then I should see "Cohort metadata"
-    And I navigate to "Cohort metadata" node in "Site administration > Users"
+    And I navigate to "Users > Cohort metadata" in site administration
     Then I should see "Cohort metadata"
     And I should see "Create a new profile field:"
     And I should see "Create a new profile category"
@@ -35,7 +35,7 @@ Feature: Enable cohort context plugin
     Then I should see "Cohort metadata"
     And I should see "Cohort Manager ID"
 
-    And I navigate to "Cohorts" node in "Site administration > Users > Accounts"
+    And I navigate to "Users > Accounts > Cohorts" in site administration
     And I press "Blocks editing on"
     And I follow "Add new cohort"
     Then I should see "Add new cohort"
@@ -52,7 +52,7 @@ Feature: Enable cohort context plugin
     And I set the field "id_local_metadata_field_managerid" to "MANAGER001"
     And I press "Save changes"
     And I should see "Metadata saved"
-    And I navigate to "Cohorts" node in "Site administration > Users > Accounts"
+    And I navigate to " Users > Accounts > Cohorts" in site administration
     And I should see "Cohort One"
     And I click on "Edit" "link" in the "//table[@id='cohorts']//tr[1]//td[6]" "xpath_element"
     And I should see "Edit cohort"

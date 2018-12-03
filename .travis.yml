@@ -4,11 +4,11 @@ sudo: true
 
 addons:
   firefox: "47.0.1"
-  postgresql: "9.3"
+  postgresql: "9.4"
   apt:
     packages:
-      - oracle-java8-installer
-      - oracle-java8-set-default
+      - oracle-java9-installer
+      - oracle-java9-set-default
 
 cache:
   directories:
@@ -16,16 +16,54 @@ cache:
     - $HOME/.npm
 
 php:
- - 7.0
- - 7.1
+- 5.6
+- 7.1
+- 7.2
 
 env:
- global:
-  - MOODLE_BRANCH=MOODLE_34_STABLE
+- MOODLE_BRANCH=MOODLE_36_STABLE DB=pgsql
+- MOODLE_BRANCH=MOODLE_36_STABLE DB=mysqli
+- MOODLE_BRANCH=MOODLE_35_STABLE DB=pgsql
+- MOODLE_BRANCH=MOODLE_35_STABLE DB=mysqli
+- MOODLE_BRANCH=MOODLE_34_STABLE DB=pgsql
+- MOODLE_BRANCH=MOODLE_34_STABLE DB=mysqli
+- MOODLE_BRANCH=MOODLE_33_STABLE DB=pgsql
+- MOODLE_BRANCH=MOODLE_33_STABLE DB=mysqli
 
- matrix:
-  - DB=pgsql
-  - DB=mysqli
+matrix:
+  exclude:
+  - php: 7.1
+    env: MOODLE_BRANCH=MOODLE_33_STABLE DB=mysqli
+  - php: 7.1
+    env: MOODLE_BRANCH=MOODLE_33_STABLE DB=pgsql
+  - php: 7.2
+    env: MOODLE_BRANCH=MOODLE_33_STABLE DB=mysqli
+  - php: 7.2
+    env: MOODLE_BRANCH=MOODLE_33_STABLE DB=pgsql
+  - php: 5.6
+    env: MOODLE_BRANCH=MOODLE_34_STABLE DB=mysqli
+  - php: 5.6
+    env: MOODLE_BRANCH=MOODLE_34_STABLE DB=pgsql
+  - php: 7.2
+    env: MOODLE_BRANCH=MOODLE_34_STABLE DB=mysqli
+  - php: 7.2
+    env: MOODLE_BRANCH=MOODLE_34_STABLE DB=pgsql
+  - php: 5.6
+    env: MOODLE_BRANCH=MOODLE_35_STABLE DB=mysqli
+  - php: 5.6
+    env: MOODLE_BRANCH=MOODLE_35_STABLE DB=pgsql
+  - php: 7.2
+    env: MOODLE_BRANCH=MOODLE_35_STABLE DB=mysqli
+  - php: 7.2
+    env: MOODLE_BRANCH=MOODLE_35_STABLE DB=pgsql
+  - php: 5.6
+    env: MOODLE_BRANCH=MOODLE_36_STABLE DB=mysqli
+  - php: 5.6
+    env: MOODLE_BRANCH=MOODLE_36_STABLE DB=pgsql
+  - php: 7.1
+    env: MOODLE_BRANCH=MOODLE_36_STABLE DB=mysqli
+  - php: 7.1
+    env: MOODLE_BRANCH=MOODLE_36_STABLE DB=pgsql
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -41,7 +79,6 @@ before_install:
 install:
   - moodle-plugin-ci install
 
-script:
 script:
   - moodle-plugin-ci phplint
   - moodle-plugin-ci phpcpd

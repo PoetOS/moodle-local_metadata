@@ -19,14 +19,14 @@ Feature: Enable group context plugin
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "admin"
-    And I navigate to "Settings" node in "Site administration > Plugins > Local plugins > Metadata"
+    And I navigate to "Plugins > Local plugins > Metadata" in site administration
     And I set the field "id_s_metadatacontext_group_metadataenabled" to "1"
     And I press "Save changes"
     Then the field "s_metadatacontext_group_metadataenabled" matches value "1"
 
-    And I navigate to "Courses" node in "Site administration"
+    And I navigate to "Courses" in site administration
     Then I should see "Group metadata"
-    And I navigate to "Group metadata" node in "Site administration > Courses"
+    And I navigate to "Courses > Group metadata" in site administration
     Then I should see "Group metadata"
     And I should see "Create a new profile field:"
     And I should see "Create a new profile category"
@@ -49,7 +49,7 @@ Feature: Enable group context plugin
 
     And I am on "Course 1" course homepage
     And I turn editing mode on
-    And I navigate to "Groups" node in "Course administration > Users"
+    And I navigate to "Users > Groups" in current page administration
     And I set the field "Groups" to "Group A"
     And I press "Edit group settings"
     And I add the "Administration" block

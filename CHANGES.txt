@@ -1,5 +1,8 @@
 Release Notes
 
+Release 3.6.0 (Build 2018120300)
+First stable release. Compatibile with 3.6, 3.5, 3.4 and 3.3.
+
 Release BETA3.3.4 (Build 2018062800)
 GHISSUE-1 - Added hooks to module form to include metadata form elements in the module settings page.
 GHISSUE-10 - Implemented Privacy API for GDPR compliance.

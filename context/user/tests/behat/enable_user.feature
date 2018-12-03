@@ -16,14 +16,14 @@ Feature: Enable user context plugin
       | user | course | role |
       | teacher1 | C1 | editingteacher |
     And I log in as "admin"
-    And I navigate to "Settings" node in "Site administration > Plugins > Local plugins > Metadata"
+    And I navigate to "Plugins > Local plugins > Metadata" in site administration
     And I set the field "id_s_metadatacontext_user_metadataenabled" to "1"
     And I press "Save changes"
     Then the field "s_metadatacontext_user_metadataenabled" matches value "1"
 
-    And I navigate to "Users" node in "Site administration"
+    And I navigate to "Users" in site administration
     Then I should see "User metadata"
-    And I navigate to "User metadata" node in "Site administration > Users"
+    And I navigate to "Users > User metadata" in site administration
     Then I should see "User metadata"
     And I should see "Create a new profile field:"
     And I should see "Create a new profile category"
@@ -35,7 +35,7 @@ Feature: Enable user context plugin
     Then I should see "User metadata"
     And I should see "I accept the site policy"
 
-    And I navigate to "Browse list of users" node in "Site administration > Users > Accounts"
+    And I navigate to "Users > Accounts > Browse list of users" in site administration
     And I follow "Teacher 1"
     Then I should see "Metadata"
     And I should see "I accept the site policy"
