@@ -22,8 +22,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class backup_metadata_structure_step extends backup_structure_step
 {
-    protected function define_structure()
-    {
+    protected function define_structure() {
         return new backup_nested_element('metadata');
     }
 }

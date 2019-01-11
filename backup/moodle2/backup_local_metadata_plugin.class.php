@@ -31,24 +31,21 @@ class backup_local_metadata_plugin extends backup_local_plugin
     /**
      * Returns the format information to attach to module element.
      */
-    protected function define_module_plugin_structure()
-    {
+    protected function define_module_plugin_structure() {
         return $this->build_structure(backup::VAR_MODID, 'module');
     }
 
     /**
      * Returns the format information to attach to course element.
      */
-    protected function define_course_plugin_structure()
-    {
+    protected function define_course_plugin_structure() {
         return $this->build_structure(backup::VAR_COURSEID, 'course');
     }
 
     /**
      * Building the XML structure.
      */
-    protected function build_structure($id, $name = '')
-    {
+    protected function build_structure($id, $name = '') {
         $plugin = $this->get_plugin_element();
         $name = trim($name) !== '' ? $name . '_' : '';
         $pluginwrapper = new backup_nested_element($this->get_recommended_name());

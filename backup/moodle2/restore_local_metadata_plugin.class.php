@@ -33,21 +33,18 @@ class restore_local_metadata_plugin extends restore_local_plugin
     /**
      * Returns the format information to attach to module element.
      */
-    protected function define_module_plugin_structure()
-    {
+    protected function define_module_plugin_structure() {
         return $this->get_paths('module');
     }
 
     /**
      * Returns the format information to attach to course element.
      */
-    protected function define_course_plugin_structure()
-    {
+    protected function define_course_plugin_structure() {
         return $this->get_paths('course');
     }
 
-    protected function get_paths($name)
-    {
+    protected function get_paths($name) {
         $paths = [];
         $elename = trim($name) !== '' ? ($name . '_') : '';
         $elepath = $this->get_pathfor($elename . 'metadata');
@@ -55,15 +52,13 @@ class restore_local_metadata_plugin extends restore_local_plugin
         return $paths; // And we return the interesting paths.
     }
 
-    public function process_module_metadata($data)
-    {
+    public function process_module_metadata($data) {
         $data = (object)$data;
         $data->instanceid = $this->task->get_moduleid();
         $this->insert_into_db($data);
     }
 
-    public function process_course_metadata($data)
-    {
+    public function process_course_metadata($data) {
         global $DB;
         $data = (object)$data;
         $courseid = $this->task->get_courseid();
@@ -77,8 +72,7 @@ class restore_local_metadata_plugin extends restore_local_plugin
         }
     }
 
-    protected function insert_into_db($data)
-    {
+    protected function insert_into_db($data) {
         global $DB;
         $DB->insert_record(self::TABLE, $data);
     }

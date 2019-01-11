@@ -20,23 +20,21 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once $CFG->dirroot . '/local/metadata/backup/moodle2/backup_metadata_stepslib.php';
+require_once($CFG->dirroot . '/local/metadata/backup/moodle2/backup_metadata_stepslib.php');
 
 class backup_metadata_task extends backup_task
 {
     /**
      * Define (add) particular settings this local plugin can have.
      */
-    protected function define_my_settings()
-    {
+    protected function define_my_settings() {
         // No particular settings for this local plugin.
     }
 
     /**
      * Define (add) particular steps this local plugin can have.
      */
-    protected function define_my_steps()
-    {
+    protected function define_my_steps() {
         $this->add_step(new backup_metadata_structure_step('metadata_structure', 'metadata.xml'));
     }
 
@@ -44,8 +42,7 @@ class backup_metadata_task extends backup_task
      * Code the transformations to perform in the local plugin in
      * order to get transportable (encoded) links.
      */
-    public static function encode_content_links($content)
-    {
+    public static function encode_content_links($content) {
         return $content;
     }
 }
