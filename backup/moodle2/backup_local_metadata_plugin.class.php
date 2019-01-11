@@ -19,27 +19,17 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 /** Database:
- *
- * local_metadata(id, instanceid, fieldid, data, dataformat)
+ * local_metadata(id, instanceid, fieldid, data, dataformat).
  */
 defined('MOODLE_INTERNAL') || die();
 /**
- * Provides the information to backup metadata
+ * Provides the information to backup metadata.
  */
 
 class backup_local_metadata_plugin extends backup_local_plugin
 {
-    // public function define_plugin_structure($connection)
-    // {
-    //     global $CFG;
-    //     $fp = fopen($CFG->dataroot . '/test.txt', 'a+');
-    //     fwrite($fp, $connection . PHP_EOL);
-    //     fclose($fp);
-    //     parent::define_plugin_structure($connection);
-    // }
-
     /**
-     * Returns the format information to attach to module element
+     * Returns the format information to attach to module element.
      */
     protected function define_module_plugin_structure()
     {
@@ -47,7 +37,7 @@ class backup_local_metadata_plugin extends backup_local_plugin
     }
 
     /**
-     * Returns the format information to attach to course element
+     * Returns the format information to attach to course element.
      */
     protected function define_course_plugin_structure()
     {
@@ -55,14 +45,8 @@ class backup_local_metadata_plugin extends backup_local_plugin
     }
 
     /**
-     * Returns the format information to attach to module element
+     * Building the XML structure.
      */
-    protected function define_groups_plugin_structure()
-    {
-        var_dump('Hello from groups');
-        die;
-    }
-
     protected function build_structure($id, $name = '')
     {
         $plugin = $this->get_plugin_element();

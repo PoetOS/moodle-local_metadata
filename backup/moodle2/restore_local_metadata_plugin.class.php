@@ -20,18 +20,18 @@
  */
 /** Database:
  *
- * local_metadata(id, instanceid, fieldid, data, dataformat)
+ * local_metadata(id, instanceid, fieldid, data, dataformat).
  */
 defined('MOODLE_INTERNAL') || die();
 /**
- * Provides the information to restore metadata
+ * Provides the information to restore metadata.
  */
 class restore_local_metadata_plugin extends restore_local_plugin
 {
     const TABLE = 'local_metadata';
 
     /**
-     * Returns the format information to attach to module element
+     * Returns the format information to attach to module element.
      */
     protected function define_module_plugin_structure()
     {
@@ -39,7 +39,7 @@ class restore_local_metadata_plugin extends restore_local_plugin
     }
 
     /**
-     * Returns the format information to attach to course element
+     * Returns the format information to attach to course element.
      */
     protected function define_course_plugin_structure()
     {

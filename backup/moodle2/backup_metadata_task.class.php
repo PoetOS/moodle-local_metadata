@@ -25,15 +25,15 @@ require_once $CFG->dirroot . '/local/metadata/backup/moodle2/backup_metadata_ste
 class backup_metadata_task extends backup_task
 {
     /**
-     * Define (add) particular settings this local plugin can have
+     * Define (add) particular settings this local plugin can have.
      */
     protected function define_my_settings()
     {
-        // No particular settings for this local plugin
+        // No particular settings for this local plugin.
     }
 
     /**
-     * Define (add) particular steps this local plugin can have
+     * Define (add) particular steps this local plugin can have.
      */
     protected function define_my_steps()
     {
@@ -42,7 +42,7 @@ class backup_metadata_task extends backup_task
 
     /**
      * Code the transformations to perform in the local plugin in
-     * order to get transportable (encoded) links
+     * order to get transportable (encoded) links.
      */
     public static function encode_content_links($content)
     {
