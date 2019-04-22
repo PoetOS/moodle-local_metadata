@@ -16,6 +16,7 @@
 
 /**
  * @package local_metadata
+ * @subpackage metadatacontext_course
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @copyright 2017, onwards Poet
@@ -25,12 +26,6 @@ defined('MOODLE_INTERNAL') || die;
 
 $observers = [
     ['eventname' => '\core\event\course_deleted',
-     'callback' => '\local_metadata\observer::course_deleted'
-    ],
-    ['eventname' => '\core\event\user_deleted',
-     'callback' => '\local_metadata\observer::user_deleted'
-    ],
-    ['eventname' => '\core\event\course_module_deleted',
-     'callback' => '\local_metadata\observer::course_module_deleted'
+     'callback' => '\metadatacontext_course\observer::course_deleted'
     ],
 ];

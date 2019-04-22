@@ -59,17 +59,6 @@ class observer {
     }
 
     /**
-     * Triggered via user_deleted event.
-     * - Removes user metadata
-     *
-     * @param \core\event\user_deleted $event
-     * @return bool true on success
-     */
-    public static function user_deleted(\core\event\user_deleted $event) {
-        return self::delete_metadata(CONTEXT_USER, $event->objectid);
-    }
-
-    /**
      * Triggered via module_deleted event.
      * - Removes module metadata
      *
@@ -87,7 +76,7 @@ class observer {
      * @param \core\event\user_deleted $event
      * @return bool true on success
      */
-    protected static function delete_metadata($contextlevel, $instanceid) {
+    public static function delete_metadata($contextlevel, $instanceid) {
         global $DB;
 
         if (!empty($fields = $DB->get_records_select('local_metadata_field', 'contextlevel = ?', [$contextlevel], '', 'id'))) {
