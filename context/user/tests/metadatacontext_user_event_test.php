@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  * @group local_metadata
  * @group metadatacontext_user
  */
-class metadatacontext_user_event_testcase extends local_metadataevent_testcase {
+class metadatacontext_user_event_testcase extends local_metadata_event_test {
 
     /**
      * Setup tasks.
