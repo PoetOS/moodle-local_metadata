@@ -15,19 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Metadata module context plugin version info.
- *
  * @package local_metadata
- * @subpackage metadatacontext_module
+ * @subpackage metadatacontext_category
  * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2017, onwards Poet
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version   = 2017070106;
-$plugin->release   = 'BETA3.3.4 (Build 2018062800)';
-$plugin->maturity  = MATURITY_BETA;
-$plugin->requires  = 2016052300; // Requires this Moodle version.
-$plugin->component = 'metadatacontext_module'; // Full name of the plugin (used for diagnostics).
+$observers = [
+    ['eventname' => '\core\event\course_category_deleted',
+     'callback' => '\metadatacontext_category\observer::course_category_deleted'
+    ],
+];

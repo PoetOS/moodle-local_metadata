@@ -37,103 +37,10 @@ defined('MOODLE_INTERNAL') || die();
 class local_metadataevent_testcase extends advanced_testcase {
 
     /**
-     * Setup tasks.
+     * Setup tasks. Used by each context plugin, and each has its own event tests.
      */
     public function setUp() {
         $this->generator = $this->getDataGenerator()->get_plugin_generator('local_metadata');
-        $this->course = [];
-        $this->user = [];
-        $this->module = [];
-        $this->course[] = $this->getDataGenerator()->create_course();
-        $this->course[] = $this->getDataGenerator()->create_course();
-        $this->user[] = $this->getDataGenerator()->create_user();
-        $this->user[] = $this->getDataGenerator()->create_user();
-        $this->module[] = $this->getDataGenerator()->create_module('forum', ['course' => $this->course[0]->id],
-            ['groupmode' => VISIBLEGROUPS]);
-        $this->module[] = $this->getDataGenerator()->create_module('forum', ['course' => $this->course[1]->id],
-            ['groupmode' => VISIBLEGROUPS]);
-
         parent::setUp();
-    }
-
-    /**
-     * Performs unit tests for course deleted event.
-     */
-    public function test_coursedeleted() {
-        global $DB;
-
-        $this->resetAfterTest(true);
-
-        // Create a custom field of textarea type.
-        $id1 = $this->generator->create_metadata_field(CONTEXT_COURSE, 'frogdesc', 'Description of frog');
-        $this->generator->create_metadata($id1, $this->course[0]->id, 'Leopard frog');
-        $this->generator->create_metadata($id1, $this->course[1]->id, 'Bullfrog');
-
-        // Confirm expected data.
-        $this->assertEquals(1, $DB->count_records('local_metadata_field'));
-        $this->assertEquals(2, $DB->count_records('local_metadata'));
-        $this->assertEquals(1, $DB->count_records('local_metadata', ['instanceid' => $this->course[0]->id]));
-
-        // Deleting the course should trigger the event.
-        delete_course($this->course[0]->id, false);
-
-        // Check the field data has been deleted.
-        $this->assertEquals(1, $DB->count_records('local_metadata_field'));
-        $this->assertEquals(1, $DB->count_records('local_metadata'));
-        $this->assertEquals(0, $DB->count_records('local_metadata', ['instanceid' => $this->course[0]->id]));
-    }
-
-    /**
-     * Performs unit tests for user deleted event.
-     */
-    public function test_userdeleted() {
-        global $DB;
-
-        $this->resetAfterTest(true);
-
-        // Add a custom field of textarea type.
-        $id1 = $this->generator->create_metadata_field(CONTEXT_USER, 'haircolour', 'Colour of your hair');
-        $this->generator->create_metadata($id1, $this->user[0]->id, 'Blonde');
-        $this->generator->create_metadata($id1, $this->user[1]->id, 'Red');
-
-        // Confirm expected data.
-        $this->assertEquals(1, $DB->count_records('local_metadata_field'));
-        $this->assertEquals(2, $DB->count_records('local_metadata'));
-        $this->assertEquals(1, $DB->count_records('local_metadata', ['instanceid' => $this->user[0]->id]));
-
-        // Deleting the user should trigger the event.
-        delete_user($this->user[0]);
-
-        // Check the field data has been deleted.
-        $this->assertEquals(1, $DB->count_records('local_metadata_field'));
-        $this->assertEquals(1, $DB->count_records('local_metadata'));
-        $this->assertEquals(0, $DB->count_records('local_metadata', ['instanceid' => $this->user[0]->id]));
-    }
-
-    /**
-     * Performs unit tests for course module deleted event.
-     */
-    public function test_coursemoduledeleted() {
-        global $DB;
-
-        $this->resetAfterTest(true);
-
-        // Add a custom field of textarea type.
-        $id1 = $this->generator->create_metadata_field(CONTEXT_MODULE, 'difficulty', 'Level of difficulty');
-        $this->generator->create_metadata($id1, $this->module[0]->cmid, 'Beginner');
-        $this->generator->create_metadata($id1, $this->module[1]->cmid, 'Expert');
-
-        // Confirm expected data.
-        $this->assertEquals(1, $DB->count_records('local_metadata_field'));
-        $this->assertEquals(2, $DB->count_records('local_metadata'));
-        $this->assertEquals(1, $DB->count_records('local_metadata', ['instanceid' => $this->module[0]->cmid]));
-
-        // Deleting the course module should trigger the event.
-        course_delete_module($this->module[0]->cmid);
-
-        // Check the field data has been deleted.
-        $this->assertEquals(1, $DB->count_records('local_metadata_field'));
-        $this->assertEquals(1, $DB->count_records('local_metadata'));
-        $this->assertEquals(0, $DB->count_records('local_metadata', ['instanceid' => $this->module[0]->cmid]));
     }
 }

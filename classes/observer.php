@@ -48,28 +48,6 @@ class observer {
     }
 
     /**
-     * Triggered via course_deleted event.
-     * - Removes course metadata
-     *
-     * @param \core\event\course_deleted $event
-     * @return bool true on success
-     */
-    public static function course_deleted(\core\event\course_deleted $event) {
-        return self::delete_metadata(CONTEXT_COURSE, $event->objectid);
-    }
-
-    /**
-     * Triggered via module_deleted event.
-     * - Removes module metadata
-     *
-     * @param \core\event\course_module_deleted $event
-     * @return bool true on success
-     */
-    public static function course_module_deleted(\core\event\course_module_deleted $event) {
-        return self::delete_metadata(CONTEXT_MODULE, $event->objectid);
-    }
-
-    /**
      * Delete metadata for appropriate contextlevel fields.
      * - Removes user metadata
      *

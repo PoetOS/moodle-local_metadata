@@ -25,9 +25,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 $observers = [
-    ['eventname' => '\core\event\course_deleted',
-     'callback' => '\metadatacontext_course\observer::course_deleted'
-    ],
     ['eventname' => '\core\event\course_module_deleted',
      'callback' => '\metadatacontext_module\observer::course_module_deleted'
     ],
