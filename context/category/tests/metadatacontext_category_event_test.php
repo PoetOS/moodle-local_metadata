@@ -37,7 +37,10 @@ defined('MOODLE_INTERNAL') || die();
  * @group local_metadata
  * @group metadatacontext_category
  */
-class metadatacontext_category_event_testcase extends local_metadata_event_test {
+global $CFG;
+require_once($CFG->dirroot . '/local/metadata/tests/local_metadata_event_test.php');
+
+class metadatacontext_category_event_testcase extends local_metadata_event_testcase {
 
     /**
      * Setup tasks.

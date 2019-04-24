@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * @group local_metadata
  */
-class local_metadata_event_test extends advanced_testcase {
+class local_metadata_event_testcase extends advanced_testcase {
 
     /**
      * Setup tasks. Used by each context plugin, and each has its own event tests.
