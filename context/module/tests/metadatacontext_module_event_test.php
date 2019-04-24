@@ -33,12 +33,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->dirroot . '/local/metadata/tests/local_metadata_event_testcase.php');
+
 /**
  * @group local_metadata
  * @group metadatacontext_module
  */
-global $CFG;
-require_once($CFG->dirroot . '/local/metadata/tests/local_metadata_event_test.php');
 
 class metadatacontext_module_event_testcase extends local_metadata_event_testcase {
 
