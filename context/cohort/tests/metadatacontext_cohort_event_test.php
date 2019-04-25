@@ -33,20 +33,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-global $CFG;
-require_once($CFG->dirroot . '/local/metadata/tests/local_metadata_event_testcase.php');
-
 /**
  * @group local_metadata
  * @group metadatacontext_cohort
  */
 
-class metadatacontext_cohort_event_testcase extends local_metadata_event_testcase {
+class metadatacontext_cohort_event_testcase extends advanced_testcase {
 
     /**
      * Setup tasks.
      */
     public function setUp() {
+        $this->generator = $this->getDataGenerator()->get_plugin_generator('local_metadata');
         $this->cohort = [];
         $this->cohort[] = $this->getDataGenerator()->create_cohort();
         $this->cohort[] = $this->getDataGenerator()->create_cohort();
