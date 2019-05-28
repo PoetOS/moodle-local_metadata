@@ -20,7 +20,7 @@
  * @package local_metadata
  * @subpackage metadatafieldtype_fileupload
  * @author Dasu Gunathunga <Dasu.Gunathunga@racp.edu.au>
- * @copyright 
+ * @copyright
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

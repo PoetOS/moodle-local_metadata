@@ -18,7 +18,7 @@
  * Strings for component 'profilefield_fileupload', language 'en', branch 'MOODLE_20_STABLE'
  *
  * @package   profilefield_fileupload
- * @copyright  
+ * @copyright
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,11 +29,10 @@ defined('MOODLE_INTERNAL') || die;
 /**
  * Class local_metadata_field_fileupload
  *
- * @copyright  
+ * @copyright
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class metadata extends \local_metadata\fieldtype\metadata {
-
     /**
      * Add elements for editing the profile field value.
      * @param moodleform $mform
@@ -42,7 +41,7 @@ class metadata extends \local_metadata\fieldtype\metadata {
         // Create the form field.
         $fileupload = $mform->addElement('filemanager', $this->inputname, format_string($this->field->name), null,
                     array('subdirs' => 0, 'maxbytes' => '50', 'areamaxbytes' => 83886080, 'maxfiles' => 1,
-                          'accepted_types' => array('*'), 'return_types'=> FILE_INTERNAL | FILE_EXTERNAL));
+                          'accepted_types' => array('*'), 'return_types' => FILE_INTERNAL | FILE_EXTERNAL));
     }
 
     public function edit_save_data($new) {
@@ -53,10 +52,10 @@ class metadata extends \local_metadata\fieldtype\metadata {
         $this->dradt_item_id = $itemid;
         $context = \context_module::instance($new->id);
         parent::edit_save_data($new);
-        if(!empty($itemid)){
-           file_save_draft_area_files($itemid, $context->id, 'local_metadata', 'imageupload',  $itemid, array());
+        if (!empty($itemid)) {
+            file_save_draft_area_files($itemid, $context->id, 'local_metadata', 'imageupload',  $itemid, array());
         }
-    } 
+    }
 
     /**
      * Display the data for this field
@@ -81,7 +80,7 @@ class metadata extends \local_metadata\fieldtype\metadata {
         $context = \context_module::instance($instance->id);
         $draftitemid = file_get_submitted_draft_itemid('imageupload');
         file_prepare_draft_area($draftitemid, $context->id, 'local_metadata', 'imageupload', $this->data, array(), null);
-        $instance->{$this->inputname} = $draftitemid;     
+        $instance->{$this->inputname} = $draftitemid;
     }
 }
 

@@ -18,8 +18,8 @@
  * Fileupload profile field
  *
  * @package   profilefield_fileupload
- * @copyright  
- * @license    
+ * @copyright
+ * @license
  */
 
 namespace metadatafieldtype_fileupload;
@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die;
 
 /**
  * Class local_metadata_define_fileupload
- * @copyright  
+ * @copyright
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class define extends \local_metadata\fieldtype\define_base {
@@ -40,7 +40,7 @@ class define extends \local_metadata\fieldtype\define_base {
      */
     public function define_form_specific($form) {
         $form->addElement('filemanager', 'image', 'Uploadfile');
-     
+
     }
 }
 
