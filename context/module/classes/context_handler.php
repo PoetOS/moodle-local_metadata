@@ -207,8 +207,9 @@ class context_handler extends \local_metadata\context\context_handler {
 
         if ($fields = $DB->get_records('local_metadata_field', ['contextlevel' => $this->contextlevel])) {
             foreach ($fields as $field) {
-                // The id received in $data is not the one from course module but from the related module (url, label, etc...) instead.
-                // To get the right id and pass it to $formfield so it's saved, a new object is created with the course module id used by the metadata
+                // The id received in $data is not the one from course module but from the related module (url, label, etc...)
+                // instead. To get the right id and pass it to $formfield so it's saved, a new object is created with the course
+                // module id used by the metadata.
                 $newfield = "\\metadatafieldtype_{$field->datatype}\\metadata";
                 $datachunk = new \stdClass();
                 $datachunk->id = $data->coursemodule;
