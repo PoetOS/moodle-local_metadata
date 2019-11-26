@@ -1,0 +1,6 @@
+{
+    "plugintypes": {
+        "metadatafieldtype": "local\/metadata\/fieldtype",
+        "metadatacontext": "local\/metadata\/context"
+    }
+}
