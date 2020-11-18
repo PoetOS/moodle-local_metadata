@@ -43,7 +43,7 @@ class metadatacontext_user_event_testcase extends advanced_testcase {
     /**
      * Setup tasks.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->generator = $this->getDataGenerator()->get_plugin_generator('local_metadata');
         $this->user = [];
         $this->user[] = $this->getDataGenerator()->create_user();

@@ -43,7 +43,7 @@ class metadatacontext_cohort_event_testcase extends advanced_testcase {
     /**
      * Setup tasks.
      */
-    public function setUp() {
+    public function setUp(): void {
         $this->generator = $this->getDataGenerator()->get_plugin_generator('local_metadata');
         $this->cohort = [];
         $this->cohort[] = $this->getDataGenerator()->create_cohort();
