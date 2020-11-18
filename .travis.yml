@@ -1,20 +1,11 @@
 language: php
-
-# We use trusty as currently there is an issue with java and moodle-plugin-ci mustache linting which
-# causes causes tests to fail on xenial and bionic. (See https://github.com/blackboard-open-source/moodle-plugin-ci/issues/91).
-dist: trusty
-
-sudo: true
-
 addons:
-  firefox: "47.0.1"
-  postgresql: "9.4"
-  mysql: "8.0.2"
-  apt:
-    packages:
-      - openjdk-8-jre-headless
+  postgresql: "9.5"
 
-services: mysql
+services:
+  - mysql
+  - postgresql
+  - docker
 
 cache:
   directories:
@@ -22,26 +13,41 @@ cache:
     - $HOME/.npm
 
 php:
-- 7.1
-- 7.2
+  - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
 
 env:
-- MOODLE_BRANCH=MOODLE_38_STABLE DB=pgsql
-- MOODLE_BRANCH=MOODLE_38_STABLE DB=mysqli
+  matrix:
+    - MOODLE_BRANCH=MOODLE_39_STABLE DB=pgsql
+    - MOODLE_BRANCH=MOODLE_39_STABLE DB=mysqli
+    - MOODLE_BRANCH=MOODLE_310_STABLE DB=pgsql
+    - MOODLE_BRANCH=MOODLE_310_STABLE DB=mysqli
 
 matrix:
   exclude:
-  - php: 7.1
-    env: MOODLE_BRANCH=MOODLE_38_STABLE DB=mysqli
-  - php: 7.2
-    env: MOODLE_BRANCH=MOODLE_38_STABLE DB=pgsql
+    - php: 7.3
+      env: MOODLE_BRANCH=MOODLE_39_STABLE DB=mysqli
+    - php: 7.3
+      env: MOODLE_BRANCH=MOODLE_39_STABLE DB=pgsql
+    - php: 7.4
+      env: MOODLE_BRANCH=MOODLE_39_STABLE DB=mysqli
+    - php: 7.4
+      env: MOODLE_BRANCH=MOODLE_39_STABLE DB=pgsql
+    - php: 7.1
+      env: MOODLE_BRANCH=MOODLE_310_STABLE DB=mysqli
+    - php: 7.1
+      env: MOODLE_BRANCH=MOODLE_310_STABLE DB=pgsql
+    - php: 7.2
+      env: MOODLE_BRANCH=MOODLE_310_STABLE DB=mysqli
+    - php: 7.2
+      env: MOODLE_BRANCH=MOODLE_310_STABLE DB=pgsql
 
 before_install:
   - phpenv config-rm xdebug.ini
-  - nvm install 8.9
-  - nvm use 8.9
   - cd ../..
-  - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:

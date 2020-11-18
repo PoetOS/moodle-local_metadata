@@ -1,6 +1,6 @@
 Release Notes
 
-Release 3.8.0 (Build 2019112600)
+Release 3.11.0 (Build 2020111801)
 Updated subplugin declaration file to new subplugins.json structure.
 
-(see CHANGES.TXT in release 3.6 for earlier changes.)
+(see CHANGES.TXT in release 3.8 for earlier changes.)
