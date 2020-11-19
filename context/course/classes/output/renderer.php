@@ -54,9 +54,7 @@ class renderer extends \local_metadata\output\renderer {
      * @param course_settings $coursesettings renderable object.
      */
     public function render_manage_data(manage_data $coursesettings) {
-        global $PAGE;
-
-        $PAGE->set_title($coursesettings->instance->shortname . ': ' . get_string('metadatatitle', 'metadatacontext_course'));
+        $this->page->set_title($coursesettings->instance->shortname . ': ' . get_string('metadatatitle', 'metadatacontext_course'));
         $output = '';
         $output .= $this->header();
         $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_course'));

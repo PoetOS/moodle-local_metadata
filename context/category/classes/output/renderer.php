@@ -54,9 +54,7 @@ class renderer extends \local_metadata\output\renderer {
      * @param category_settings $coursesettings renderable object.
      */
     public function render_manage_data(manage_data $categorysettings) {
-        global $PAGE;
-
-        $PAGE->set_title($categorysettings->instance->name . ': ' . get_string('metadatatitle', 'metadatacontext_category'));
+        $this->page->set_title($categorysettings->instance->name . ': ' . get_string('metadatatitle', 'metadatacontext_category'));
         $output = '';
         $output .= $this->header();
         $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_category'));

@@ -54,9 +54,7 @@ class renderer extends \local_metadata\output\renderer {
      * @param cohort_settings $cohortsettings renderable object.
      */
     public function render_manage_data(manage_data $cohortsettings) {
-        global $PAGE;
-
-        $PAGE->set_title(get_string('metadatatitle', 'metadatacontext_cohort'));
+        $this->page->set_title(get_string('metadatatitle', 'metadatacontext_cohort'));
         $output = '';
         $output .= $this->header();
         $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_cohort'));

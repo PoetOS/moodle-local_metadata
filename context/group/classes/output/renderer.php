@@ -54,9 +54,7 @@ class renderer extends \local_metadata\output\renderer {
      * @param group_settings $groupsettings renderable object.
      */
     public function render_manage_data(manage_data $groupsettings) {
-        global $PAGE;
-
-        $PAGE->set_title(get_string('metadatatitle', 'metadatacontext_group'));
+        $this->page->set_title(get_string('metadatatitle', 'metadatacontext_group'));
         $output = '';
         $output .= $this->header();
         $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_group'));

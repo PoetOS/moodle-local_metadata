@@ -63,3 +63,4 @@ Feature: Enable group context plugin
     And I follow "Group metadata"
     Then I should see "N.A. Timezone"
     And the field "id_local_metadata_field_natimezone" matches value "Central"
+    

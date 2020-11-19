@@ -54,9 +54,7 @@ class renderer extends \local_metadata\output\renderer {
      * @param manage_data $usersettings renderable object.
      */
     public function render_manage_data(manage_data $usersettings) {
-        global $PAGE;
-
-        $PAGE->set_title(get_string('metadatatitle', 'metadatacontext_user'));
+        $this->page->set_title(get_string('metadatatitle', 'metadatacontext_user'));
         $output = '';
         $output .= $this->header();
         $output .= $this->heading(get_string('metadatatitle', 'metadatacontext_user'));
