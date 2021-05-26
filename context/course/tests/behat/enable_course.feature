@@ -25,7 +25,7 @@ Feature: Enable course context plugin
     Then I should see "Course metadata"
     And I navigate to "Courses > Course metadata" in site administration
     Then I should see "Course metadata"
-    And I should see "Create a new profile field:"
+    And I should see "Create a new profile field"
     And I should see "Create a new profile category"
     And I set the field "datatype" to "menu"
     Then I should see "Creating a new 'Dropdown menu' profile field"

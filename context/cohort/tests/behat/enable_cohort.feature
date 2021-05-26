@@ -25,7 +25,7 @@ Feature: Enable cohort context plugin
     Then I should see "Cohort metadata"
     And I navigate to "Users > Cohort metadata" in site administration
     Then I should see "Cohort metadata"
-    And I should see "Create a new profile field:"
+    And I should see "Create a new profile field"
     And I should see "Create a new profile category"
     And I set the field "datatype" to "text"
     Then I should see "Creating a new 'Text input' profile field"

@@ -28,7 +28,7 @@ Feature: Enable module context plugin
     Then I should see "Module metadata"
     And I navigate to "Plugins > Module metadata" in site administration
     Then I should see "Module metadata"
-    And I should see "Create a new profile field:"
+    And I should see "Create a new profile field"
     And I should see "Create a new profile category"
     And I set the field "datatype" to "menu"
     Then I should see "Creating a new 'Dropdown menu' profile field"

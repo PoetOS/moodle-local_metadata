@@ -25,7 +25,7 @@ Feature: Enable user context plugin
     Then I should see "User metadata"
     And I navigate to "Users > User metadata" in site administration
     Then I should see "User metadata"
-    And I should see "Create a new profile field:"
+    And I should see "Create a new profile field"
     And I should see "Create a new profile category"
     And I set the field "datatype" to "checkbox"
     Then I should see "Creating a new 'Checkbox' profile field"

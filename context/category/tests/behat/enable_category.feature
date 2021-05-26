@@ -24,7 +24,7 @@ Feature: Enable category context plugin
     Then I should see "Category metadata"
     And I navigate to "Courses > Category metadata" in site administration
     Then I should see "Category metadata"
-    And I should see "Create a new profile field:"
+    And I should see "Create a new profile field"
     And I should see "Create a new profile category"
     And I set the field "datatype" to "datetime"
     Then I should see "Creating a new 'Date/Time' profile field"

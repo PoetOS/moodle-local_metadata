@@ -28,7 +28,7 @@ Feature: Enable group context plugin
     Then I should see "Group metadata"
     And I navigate to "Courses > Group metadata" in site administration
     Then I should see "Group metadata"
-    And I should see "Create a new profile field:"
+    And I should see "Create a new profile field"
     And I should see "Create a new profile category"
     And I set the field "datatype" to "menu"
     Then I should see "Creating a new 'Dropdown menu' profile field"
