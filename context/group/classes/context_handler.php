@@ -14,21 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Group metadata context handler class..
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_group;
 
 defined('MOODLE_INTERNAL') || die;
@@ -36,6 +21,14 @@ defined('MOODLE_INTERNAL') || die;
 // Group context was dropped between 1.8 and 1.9. Use the old definition here.
 define('CONTEXT_GROUP', 60);
 
+/**
+ * Group metadata context handler class..
+ *
+ * @package metadatacontext_group
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class context_handler extends \local_metadata\context\context_handler {
 
     /**
@@ -115,8 +108,10 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
+     * @param \admin_root $navmenu
+     * @return bool
      */
-    public function add_settings_to_context_menu($navmenu) {
+    public function add_settings_to_context_menu(\admin_root $navmenu): bool {
         if (method_exists($navmenu, 'find') && $navmenu->find('groups', \settings_navigation::TYPE_SETTING)) {
             // Add the settings page to the groups settings menu, if enabled.
             $navmenu->add('groups', new \admin_externalpage('metadatacontext_groups',
@@ -132,6 +127,8 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Hook function that is called when settings blocks are being built.
+     * @param \navigation_node $settingsnav
+     * @param object $context
      */
     public function extend_settings_navigation($settingsnav, $context) {
         global $PAGE;

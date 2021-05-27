@@ -17,7 +17,7 @@
 /**
  * Metadata cohort context plugin version info.
  *
- * @package local_metadata
+ * @package metadatacontext_cohort
  * @subpackage metadatacontext_cohort
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

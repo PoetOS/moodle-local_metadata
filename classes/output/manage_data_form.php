@@ -14,21 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Metadata management form.
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace local_metadata\output;
 
 defined('MOODLE_INTERNAL') || die();
@@ -37,6 +22,14 @@ require_once($CFG->libdir . '/formslib.php');
 
 use moodleform;
 
+/**
+ * Metadata management form.
+ *
+ * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class manage_data_form extends moodleform {
 
     /**
@@ -83,10 +76,22 @@ class manage_data_form extends moodleform {
         return $errors;
     }
 
+    /**
+     * Adds elements to the form.
+     * @param mixed $arg1
+     * @param mixed $arg2
+     * @param mixed $arg3
+     * @param mixed $arg4
+     */
     public function add_element($arg1, $arg2=null, $arg3=null, $arg4=null) {
         $this->_form->addElement($arg1, $arg2, $arg3, $arg4);
     }
 
+    /**
+     * Getter for the form property.
+     * @param string $name
+     * @return \MoodleQuickForm
+     */
     public function __get($name) {
         if ($name == 'mform') {
             return $this->_form;

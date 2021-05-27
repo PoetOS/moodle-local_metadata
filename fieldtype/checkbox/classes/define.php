@@ -17,7 +17,7 @@
 /**
  * Checkbox profile field
  *
- * @package   profilefield_checkbox
+ * @package   metadatafieldtype_checkbox
  * @copyright  2008 onwards Shane Elliot {@link http://pukunui.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

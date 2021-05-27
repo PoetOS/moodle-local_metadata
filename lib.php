@@ -14,15 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
+ * Main library file for plugin.
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @copyright 2017, onwards Poet
  */
 
+defined('MOODLE_INTERNAL') || die;
+
+/**
+ * Define features supported.
+ * @param string $feature
+ * @return bool|null
+ */
 function local_metadata_supports($feature) {
     switch($feature) {
         case FEATURE_BACKUP_MOODLE2:
@@ -35,7 +41,8 @@ function local_metadata_supports($feature) {
 
 /**
  * Loads user profile field data into the context object.
- * @param stdClass $user
+ * @param object $instance
+ * @param int $contextlevel
  */
 function local_metadata_load_data($instance, $contextlevel) {
     global $DB;
@@ -64,6 +71,7 @@ function local_metadata_load_data($instance, $contextlevel) {
  *
  * @param moodleform $mform instance of the moodleform class
  * @param int $instanceid id of user whose profile is being edited.
+ * @param int $contextlevel
  */
 function local_metadata_definition($mform, $instanceid = 0, $contextlevel) {
     global $DB;
@@ -101,6 +109,7 @@ function local_metadata_definition($mform, $instanceid = 0, $contextlevel) {
  * Adds profile fields to instance edit forms.
  * @param moodleform $mform
  * @param int $instanceid
+ * @param int $contextlevel
  */
 function local_metadata_definition_after_data($mform, $instanceid, $contextlevel) {
     global $DB;
@@ -120,9 +129,10 @@ function local_metadata_definition_after_data($mform, $instanceid, $contextlevel
  * Validates profile data.
  * @param stdClass $new
  * @param array $files
+ * @param int $contextlevel
  * @return array
  */
-function local_metadata_validation($new, $files, $contextlevel) {
+function local_metadata_validation(stdClass $new, array $files, int $contextlevel): array {
     global $DB;
 
     if (is_array($new)) {
@@ -143,6 +153,7 @@ function local_metadata_validation($new, $files, $contextlevel) {
 /**
  * Saves profile data for a instance.
  * @param stdClass $new
+ * @param int $contextlevel
  */
 function local_metadata_save_data($new, $contextlevel) {
     global $DB;
@@ -159,8 +170,11 @@ function local_metadata_save_data($new, $contextlevel) {
 /**
  * Display profile fields.
  * @param int $instanceid
+ * @param int $contextlevel
+ * @param bool $returnonly
+ * @return string
  */
-function local_metadata_display_fields($instanceid, $contextlevel, $returnonly=false) {
+function local_metadata_display_fields(int $instanceid, int $contextlevel, bool $returnonly=false): string {
     global $DB;
 
     $output = '';
@@ -193,7 +207,7 @@ function local_metadata_display_fields($instanceid, $contextlevel, $returnonly=f
  * @return array list of profile fields info
  * @since Moodle 3.2
  */
-function local_metadata_get_signup_fields() {
+function local_metadata_get_signup_fields(): array {
     global $DB;
 
     $profilefields = [];
@@ -246,11 +260,11 @@ function local_metadata_signup_fields($mform) {
 /**
  * Returns an object with the custom profile fields set for the given user
  * Specific to user profiles.
- * @param integer $instanceid
+ * @param int $instanceid
  * @param bool $onlyinuserobject True if you only want the ones in $USER.
  * @return stdClass
  */
-function local_metadata_user_record($instanceid, $onlyinuserobject = true) {
+function local_metadata_user_record(int $instanceid, bool $onlyinuserobject = true): stdClass {
     global $DB;
 
     $usercustomfields = new \stdClass();
@@ -278,11 +292,12 @@ function local_metadata_user_record($instanceid, $onlyinuserobject = true) {
  * To be clear, this function returns the available fields, and does not
  * return the field values for a particular user.
  *
+ * @param int $contextlevel
  * @param bool $onlyinuserobject True if you only want the ones in $USER
  * @return array Array of field objects from database (indexed by id)
  * @since Moodle 2.7.1
  */
-function local_metadata_get_custom_fields($contextlevel, $onlyinuserobject = false) {
+function local_metadata_get_custom_fields(int $contextlevel, bool $onlyinuserobject = false): array {
     global $DB;
 
     // Get all the fields.
@@ -305,17 +320,16 @@ function local_metadata_get_custom_fields($contextlevel, $onlyinuserobject = fal
 /**
  * Does the user have all required custom fields set?
  *
- * Internal, to be exclusively used by {@link user_not_fully_set_up()} only.
- *
  * Note that if users have no way to fill a required field via editing their
  * profiles (e.g. the field is not visible or it is locked), we still return true.
  * So this is actually checking if we should redirect the user to edit their
  * profile, rather than whether there is a value in the database.
  *
  * @param int $instanceid
+ * @param int $contextlevel
  * @return bool
  */
-function local_metadata_has_required_custom_fields_set($instanceid, $contextlevel) {
+function local_metadata_has_required_custom_fields_set(int $instanceid, int $contextlevel): bool {
     global $DB;
 
     $sql = "SELECT f.id
@@ -336,7 +350,7 @@ function local_metadata_has_required_custom_fields_set($instanceid, $contextleve
  * @param int $contextlevel The context level to look for.
  * @return string The name of the located context.
  */
-function local_metadata_get_contextname($contextlevel) {
+function local_metadata_get_contextname(int $contextlevel): string {
     static $contextnames = []; // Cache for located contexts.
 
     $returnname = '';
@@ -371,6 +385,8 @@ function local_metadata_inplace_editable($itemtype, $itemid, $newvalue) {
 
 /**
  * Hook function that is called when settings blocks are being built. Call all context functions
+ * @param settings_navigation $settingsnav
+ * @param object $context
  */
 function local_metadata_extend_settings_navigation($settingsnav, $context) {
     foreach (\local_metadata\context\context_handler::all_enabled_subplugins() as $contexthandler) {
@@ -380,6 +396,10 @@ function local_metadata_extend_settings_navigation($settingsnav, $context) {
 
 /**
  * Hook function that is called when user profile page is being built. Call all context functions
+ * @param \core_user\output\myprofile\tree $tree
+ * @param object $user
+ * @param bool $iscurrentuser
+ * @param object $course
  */
 function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
     foreach (\local_metadata\context\context_handler::all_enabled_subplugins() as $contexthandler) {
@@ -389,6 +409,9 @@ function local_metadata_myprofile_navigation(\core_user\output\myprofile\tree $t
 
 /**
  * Hook function to extend the course settings navigation. Call all context functions
+ * @param navigation_node $parentnode
+ * @param stdClass $course
+ * @param stdClass $context
  */
 function local_metadata_extend_navigation_course($parentnode, $course, $context) {
     foreach (\local_metadata\context\context_handler::all_enabled_subplugins() as $contexthandler) {

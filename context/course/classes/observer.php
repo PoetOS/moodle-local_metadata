@@ -14,20 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @subpackage metadatacontext_course
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
 namespace metadatacontext_course;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Local metadatacontext_course event handler.
+ * @package metadatacontext_course
+ * @subpackage metadatacontext_course
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2017, onwards Poet
  */
 class observer {
     /**

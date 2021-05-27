@@ -14,18 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace metadatacontext_user\privacy;
+
+defined('MOODLE_INTERNAL') || die();
+
+use \core_privacy\local\metadata\collection;
+use \core_privacy\local\request\contextlist;
+
 /**
- * @package local_metadata
+ * Privacy provider for plugin.
+ * @package metadatacontext_user
  * @subpackage metadatacontext_user
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @copyright 2017, onwards Poet
  */
-
-namespace metadatacontext_user\privacy;
-
-defined('MOODLE_INTERNAL') || die();
-
 class provider implements
     // This plugin has data.
     \core_privacy\local\metadata\provider,
@@ -33,15 +36,13 @@ class provider implements
     // This plugin currently implements the original plugin_provider interface.
     \core_privacy\local\request\plugin\provider {
 
-    use \core_privacy\local\legacy_polyfill;
-
     /**
      * Returns meta data about this system.
      *
-     * @param   collection $items The collection to add metadata to.
+     * @param collection $collection
      * @return  collection  The array of metadata
      */
-    public static function _get_metadata(\core_privacy\local\metadata\collection $collection) {
+    public static function get_metadata(\core_privacy\local\metadata\collection $collection): collection {
 
         // Add all of the relevant tables and fields to the collection.
         $collection->add_database_table('local_metadata', [
@@ -64,7 +65,7 @@ class provider implements
      * @param   int $userid The user to search.
      * @return  contextlist   $contextlist  The list of contexts used in this plugin.
      */
-    public static function _get_contexts_for_userid($userid) {
+    public static function get_contexts_for_userid($userid): contextlist {
         $contextlist = new \core_privacy\local\request\contextlist();
         $contextlist->add_user_context($userid);
         return $contextlist;

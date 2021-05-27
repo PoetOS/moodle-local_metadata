@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines fixutres for unit testing of lib/classes/myprofile/.
+ * Contains necessary fixture classes for unit testing.
  *
- * @package   core_user
- * @category  test
- * @copyright 2015 onwards Ankit Agarwal
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -28,10 +28,10 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Class phpunit_fixture_myprofile_category
  *
- * @package   core_user
- * @category  test
- * @copyright 2015 onwards Ankit Agarwal
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class phpunit_fixture_myprofile_category extends \core_user\output\myprofile\category {
     /**
@@ -55,10 +55,10 @@ class phpunit_fixture_myprofile_category extends \core_user\output\myprofile\cat
 /**
  * Class phpunit_fixture_myprofile_tree
  *
- * @package   core_user
- * @category  test
- * @copyright 2015 onwards Ankit Agarwal
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class phpunit_fixture_myprofile_tree extends \core_user\output\myprofile\tree {
     /**

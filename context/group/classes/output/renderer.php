@@ -14,25 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Renderer class for group context. Override anything needed.
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_group\output;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Renderer class for group context. Override anything needed.
+ *
+ * @package metadatacontext_group
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class renderer extends \local_metadata\output\renderer {
 
     /**
@@ -51,9 +44,10 @@ class renderer extends \local_metadata\output\renderer {
     /**
      * Group settings renderer.
      *
-     * @param group_settings $groupsettings renderable object.
+     * @param manage_data $groupsettings renderable object.
+     * @return string
      */
-    public function render_manage_data(manage_data $groupsettings) {
+    public function render_manage_data(manage_data $groupsettings): string {
         $this->page->set_title(get_string('metadatatitle', 'metadatacontext_group'));
         $output = '';
         $output .= $this->header();

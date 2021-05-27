@@ -14,25 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Module metadata context handler class..
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_module;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Module metadata context handler class..
+ *
+ * @package metadatacontext_module
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class context_handler extends \local_metadata\context\context_handler {
 
     /**
@@ -58,7 +51,7 @@ class context_handler extends \local_metadata\context\context_handler {
                          'INNER JOIN {modules} m ON cm.module = m.id ' .
                          'WHERE cm.id = ?';
                 if (!($this->instance = $DB->get_record_sql($cmsql, ['id' => $this->instanceid], MUST_EXIST))) {
-                    print_error('invalidcoursemodule');
+                    throw new \moodle_exception('invalidcoursemodule', 'local_metadata');
                 }
             } else {
                 $this->instance = new \stdClass();
@@ -129,8 +122,10 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
+     * @param \admin_root $navmenu
+     * @return bool
      */
-    public function add_settings_to_context_menu($navmenu) {
+    public function add_settings_to_context_menu(\admin_root $navmenu): bool {
         // Add the settings page to the activity modules settings menu, if enabled.
         $navmenu->add('modsettings',
             new \admin_externalpage('metadatacontext_modules', get_string('metadatatitle', 'metadatacontext_module'),
@@ -141,6 +136,8 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Hook function that is called when settings blocks are being built.
+     * @param \navigation_node $settingsnav
+     * @param object $context
      */
     public function extend_settings_navigation($settingsnav, $context) {
         global $PAGE;
@@ -174,6 +171,8 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Hook function called when a module form is loaded and add metadata form elements for the module
+     * @param object $formwrapper
+     * @param object $mform
      */
     public function coursemodule_standard_elements($formwrapper, $mform) {
         global $DB;
@@ -201,6 +200,9 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Hook function called when a module form is saved and insert/update metadata in the database for the module
+     * @param object $data
+     * @param object $course
+     * @return object
      */
     public function coursemodule_edit_post_actions($data, $course) {
         global $DB;

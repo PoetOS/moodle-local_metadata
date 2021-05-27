@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language file for plugin.
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

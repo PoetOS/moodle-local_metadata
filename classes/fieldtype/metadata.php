@@ -14,25 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
+namespace local_metadata\fieldtype;
+
+defined('MOODLE_INTERNAL') || die;
 
 /**
  * Base class for the customisable metadata fields.
  *
  * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright  2017, onwards Poet
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace local_metadata\fieldtype;
-
-defined('MOODLE_INTERNAL') || die;
-
 class metadata {
 
     // These 2 variables are really what we're interested in.
@@ -82,11 +75,11 @@ class metadata {
 
     /**
      * Abstract method: Adds the profile field to the moodle form class
-     * @abstract The following methods must be overwritten by child classes
+     * The following methods must be overwritten by child classes
      * @param moodleform $mform instance of the moodleform class
      */
     public function edit_field_add($mform) {
-        print_error('mustbeoveride', 'debug', '', 'edit_field_add');
+        throw new \moodle_exception('mustbeoveride', 'debug', '', 'edit_field_add');
     }
 
     /**
@@ -277,7 +270,7 @@ class metadata {
 
     /**
      * Accessor method: set the instanceid for this instance
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @param integer $instanceid id from the instance table
      */
     public function set_instanceid($instanceid) {
@@ -286,7 +279,7 @@ class metadata {
 
     /**
      * Accessor method: set the fieldid for this instance
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @param integer $fieldid id from the local_metadata_field table
      */
     public function set_fieldid($fieldid) {
@@ -296,7 +289,7 @@ class metadata {
     /**
      * Accessor method: Load the field record and instance data associated with the
      * object's fieldid and instanceis
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @param object $fielddata Optional data for the field object.
      */
     public function load_data($fielddata=null) {
@@ -337,7 +330,7 @@ class metadata {
 
     /**
      * Check if the field data is visible to the current user
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @return bool
      */
     public function is_visible() {
@@ -361,7 +354,7 @@ class metadata {
 
     /**
      * Check if the field data is considered empty
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @return boolean
      */
     public function is_empty() {
@@ -370,7 +363,7 @@ class metadata {
 
     /**
      * Check if the field is required on the edit profile page
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @return bool
      */
     public function is_required() {
@@ -379,7 +372,7 @@ class metadata {
 
     /**
      * Check if the field is locked on the edit profile page
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @return bool
      */
     public function is_locked() {
@@ -388,7 +381,7 @@ class metadata {
 
     /**
      * Check if the field data should be unique
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @return bool
      */
     public function is_unique() {
@@ -397,7 +390,7 @@ class metadata {
 
     /**
      * Check if the field should appear on the signup page
-     * @internal This method should not generally be overwritten by child classes.
+     * This method should not generally be overwritten by child classes.
      * @return bool
      */
     public function is_signup_field() {

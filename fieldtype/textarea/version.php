@@ -17,7 +17,7 @@
 /**
  * Metadata textarea fieldtype plugin version info.
  *
- * @package local_metadata
+ * @package metadatafieldtype_textarea
  * @subpackage metadatafieldtype_textarea
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

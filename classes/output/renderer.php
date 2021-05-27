@@ -14,25 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
+namespace local_metadata\output;
+
+defined('MOODLE_INTERNAL') || die;
 
 /**
  * Renderer base class.
  *
  * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright  2017, onwards Poet
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace local_metadata\output;
-
-defined('MOODLE_INTERNAL') || die;
-
 class renderer extends \plugin_renderer_base {
 
     /**
@@ -104,7 +97,8 @@ class renderer extends \plugin_renderer_base {
 
     /**
      * Create a string containing the editing icons for the user profile fields
-     * @param stdClass $field the field object
+     * @param \stdClass $field the field object
+     * @param int $contextlevel
      * @return string the icon string
      */
     protected function field_icons($field, $contextlevel) {

@@ -17,7 +17,7 @@
 /**
  * Metadata menu fieldtype plugin version info.
  *
- * @package local_metadata
+ * @package metadatafieldtype_menu
  * @subpackage metadatafieldtype_menu
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

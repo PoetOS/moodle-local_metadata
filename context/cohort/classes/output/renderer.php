@@ -14,25 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Renderer class for cohort context. Override anything needed.
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_cohort\output;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Renderer class for cohort context. Override anything needed.
+ *
+ * @package metadatacontext_cohort
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class renderer extends \local_metadata\output\renderer {
 
     /**
@@ -51,9 +44,10 @@ class renderer extends \local_metadata\output\renderer {
     /**
      * Cohort settings renderer.
      *
-     * @param cohort_settings $cohortsettings renderable object.
+     * @param manage_data $cohortsettings renderable object.
+     * @return string
      */
-    public function render_manage_data(manage_data $cohortsettings) {
+    public function render_manage_data(manage_data $cohortsettings): string {
         $this->page->set_title(get_string('metadatatitle', 'metadatacontext_cohort'));
         $output = '';
         $output .= $this->header();

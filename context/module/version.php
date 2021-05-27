@@ -17,8 +17,7 @@
 /**
  * Metadata module context plugin version info.
  *
- * @package local_metadata
- * @subpackage metadatacontext_module
+ * @package metadatacontext_module
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

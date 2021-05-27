@@ -14,21 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Cohort metadata context handler class..
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_cohort;
 
 defined('MOODLE_INTERNAL') || die;
@@ -36,6 +21,14 @@ defined('MOODLE_INTERNAL') || die;
 // Cohort context has never existed. Define it here using the '9000' category.
 define('CONTEXT_COHORT', 9000);
 
+/**
+ * Cohort metadata context handler class..
+ *
+ * @package metadatacontext_cohort
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class context_handler extends \local_metadata\context\context_handler {
 
     /**
@@ -50,7 +43,7 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Return the instance of the context. Must be handled by the implementing class.
-     * @return object The Moodle data record for the instance.
+     * @return \stdClass|bool The Moodle data record for the instance.
      */
     public function get_instance() {
         global $DB;
@@ -66,7 +59,7 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Return the instance of the context. Must be handled by the implementing class.
-     * @return object The Moodle context.
+     * @return \stdClass|bool The Moodle data record for the instance.
      */
     public function get_context() {
         if (empty($this->context)) {
@@ -113,8 +106,10 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Implement if specific context settings can be added to a context settings page (e.g. Users / Accounts).
+     * @param \admin_root $navmenu
+     * @return bool
      */
-    public function add_settings_to_context_menu($navmenu) {
+    public function add_settings_to_context_menu(\admin_root $navmenu): bool {
         // Add the settings page to the cohorts settings menu, if enabled.
         $navmenu->add('accounts',
             new \admin_externalpage('metadatacontext_cohorts', get_string('metadatatitle', 'metadatacontext_cohort'),
@@ -125,6 +120,8 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Hook function that is called when settings blocks are being built.
+     * @param \navigation_node $settingsnav
+     * @param object $context
      */
     public function extend_settings_navigation($settingsnav, $context) {
         global $PAGE;

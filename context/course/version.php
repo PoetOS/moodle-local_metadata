@@ -17,7 +17,7 @@
 /**
  * Metadata course context plugin version info.
  *
- * @package local_metadata
+ * @package metadatacontext_course
  * @subpackage metadatacontext_course
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

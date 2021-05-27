@@ -14,25 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Renderer class for course context. Override anything needed.
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_course\output;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Renderer class for course context. Override anything needed.
+ *
+ * @package metadatacontext_course
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class renderer extends \local_metadata\output\renderer {
 
     /**
@@ -51,9 +43,10 @@ class renderer extends \local_metadata\output\renderer {
     /**
      * Course settings renderer.
      *
-     * @param course_settings $coursesettings renderable object.
+     * @param manage_data $coursesettings renderable object.
+     * @return string
      */
-    public function render_manage_data(manage_data $coursesettings) {
+    public function render_manage_data(manage_data $coursesettings): string {
         $this->page->set_title($coursesettings->instance->shortname . ': ' . get_string('metadatatitle', 'metadatacontext_course'));
         $output = '';
         $output .= $this->header();

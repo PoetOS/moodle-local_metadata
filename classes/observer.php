@@ -14,19 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
 namespace local_metadata;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Local metadata event handler.
+ * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2017, onwards Poet
  */
 class observer {
 
@@ -51,7 +48,8 @@ class observer {
      * Delete metadata for appropriate contextlevel fields.
      * - Removes user metadata
      *
-     * @param \core\event\user_deleted $event
+     * @param int $contextlevel
+     * @param int $instanceid
      * @return bool true on success
      */
     public static function delete_metadata($contextlevel, $instanceid) {

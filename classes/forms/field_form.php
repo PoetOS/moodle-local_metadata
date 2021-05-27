@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * This file contains the Field Form used for profile fields.
- *
- * @package core_user
- * @copyright  2007 onwards Shane Elliot {@link http://pukunui.com}
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace local_metadata\forms;
 
 use moodleform;
@@ -29,8 +21,9 @@ use moodleform;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Class field_form
+ * This file contains the Field Form used for profile fields.
  *
+ * @package local_metadata
  * @copyright  2007 onwards Shane Elliot {@link http://pukunui.com}
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

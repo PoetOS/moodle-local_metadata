@@ -17,7 +17,7 @@
 /**
  * Metadata cohort context plugin language file.
  *
- * @package local_metadata
+ * @package metadatacontext_cohort
  * @subpackage metadatacontext_cohort
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

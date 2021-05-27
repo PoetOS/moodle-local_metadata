@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
+namespace local_metadata\output;
+
+defined('MOODLE_INTERNAL') || die;
 
 /**
  * Renderer base class.
  *
  * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright  2017, onwards Poet
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace local_metadata\output;
-
-defined('MOODLE_INTERNAL') || die;
-
 class category_table implements \renderable {
 
+    /** @var array  */
     public $categories;
 
+    /**
+     * category_table constructor.
+     * @param array $categories
+     */
     public function __construct(array $categories) {
         $this->categories = $categories;
     }

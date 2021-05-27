@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Version file.
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -22,6 +23,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
+
 $plugin->version   = 2021053100;
 $plugin->release   = '3.11.0 (Build 2021053100)';
 $plugin->maturity  = MATURITY_STABLE;

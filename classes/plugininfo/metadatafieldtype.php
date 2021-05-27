@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace local_metadata\plugininfo;
+
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Subplugin info class.
  *
@@ -22,12 +26,11 @@
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace local_metadata\plugininfo;
-
-defined('MOODLE_INTERNAL') || die();
-
 class metadatafieldtype extends \core\plugininfo\base {
+    /**
+     * Define whether the plugin can uninstalled or not.
+     * @return bool
+     */
     public function is_uninstall_allowed() {
         return true;
     }

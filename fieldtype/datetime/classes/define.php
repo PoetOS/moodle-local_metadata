@@ -17,7 +17,7 @@
 /**
  * This file contains the datetime profile field definition class.
  *
- * @package profilefield_datetime
+ * @package metadatafieldtype_datetime
  * @copyright 2010 Mark Nelson <markn@moodle.com>
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */

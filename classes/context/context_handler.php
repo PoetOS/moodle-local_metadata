@@ -14,31 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * General metadata context handler class..
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace local_metadata\context;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * General metadata context handler class.
+ *
+ * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 abstract class context_handler {
 
+    /** @var int|null  */
     public $instanceid;
+
+    /** @var object */
     protected $instance;
+
+    /** @var int|string  */
     protected $contextname;
+
+    /** @var int|null  */
     protected $contextlevel;
+
+    /** @var object */
     protected $context;
 
     /**
@@ -60,7 +62,7 @@ abstract class context_handler {
      * @param int $contextlevel The context level for this metadata.
      * @return object The object for the specified context subplugin.
      */
-    static public function factory($contextname, $instanceid = null, $contextlevel = null) {
+    public static function factory($contextname, $instanceid = null, $contextlevel = null) {
         // Since get_plugin_list already caches the list, don't worry about multiple calls.
         $contextplugins = \core_component::get_plugin_list('metadatacontext');
         if (isset($contextplugins[$contextname])) {
@@ -76,7 +78,7 @@ abstract class context_handler {
      * @param string $contextname The name of a valid subplugin context.
      * @return boolean Enabled status.
      */
-    static public function is_enabled($contextname) {
+    public static function is_enabled($contextname) {
         return get_config('metadatacontext_'.$contextname, 'metadataenabled') == 1;
     }
 
@@ -84,7 +86,7 @@ abstract class context_handler {
      * Return an array of subplugin names for all subplugins.
      * @return array Names of all subplugins.
      */
-    static public function all_subplugin_names() {
+    public static function all_subplugin_names() {
         $pluginnames = [];
         $contextplugins = \core_component::get_plugin_list('metadatacontext');
         foreach ($contextplugins as $contextname => $contextlocation) {
@@ -97,7 +99,7 @@ abstract class context_handler {
      * Return an array of empty subplugin objects for all subplugins.
      * @return array Objects for all subplugins.
      */
-    static public function all_subplugins() {
+    public static function all_subplugins() {
         $plugins = [];
         $pluginnames = self::all_subplugin_names();
         foreach ($pluginnames as $contextname) {
@@ -110,7 +112,7 @@ abstract class context_handler {
      * Return an array of empty subplugin objects for all enabled subplugins.
      * @return array Objects for all enabled subplugins.
      */
-    static public function all_enabled_subplugins() {
+    public static function all_enabled_subplugins() {
         $plugins = self::all_subplugins();
         foreach ($plugins as $index => $contexthandler) {
             if (!self::is_enabled($contexthandler->contextname)) {
@@ -122,10 +124,10 @@ abstract class context_handler {
 
     /**
      * Find the instance id of the context type from the most appropriate Moodle context.
-     * @var string $contextname The name of the context type.
+     * @param string $contextname The name of the context type.
      * @return int|boolean The instance id determined; false if not found.
      */
-    static public function find_instanceid($contextname) {
+    public static function find_instanceid(string $contextname) {
         try {
             $contexthandler = self::factory($contextname);
             $instanceid = $contexthandler->get_instanceid_from_currentcontext();
@@ -211,15 +213,18 @@ abstract class context_handler {
 
     /**
      * Implement if specific context settings can be added to a context settings menu (e.g. site admin / users).
-     * @param object $navmenu The Moodle navmenu to add the settings link to.
+     * @param \admin_root $navmenu The Moodle navmenu to add the settings link to.
+     * @return bool
      */
-    public function add_settings_to_context_menu($navmenu) {
+    public function add_settings_to_context_menu(\admin_root $navmenu): bool {
         return false;
     }
 
     /**
      * Implement extend_settings_navigation hook if general administration navigation entries are required.
-     *
+     * @param \navigation_node $settingsnav
+     * @param object $context
+     * @return bool
      */
     public function extend_settings_navigation($settingsnav, $context) {
         return true;
@@ -227,6 +232,11 @@ abstract class context_handler {
 
     /**
      * Implement myprofile_navigation hook function that is called when user profile page is being built.
+     * @param \core_user\output\myprofile\tree $tree
+     * @param object $user
+     * @param bool $iscurrentuser
+     * @param object $course
+     * @return bool
      */
     public function myprofile_navigation(\core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
         return true;
@@ -234,8 +244,12 @@ abstract class context_handler {
 
     /**
      * Implement extend_navigation_course hook function to extend the course settings navigation.
+     * @param \navigation_node $parentnode
+     * @param \stdClass $course
+     * @param \stdClass $context
+     * @return bool
      */
-    public function extend_navigation_course($parentnode, $course, $context) {
+    public function extend_navigation_course(\navigation_node $parentnode, \stdClass $course, \stdClass $context) {
         return true;
     }
 

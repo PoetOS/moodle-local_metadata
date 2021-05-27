@@ -17,7 +17,7 @@
 /**
  * Metadata text fieldtype plugin language file.
  *
- * @package local_metadata
+ * @package metadatafieldtype_text
  * @subpackage metadatafieldtype_text
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

@@ -17,7 +17,7 @@
 /**
  * Text profile field definition.
  *
- * @package    profilefield_text
+ * @package    metadatafieldtype_text
  * @copyright  2007 onwards Shane Elliot {@link http://pukunui.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

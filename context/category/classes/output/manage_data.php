@@ -14,27 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Course category metadata management renderable.
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_category\output;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Course category metadata management renderable.
+ *
+ * @package metadatacontext_category
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class manage_data extends \local_metadata\output\manage_data {
-
+    /**
+     * manage_data constructor.
+     * @param null $instance
+     * @param null $contextlevel
+     * @param null $action
+     */
     public function __construct($instance = null, $contextlevel = null, $action = null) {
         $action = ($action === null) ? 'coursedata' : $action;
         parent::__construct($instance, CONTEXT_COURSECAT, $action);

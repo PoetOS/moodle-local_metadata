@@ -15,21 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-defined('MOODLE_INTERNAL') || die;
-
-/**
  * Base class for the customisable metadata fields.
  *
  * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright  2017, onwards Poet
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die;
 
 /**
  * Reorder the profile fields within a given category starting at the field at the given startorder.
@@ -80,11 +74,11 @@ function local_metadata_delete_category($id) {
 
     // Retrieve the category.
     if (!$category = $DB->get_record('local_metadata_category', ['id' => $id])) {
-        print_error('invalidcategoryid');
+        throw new \moodle_exception('invalidcategoryid', 'local_metadata');
     }
 
     if (!$categories = $DB->get_records('local_metadata_category', ['contextlevel' => $category->contextlevel], 'sortorder ASC')) {
-        print_error('nocate', 'debug');
+        throw new \moodle_exception('nocate', 'debug');
     }
 
     unset($categories[$category->id]);
@@ -131,7 +125,7 @@ function local_metadata_delete_field($id) {
 
     // Remove any user data associated with this field.
     if (!$DB->delete_records('local_metadata', ['fieldid' => $id])) {
-        print_error('cannotdeletecustomfield');
+        throw new \moodle_exception('cannotdeletecustomfield', 'local_metadata');
     }
 
     // Note: Any availability conditions that depend on this field will remain,
@@ -265,6 +259,7 @@ function local_metadata_list_categories($contextlevel) {
  *
  * @param int $id
  * @param string $redirect
+ * @param int $contextlevel
  */
 function local_metadata_edit_category($id, $redirect, $contextlevel) {
     global $DB, $OUTPUT;

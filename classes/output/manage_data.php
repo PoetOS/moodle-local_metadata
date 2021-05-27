@@ -14,34 +14,45 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
+namespace local_metadata\output;
+
+defined('MOODLE_INTERNAL') || die;
 
 /**
  * General metadata management renderable.
  *
  * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright  2017, onwards Poet
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace local_metadata\output;
-
-defined('MOODLE_INTERNAL') || die;
-
 class manage_data implements \renderable {
 
+    /** @var mixed|null  */
     public $instance;
+
+    /** @var mixed|null  */
     public $contextlevel;
+
+    /** @var mixed|null  */
     public $action;
+
+    /** @var array  */
     public $data;
+
+    /** @var object */
     public $form;
+
+    /** @var bool  */
     public $saved = false;
 
+    /**
+     * manage_data constructor.
+     * @param null $instance
+     * @param null $contextlevel
+     * @param null $action
+     * @throws \dml_exception
+     */
     public function __construct($instance = null, $contextlevel = null, $action = null) {
         global $DB;
 
@@ -76,7 +87,7 @@ class manage_data implements \renderable {
     /**
      * Function to add a form to render within.
      *
-     * @param \moodleform $form A moodleform object or child.
+     * @param bool $state
      */
     public function set_saved($state = true) {
         $this->saved = $state;

@@ -17,7 +17,7 @@
 /**
  * Metadata checkbox fieldtype plugin language file.
  *
- * @package local_metadata
+ * @package metadatafieldtype_checkbox
  * @subpackage metadatafieldtype_checkbox
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

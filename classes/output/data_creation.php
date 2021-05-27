@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
+namespace local_metadata\output;
+
+defined('MOODLE_INTERNAL') || die;
 
 /**
  * Data creation renderable.
  *
  * @package local_metadata
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright  2017, onwards Poet
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace local_metadata\output;
-
-defined('MOODLE_INTERNAL') || die;
-
 class data_creation implements \renderable {
 
+    /** @var int */
     public $contextlevel;
 
+    /**
+     * data_creation constructor.
+     * @param int $contextlevel
+     */
     public function __construct($contextlevel) {
         $this->contextlevel = $contextlevel;
     }

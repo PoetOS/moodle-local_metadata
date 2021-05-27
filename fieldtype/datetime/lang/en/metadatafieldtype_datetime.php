@@ -17,7 +17,7 @@
 /**
  * Metadata datetime fieldtype plugin language file.
  *
- * @package local_metadata
+ * @package metadatafieldtype_datetime
  * @subpackage metadatafieldtype_datetime
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @copyright 2017 onwards Mike Churchward (mike.churchward@poetopensource.org)

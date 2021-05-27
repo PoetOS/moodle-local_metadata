@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace local_metadata\privacy;
+
+defined('MOODLE_INTERNAL') || die();
+
 /**
+ * Privacy provider for plugin.
  * @package local_metadata
  * @author Mike Churchward <mike.churchward@poetopensource.org>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @copyright 2017, onwards Poet
  */
-
-namespace local_metadata\privacy;
-
-defined('MOODLE_INTERNAL') || die();
-
 class provider implements
 // This plugin does not store any personal user data.
     \core_privacy\local\metadata\null_provider {
-
-    use \core_privacy\local\legacy_polyfill;
 
     /**
      * Returns meta data about this system.
      *
      * @return  string
      */
-    public static function _get_reason() {
+    public static function get_reason(): string {
         return 'privacy:metadata';
     }
 }

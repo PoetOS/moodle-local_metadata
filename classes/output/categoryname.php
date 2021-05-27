@@ -14,15 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Contains class local_metadata\output\categoryname
- *
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
 namespace local_metadata\output;
 
 defined('MOODLE_INTERNAL') || die;
@@ -42,8 +33,7 @@ class categoryname extends \core\output\inplace_editable {
 
     /**
      * Constructor.
-     *
-     * @param \stdClass $tagcoll
+     * @param int $category
      */
     public function __construct($category) {
         $editable = has_capability('moodle/user:update', context_system::instance());

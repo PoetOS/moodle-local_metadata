@@ -14,20 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @subpackage metadatacontext_cohort
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
 namespace metadatacontext_cohort;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Local metadatacontext_cohort event handler.
+ * @package metadatacontext_cohort
+ * @subpackage metadatacontext_cohort
+ * @author Mike Churchward <mike.churchward@poetopensource.org>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright 2017, onwards Poet
  */
 class observer {
     /**

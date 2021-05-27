@@ -14,25 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * @package local_metadata
- * @author Mike Churchward <mike.churchward@poetopensource.org>
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright 2017, onwards Poet
- */
-
-/**
- * Course metadata context handler class..
- *
- * @package local_metadata
- * @copyright  2017, onwards Poet
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 namespace metadatacontext_course;
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * Course metadata context handler class..
+ *
+ * @package metadatacontext_course
+ * @copyright  2017, onwards Poet
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class context_handler extends \local_metadata\context\context_handler {
 
     /**
@@ -114,8 +106,10 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Implement if specific context settings can be added to a context settings page (e.g. user preferences).
+     * @param \admin_root $navmenu
+     * @return bool
      */
-    public function add_settings_to_context_menu($navmenu) {
+    public function add_settings_to_context_menu(\admin_root $navmenu): bool {
         // Add the settings page to the course settings menu.
         $navmenu->add('courses', new \admin_externalpage('metadatacontext_courses',
             get_string('metadatatitle', 'metadatacontext_course'),
@@ -125,8 +119,11 @@ class context_handler extends \local_metadata\context\context_handler {
 
     /**
      * Hook function to extend the course settings navigation.
+     * @param \navigation_node $parentnode
+     * @param \stdClass $course
+     * @param \stdClass $context
      */
-    public function extend_navigation_course($parentnode, $course, $context) {
+    public function extend_navigation_course(\navigation_node $parentnode, \stdClass $course, \stdClass $context) {
         if ((get_config('metadatacontext_course', 'metadataenabled') == 1) &&
             has_capability('moodle/course:create', $context)) {
             $strmetadata = get_string('metadatatitle', 'metadatacontext_course');
