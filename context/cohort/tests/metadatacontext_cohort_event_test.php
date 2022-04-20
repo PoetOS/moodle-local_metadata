@@ -26,8 +26,9 @@ namespace metadatacontext_cohort;
  * @copyright 2017, onwards Poet
  * @group local_metadata
  * @group metadatacontext_cohort
+ * @covers \metadatacontext_cohort\observer
  */
-class metadatacontext_cohort_event_test extends advanced_testcase {
+class metadatacontext_cohort_event_test extends \advanced_testcase {
 
     /**
      * Setup tasks.

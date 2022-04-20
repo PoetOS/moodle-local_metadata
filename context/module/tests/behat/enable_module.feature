@@ -24,8 +24,6 @@ Feature: Enable module context plugin
     And I press "Save changes"
     Then the field "s_metadatacontext_module_metadataenabled" matches value "1"
 
-    And I navigate to "Plugins" in site administration
-    Then I should see "Module metadata"
     And I navigate to "Plugins > Module metadata" in site administration
     Then I should see "Module metadata"
     And I should see "Create a new profile field"
@@ -63,7 +61,7 @@ Feature: Enable module context plugin
 
     And I am on "Course 1" course homepage
     And I follow "Standard forum name"
-    And I navigate to "Edit settings" in current page administration
+    And I navigate to "Settings" in current page administration
     Then I should see "Other fields"
     And I click on "Other fields" "link"
     Then I should see "Subject matter"

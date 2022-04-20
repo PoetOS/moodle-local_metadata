@@ -21,8 +21,6 @@ Feature: Enable cohort context plugin
     And I press "Save changes"
     Then the field "s_metadatacontext_cohort_metadataenabled" matches value "1"
 
-    And I navigate to "Users" in site administration
-    Then I should see "Cohort metadata"
     And I navigate to "Users > Cohort metadata" in site administration
     Then I should see "Cohort metadata"
     And I should see "Create a new profile field"
@@ -35,8 +33,9 @@ Feature: Enable cohort context plugin
     Then I should see "Cohort metadata"
     And I should see "Cohort Manager ID"
 
+    And I am on site homepage
+    And I turn editing mode on
     And I navigate to "Users > Accounts > Cohorts" in site administration
-    And I press "Blocks editing on"
     And I follow "Add new cohort"
     Then I should see "Add new cohort"
     And I set the field "id_name" to "Cohort One"

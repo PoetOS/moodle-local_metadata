@@ -25,8 +25,9 @@ namespace metadatacontext_course;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group local_metadata
  * @group metadatacontext_course
+ * @covers \metadatacontext_course\observer
  */
-class metadatacontext_course_event_test extends advanced_testcase {
+class metadatacontext_course_event_test extends \advanced_testcase {
 
     /**
      * Setup tasks.

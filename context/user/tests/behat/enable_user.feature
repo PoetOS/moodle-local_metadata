@@ -21,8 +21,6 @@ Feature: Enable user context plugin
     And I press "Save changes"
     Then the field "s_metadatacontext_user_metadataenabled" matches value "1"
 
-    And I navigate to "Users" in site administration
-    Then I should see "User metadata"
     And I navigate to "Users > User metadata" in site administration
     Then I should see "User metadata"
     And I should see "Create a new profile field"

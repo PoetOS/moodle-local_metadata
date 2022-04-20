@@ -29,10 +29,11 @@ global $CFG;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group local_metadata
  */
-class metadatalib_test extends advanced_testcase {
+class metadatalib_test extends \advanced_testcase {
     /**
      * Tests profile_get_custom_fields function and checks it is consistent
      * with profile_user_record.
+     * @coversNothing
      */
     public function test_get_custom_fields() {
         global $DB, $CFG;
@@ -83,6 +84,7 @@ class metadatalib_test extends advanced_testcase {
 
     /**
      * Make sure that all profile fields can be initialised without arguments.
+     * @coversNothing
      */
     public function test_default_constructor() {
         global $CFG;

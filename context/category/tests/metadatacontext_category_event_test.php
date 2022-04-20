@@ -26,8 +26,9 @@ namespace metadatacontext_category;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group local_metadata
  * @group metadatacontext_category
+ * @covers \metadatacontext_category\observer
  */
-class metadatacontext_category_event_test extends advanced_testcase {
+class metadatacontext_category_event_test extends \advanced_testcase {
 
     /**
      * Setup tasks.

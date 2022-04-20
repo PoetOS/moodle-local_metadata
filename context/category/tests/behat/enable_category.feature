@@ -9,9 +9,12 @@ Feature: Enable category context plugin
     Given the following "users" exist:
       | username | firstname | lastname | email |
       | teacher1 | Teacher | 1 | teacher1@example.com |
+    And the following "categories" exist:
+      | name  | category | idnumber |
+      | Cat 1 | 0        | CAT1     |
     And the following "courses" exist:
       | fullname | shortname | category |
-      | Course 1 | C1 | 0 |
+      | Course 1 | C1        | CAT1     |
     And the following "course enrolments" exist:
       | user | course | role |
       | teacher1 | C1 | editingteacher |
@@ -20,8 +23,6 @@ Feature: Enable category context plugin
     And I set the field "id_s_metadatacontext_category_metadataenabled" to "1"
     And I press "Save changes"
     Then the field "s_metadatacontext_category_metadataenabled" matches value "1"
-    And I navigate to "Courses" in site administration
-    Then I should see "Category metadata"
     And I navigate to "Courses > Category metadata" in site administration
     Then I should see "Category metadata"
     And I should see "Create a new profile field"
@@ -36,14 +37,10 @@ Feature: Enable category context plugin
     Then I should see "Category metadata"
     And I should see "Creation date"
 
-    And I navigate to "Courses" in site administration
-    And I press "Blocks editing on"
-    And I navigate to "Courses > Manage courses and categories" in site administration
-    Then I should see "Miscellaneous"
-    And I add the "Administration" block
-    And I follow "Edit this category"
-    Then I should see "Edit category settings"
-    And I add the "Administration" block
+    And I go to the courses management page
+    And I should see the "Course categories and courses" management page
+    And I click on "edit" action for "Cat 1" in management category listing
+    And I should see "Edit category settings"
     And I should see "Category metadata"
     And I follow "Category metadata"
     Then I should see "Creation date"
@@ -54,8 +51,9 @@ Feature: Enable category context plugin
     And I press "Save changes"
     And I should see "Metadata saved"
 
-    And I navigate to "Courses > Manage courses and categories" in site administration
-    And I follow "Edit this category"
+    And I go to the courses management page
+    And I should see the "Course categories and courses" management page
+    And I click on "edit" action for "Cat 1" in management category listing
     And I follow "Category metadata"
     Then I should see "Creation date"
     And the field "id_local_metadata_field_creationdate_day" matches value "21"

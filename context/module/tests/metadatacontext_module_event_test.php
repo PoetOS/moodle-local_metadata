@@ -26,8 +26,9 @@ namespace metadatacontext_module;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group local_metadata
  * @group metadatacontext_module
+ * @covers \metadatacontext_module\observer
  */
-class metadatacontext_module_event_test extends advanced_testcase {
+class metadatacontext_module_event_test extends \advanced_testcase {
 
     /**
      * Setup tasks.

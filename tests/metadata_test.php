@@ -25,7 +25,7 @@ namespace local_metadata;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group local_metadata
  */
-class metadata_test extends advanced_testcase {
+class metadata_test extends \advanced_testcase {
 
     /** @var \local_metadata\fieldtype\metadata  */
     protected $metadata;
@@ -35,13 +35,14 @@ class metadata_test extends advanced_testcase {
      */
     protected function setUp(): void {
         parent::setUp();
-        $this->metadata = new local_metadata\fieldtype\metadata();
+        $this->metadata = new \local_metadata\fieldtype\metadata();
     }
 
     /**
      * Performs unit tests for all services supported by the filter.
      *
      * Need to update this test to not contact external services.
+     * @coversNothing
      */
     public function test_metadata() {
         $this->resetAfterTest(true);

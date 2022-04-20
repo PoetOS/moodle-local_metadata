@@ -24,8 +24,6 @@ Feature: Enable group context plugin
     And I press "Save changes"
     Then the field "s_metadatacontext_group_metadataenabled" matches value "1"
 
-    And I navigate to "Courses" in site administration
-    Then I should see "Group metadata"
     And I navigate to "Courses > Group metadata" in site administration
     Then I should see "Group metadata"
     And I should see "Create a new profile field"
@@ -47,8 +45,7 @@ Feature: Enable group context plugin
     Then I should see "Group metadata"
     And I should see "N.A. Timezone"
 
-    And I am on "Course 1" course homepage
-    And I turn editing mode on
+    And I am on "Course 1" course homepage with editing mode on
     And I navigate to "Users > Groups" in current page administration
     And I set the field "Groups" to "Group A"
     And I press "Edit group settings"

@@ -12,7 +12,7 @@ jobs:
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'mariadb'
           - php: '7.4'
-            moodle-branch: 'MOODLE_311_STABLE'
+            moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
             node: '14.15.0'
 

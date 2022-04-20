@@ -21,8 +21,6 @@ Feature: Enable course context plugin
     And I press "Save changes"
     Then the field "s_metadatacontext_course_metadataenabled" matches value "1"
 
-    And I navigate to "Courses" in site administration
-    Then I should see "Course metadata"
     And I navigate to "Courses > Course metadata" in site administration
     Then I should see "Course metadata"
     And I should see "Create a new profile field"
