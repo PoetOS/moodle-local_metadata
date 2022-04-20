@@ -16,8 +16,6 @@
 
 namespace metadatacontext_category;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Course category metadata context handler class..
  *

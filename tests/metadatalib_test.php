@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace local_metadata;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -27,7 +29,7 @@ global $CFG;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group local_metadata
  */
-class local_metadatalib_testcase extends advanced_testcase {
+class metadatalib_test extends advanced_testcase {
     /**
      * Tests profile_get_custom_fields function and checks it is consistent
      * with profile_user_record.

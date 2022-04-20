@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+namespace metadatacontext_group;
 
 /**
  * Test class for group metadatacontext events.
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
  * @group local_metadata
  * @group metadatacontext_group
  */
-class metadatacontext_group_event_testcase extends advanced_testcase {
+class metadatacontext_group_event_test extends advanced_testcase {
 
     /**
      * Setup tasks.

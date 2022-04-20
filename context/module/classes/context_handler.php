@@ -16,8 +16,6 @@
 
 namespace metadatacontext_module;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Module metadata context handler class..
  *

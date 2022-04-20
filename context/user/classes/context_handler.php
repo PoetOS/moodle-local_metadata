@@ -16,8 +16,6 @@
 
 namespace metadatacontext_user;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * User metadata context handler class..
  *

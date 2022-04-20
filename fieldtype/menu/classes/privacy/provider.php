@@ -16,8 +16,6 @@
 
 namespace metadatafieldtype_menu\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy provider for plugin.
  * @package metadatafieldtype_menu

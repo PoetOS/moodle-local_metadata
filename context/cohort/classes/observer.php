@@ -16,8 +16,6 @@
 
 namespace metadatacontext_cohort;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Local metadatacontext_cohort event handler.
  * @package metadatacontext_cohort

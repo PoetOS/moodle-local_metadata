@@ -18,8 +18,6 @@ namespace local_metadata\forms;
 
 use moodleform;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This file contains the Field Form used for profile fields.
  *
@@ -86,5 +84,3 @@ class field_form extends moodleform {
         return $this->field->define_editors();
     }
 }
-
-

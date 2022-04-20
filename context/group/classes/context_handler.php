@@ -16,8 +16,6 @@
 
 namespace metadatacontext_group;
 
-defined('MOODLE_INTERNAL') || die;
-
 // Group context was dropped between 1.8 and 1.9. Use the old definition here.
 define('CONTEXT_GROUP', 60);
 

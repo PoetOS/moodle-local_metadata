@@ -16,8 +16,6 @@
 
 namespace metadatacontext_cohort;
 
-defined('MOODLE_INTERNAL') || die;
-
 // Cohort context has never existed. Define it here using the '9000' category.
 define('CONTEXT_COHORT', 9000);
 

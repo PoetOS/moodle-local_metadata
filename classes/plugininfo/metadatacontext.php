@@ -16,8 +16,6 @@
 
 namespace local_metadata\plugininfo;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Subplugin info class.
  *

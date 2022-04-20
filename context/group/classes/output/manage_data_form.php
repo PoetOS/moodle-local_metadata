@@ -16,8 +16,6 @@
 
 namespace metadatacontext_group\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Group settings form.
  *

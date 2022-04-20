@@ -24,8 +24,6 @@
 
 namespace metadatafieldtype_menu;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class local_metadata_field_menu
  *

@@ -16,8 +16,6 @@
 
 namespace metadatacontext_cohort\output;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Renderer class for cohort context. Override anything needed.
  *

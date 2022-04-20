@@ -16,8 +16,6 @@
 
 namespace metadatacontext_course\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy provider for the plugin.
  * @package metadatacontext_course

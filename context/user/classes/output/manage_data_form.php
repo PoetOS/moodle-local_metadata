@@ -16,8 +16,6 @@
 
 namespace metadatacontext_user\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * User settings form.
  *

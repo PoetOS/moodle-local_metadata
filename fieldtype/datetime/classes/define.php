@@ -24,8 +24,6 @@
 
 namespace metadatafieldtype_datetime;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Define datetime fields.
  *

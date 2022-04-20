@@ -16,8 +16,6 @@
 
 namespace local_metadata\fieldtype;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Base class for the customisable metadata fields.
  *

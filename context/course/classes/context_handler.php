@@ -16,8 +16,6 @@
 
 namespace metadatacontext_course;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Course metadata context handler class..
  *
