@@ -16,8 +16,6 @@
 
 namespace metadatacontext_group\output;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Renderer class for group context. Override anything needed.
  *

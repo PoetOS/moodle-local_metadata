@@ -16,8 +16,6 @@
 
 namespace metadatacontext_cohort\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Cohort settings form.
  *

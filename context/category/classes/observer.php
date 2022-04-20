@@ -16,8 +16,6 @@
 
 namespace metadatacontext_category;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Local metadatacontext_category event handler.
  * @package metadatacontext_category

@@ -18,8 +18,6 @@ namespace local_metadata\forms;
 
 use moodleform;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This file contains the profile field category form.
  *
@@ -86,5 +84,3 @@ class category_form extends moodleform {
         return $errors;
     }
 }
-
-

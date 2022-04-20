@@ -16,8 +16,6 @@
 
 namespace metadatacontext_course;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Local metadatacontext_course event handler.
  * @package metadatacontext_course

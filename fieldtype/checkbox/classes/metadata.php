@@ -24,8 +24,6 @@
 
 namespace metadatafieldtype_checkbox;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class local_metadata_field_checkbox
  *

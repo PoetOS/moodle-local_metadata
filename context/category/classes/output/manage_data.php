@@ -16,8 +16,6 @@
 
 namespace metadatacontext_category\output;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Course category metadata management renderable.
  *

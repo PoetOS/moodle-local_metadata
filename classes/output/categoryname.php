@@ -16,8 +16,6 @@
 
 namespace local_metadata\output;
 
-defined('MOODLE_INTERNAL') || die;
-
 use context_system;
 use lang_string;
 

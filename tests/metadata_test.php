@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+namespace local_metadata;
 
 /**
  * Renderer class for course context. Override anything needed.
@@ -25,7 +25,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group local_metadata
  */
-class local_metadata_testcase extends advanced_testcase {
+class metadata_test extends \advanced_testcase {
 
     /** @var \local_metadata\fieldtype\metadata  */
     protected $metadata;
@@ -35,7 +35,7 @@ class local_metadata_testcase extends advanced_testcase {
      */
     protected function setUp(): void {
         parent::setUp();
-        $this->metadata = new local_metadata\fieldtype\metadata();
+        $this->metadata = new \local_metadata\fieldtype\metadata();
     }
 
     /**

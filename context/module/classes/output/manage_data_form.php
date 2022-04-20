@@ -16,8 +16,6 @@
 
 namespace metadatacontext_module\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Module settings form.
  *

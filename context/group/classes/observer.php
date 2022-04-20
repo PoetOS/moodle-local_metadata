@@ -16,8 +16,6 @@
 
 namespace metadatacontext_group;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Local metadatacontext_group event handler.
  * @package metadatacontext_group

@@ -16,8 +16,6 @@
 
 namespace metadatacontext_user;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Local metadatacontext_user event handler.
  * @package metadatacontext_user

@@ -16,8 +16,6 @@
 
 namespace metadatacontext_course\output;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Renderer class for course context. Override anything needed.
  *

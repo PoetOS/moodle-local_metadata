@@ -16,8 +16,6 @@
 
 namespace metadatacontext_cohort\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy provider for plugin.
  * @package metadatacontext_cohort

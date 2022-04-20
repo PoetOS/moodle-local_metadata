@@ -16,8 +16,6 @@
 
 namespace local_metadata\context;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * General metadata context handler class.
  *

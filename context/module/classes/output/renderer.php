@@ -16,8 +16,6 @@
 
 namespace metadatacontext_module\output;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Renderer class for module context. Override anything needed.
  *

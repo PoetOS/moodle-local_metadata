@@ -16,8 +16,6 @@
 
 namespace metadatacontext_course\output;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Course metadata management renderable.
  *

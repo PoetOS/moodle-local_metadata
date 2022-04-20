@@ -16,8 +16,6 @@
 
 namespace local_metadata\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy provider for plugin.
  * @package local_metadata

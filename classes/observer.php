@@ -16,8 +16,6 @@
 
 namespace local_metadata;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Local metadata event handler.
  * @package local_metadata

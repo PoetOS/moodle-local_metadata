@@ -24,8 +24,6 @@
 
 namespace metadatafieldtype_text;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class local_metadata_field_text
  *
