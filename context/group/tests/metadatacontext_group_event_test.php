@@ -55,16 +55,18 @@ class metadatacontext_group_event_testcase extends advanced_testcase {
     }
 
     /**
-     * Performs unit tests for cohort deleted event.
+     * Performs unit tests for group deleted event.
      */
-    public function test_cohortdeleted() {
+    public function test_groupdeleted() {
         global $DB, $CFG;
-        require_once($CFG->dirroot . '/local/metadata/context/group/classes/context_handler.php');
 
         $this->resetAfterTest(true);
 
+        // Don't declare CONTEXT_GROUP as this distorts the test
+        $contextgroup = 60;
+
         // Create a custom field of textarea type.
-        $id1 = $this->generator->create_metadata_field(CONTEXT_GROUP, 'frogdesc', 'Description of frog');
+        $id1 = $this->generator->create_metadata_field($contextgroup, 'frogdesc', 'Description of frog');
         $this->generator->create_metadata($id1, $this->group[0]->id, 'Leopard frog');
         $this->generator->create_metadata($id1, $this->group[1]->id, 'Bullfrog');
 
