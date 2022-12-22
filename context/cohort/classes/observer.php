@@ -26,6 +26,8 @@ namespace metadatacontext_cohort;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->dirroot . '/local/metadata/context/cohort/classes/context_handler.php');
+
 /**
  * Local metadatacontext_cohort event handler.
  */

@@ -57,12 +57,14 @@ class metadatacontext_cohort_event_testcase extends advanced_testcase {
      */
     public function test_cohortdeleted() {
         global $DB, $CFG;
-        require_once($CFG->dirroot . '/local/metadata/context/cohort/classes/context_handler.php');
 
         $this->resetAfterTest(true);
 
+        // Don't declare CONTEXT_COHORT as this distorts the test
+        $contextcohort = 9000;
+
         // Create a custom field of textarea type.
-        $id1 = $this->generator->create_metadata_field(CONTEXT_COHORT, 'frogdesc', 'Description of frog');
+        $id1 = $this->generator->create_metadata_field($contextcohort, 'frogdesc', 'Description of frog');
         $this->generator->create_metadata($id1, $this->cohort[0]->id, 'Leopard frog');
         $this->generator->create_metadata($id1, $this->cohort[1]->id, 'Bullfrog');
 
